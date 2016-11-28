@@ -13,3 +13,9 @@ build
 .DS_Store
 .env
 npm-debug.log
+
+# Visual Studio Code
+.vscode
+typings
+typings.json
+jsconfig.json

@@ -7,7 +7,7 @@
     "name": "Jonathan Evans"
   },
   "license": "See license in License.txt",
-  "repository" : {
+  "repository": {
     "type": "git",
     "url": "https://github.com/bristolcrypto/spdz-bankers-gui"
   },
@@ -24,6 +24,8 @@
     "react-scripts": "0.7.0"
   },
   "dependencies": {
+    "base-64": "^0.1.0",
+    "big-integer": "^1.6.17",
     "react": "^15.4.1",
     "react-dom": "^15.4.1"
   },
