@@ -1,7 +1,25 @@
 {
   "name": "spdz-bankers-gui",
   "version": "0.1.0",
+  "description": "An http gui to demonstrate using spdz to solve the banker's bonus (aka millionaires) problem.",
   "private": true,
+  "author": {
+    "name": "Jonathan Evans"
+  },
+  "license": "See license in License.txt",
+  "repository" : {
+    "type": "git",
+    "url": "https://github.com/bristolcrypto/spdz-bankers-gui"
+  },
+  "keywords": [
+    "spdz",
+    "demonstrator",
+    "millionaires",
+    "uob"
+  ],
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "devDependencies": {
     "react-scripts": "0.7.0"
   },
