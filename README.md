@@ -1,3 +1,6 @@
+# spdz-bankers-gui
+Demonstrator using SPDZ to solve the bankers bonus (aka millionaires) problem.
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
@@ -969,8 +972,7 @@ Install the Surge CLI if you haven't already by running `npm install -g surge`. 
              domain: create-react-app.surge.sh
              upload: [====================] 100%, eta: 0.0s
    propagate on CDN: [====================] 100%
-               plan: Free
-              users: email@domain.com
+               plan: Free              users: email@domain.com
          IP Address: X.X.X.X
 
     Success! Project is published and running at create-react-app.surge.sh
@@ -981,3 +983,6 @@ Note that in order to support routers that use HTML5 `pushState` API, you may wa
 ## Something Missing?
 
 If you have ideas for more “How To” recipes that should be on this page, [let us know](https://github.com/facebookincubator/create-react-app/issues) or [contribute some!](https://github.com/facebookincubator/create-react-app/edit/master/packages/react-scripts/template/README.md)
+
+# spdz-bankers-gui
+Demonstrator using SPDZ to solve the bankers bonus (aka millionaires) problem. 
