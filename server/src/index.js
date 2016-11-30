@@ -18,7 +18,7 @@ if (process.env.NODE_ENV !== 'development') {
   app.use(express.static('../../client/build'));
 }
 
-app.get('/config', (req, res) => {
+app.get('/spdzProxyConfig', (req, res) => {
   res.json(proxyConfig)
 })
 
