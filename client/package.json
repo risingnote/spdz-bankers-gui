@@ -20,10 +20,13 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "devDependencies": {
-    "react-scripts": "0.7.0"
-  },
   "proxy": "http://localhost:3001",
+  "devDependencies": {
+    "enzyme": "^2.6.0",
+    "react-addons-test-utils": "^15.4.1",
+    "react-scripts": "0.7.0",
+    "react-test-renderer": "^15.4.1"
+  },
   "dependencies": {
     "big-integer": "^1.6.17",
     "buffer": "^5.0.1",

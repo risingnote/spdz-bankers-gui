@@ -17,6 +17,7 @@ class SetupContainer extends Component {
   }
 
   componentDidMount() {
+    // TODO move into an api module, simplify testing, all rest in one place.
     fetch('/spdzProxyConfig',
       {
         method: 'GET',
@@ -43,9 +44,22 @@ class SetupContainer extends Component {
   }
 
   render() {
+    const spdzProxyServerList = [
+      {
+      "key": "1",
+      "url": "http://spdzProxy.one:4000",
+      "status": "notconnected"
+      },
+      {
+      "key": "2",        
+      "url": "http://spdzProxy.two:4000",
+      "status": "notconnected"
+      }
+    ]
+
     return (
       <div>
-        <Setup setupForRun={this.handleSetupClick} />
+        <Setup setupForRun={this.handleSetupClick} spdzProxyServerList={spdzProxyServerList}/>
       </div>
     );
   }

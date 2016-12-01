@@ -1,0 +1,20 @@
+exports[`Setup display component rendering Renders as expected (compared to a snapshot) when passed properties 1`] = `
+<div>
+  <button
+    onClick={[Function]}>
+    Setup for SPDZ
+  </button>
+  <div
+    className="Setup-status">
+    <h4>
+      Spdz Proxy Servers
+    </h4>
+    <p>
+      http://spdzProxy.one:4000
+    </p>
+    <p>
+      http://spdzProxy.two:4000
+    </p>
+  </div>
+</div>
+`;
