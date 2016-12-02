@@ -1,21 +1,23 @@
 import React from 'react'
-import Setup from './Setup'
+import { List, Map } from 'immutable'
 import renderer from 'react-test-renderer'
+
+import Setup from './Setup'
+import ProxyStatusCodes from './ProxyStatusCodes'
 
 describe('Setup display component rendering', () => {
   it('Renders as expected (compared to a snapshot) when passed properties', () => {
-    const spdzProxyServerList = [
-      {
-      "key": "1",
-      "url": "http://spdzProxy.one:4000",
-      "status": "notconnected"
-      },
-      {
-      "key": "2",        
-      "url": "http://spdzProxy.two:4000",
-      "status": "notconnected"
-      }
-    ]
+    const spdzProxyServerList = List.of(
+      Map({
+        "url": "http://spdzProxy.one:4000",
+        "status": ProxyStatusCodes.Disconnected
+      }),
+      Map({
+        "url": "http://spdzProxy.two:4000",
+        "status": ProxyStatusCodes.Connected
+      })
+    )
+
     const tree = renderer.create(
       <Setup setupForRun={() => {}} spdzProxyServerList={spdzProxyServerList} />
     ).toJSON()
@@ -27,7 +29,7 @@ describe('Setup display component rendering', () => {
     const mockCallBack = jest.fn((e) => {})
 
     const tree = renderer.create(
-      <Setup setupForRun={mockCallBack} spdzProxyServerList={[]} />
+      <Setup setupForRun={mockCallBack} spdzProxyServerList={List()} />
     ).toJSON()
 
     let button = tree.children.find((element) => {return (element['type'] === 'button')})

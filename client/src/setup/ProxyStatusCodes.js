@@ -1,0 +1,1 @@
+export default Object.freeze({'Disconnected':1, 'Connected':2, 'Failure':3})

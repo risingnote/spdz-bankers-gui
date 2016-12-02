@@ -3,3 +3,17 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.smallText {
+  font-size: small;
+}
+
+.mediumText {
+  font-size: medium;
+}
+
+.subHead {
+  display: inline-block;
+  margin: 10px;
+  color: cornflowerblue;
+}

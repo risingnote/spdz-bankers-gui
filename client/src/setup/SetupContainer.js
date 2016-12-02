@@ -3,15 +3,19 @@
  */
 import React, { Component } from 'react'
 import 'whatwg-fetch'
+import { List } from 'immutable'
+
+import { initSpdzServerList, updateSpdzServerStatus } from './SetupContainerHelper' 
 import Setup from './Setup'
-import checkStatus from '../rest_support/checkStatus'
+import CheckRestStatus from '../rest_support/CheckStatus'
+import ProxyStatusCodes from './ProxyStatusCodes'
 
 class SetupContainer extends Component {
   constructor () {
     super()
     this.state = {
-      "spdzApiRoot" : "/",
-      "spdzProxyList" : []
+      spdzApiRoot : "/",
+      spdzProxyList : List()
     }
     this.handleSetupClick = this.handleSetupClick.bind(this)
   }
@@ -26,12 +30,13 @@ class SetupContainer extends Component {
         },
         mode: 'same-origin'
       })
-      .then(checkStatus)
+      .then(CheckRestStatus)
       .then((response) => {
         return response.json()
       })
       .then((json) => {
-        this.setState(json)
+        this.setState({"spdzApiRoot": json.spdzApiRoot})
+        this.setState({"spdzProxyList": initSpdzServerList(json.spdzProxyList)})
       })
       .catch((ex) => {
         console.log('Parsing response from /spdzProxyConfig failed.', ex)
@@ -40,26 +45,24 @@ class SetupContainer extends Component {
 
   handleSetupClick(e) {
     e.preventDefault();
-    console.log('Will run setup.');
+    const proxyCount = this.state.spdzProxyList.size
+
+    //This is not how you use immutables
+    let proxyListForUpdate = this.state.spdzProxyList
+    for (let i=0; i<proxyCount; i++) {
+      let status = ProxyStatusCodes.Connected
+      if (i===2) {
+        status = ProxyStatusCodes.Failure
+      }
+      proxyListForUpdate = updateSpdzServerStatus(proxyListForUpdate, i, status)
+    }
+    this.setState({spdzProxyList: proxyListForUpdate}) 
   }
 
   render() {
-    const spdzProxyServerList = [
-      {
-      "key": "1",
-      "url": "http://spdzProxy.one:4000",
-      "status": "notconnected"
-      },
-      {
-      "key": "2",        
-      "url": "http://spdzProxy.two:4000",
-      "status": "notconnected"
-      }
-    ]
-
     return (
       <div>
-        <Setup setupForRun={this.handleSetupClick} spdzProxyServerList={spdzProxyServerList}/>
+        <Setup setupForRun={this.handleSetupClick} spdzProxyServerList={this.state.spdzProxyList}/>
       </div>
     );
   }

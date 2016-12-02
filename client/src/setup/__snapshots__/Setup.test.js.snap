@@ -1,20 +1,31 @@
 exports[`Setup display component rendering Renders as expected (compared to a snapshot) when passed properties 1`] = `
-<div>
+<div
+  className="Setup-panel">
+  <span
+    className="subHead">
+    Spdz Proxy Servers
+  </span>
   <button
     onClick={[Function]}>
     Setup for SPDZ
   </button>
   <div
-    className="Setup-status">
-    <h4>
-      Spdz Proxy Servers
-    </h4>
-    <p>
+    className="ProxyStatus-row">
+    <div
+      className="ProxyStatus-col1 ProxyStatus-marker-disconnected" />
+    <div
+      className="ProxyStatus-col2 smallText">
       http://spdzProxy.one:4000
-    </p>
-    <p>
+    </div>
+  </div>
+  <div
+    className="ProxyStatus-row">
+    <div
+      className="ProxyStatus-col1 ProxyStatus-marker-connected" />
+    <div
+      className="ProxyStatus-col2 smallText">
       http://spdzProxy.two:4000
-    </p>
+    </div>
   </div>
 </div>
 `;

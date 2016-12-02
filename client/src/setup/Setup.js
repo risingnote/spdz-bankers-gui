@@ -2,31 +2,31 @@
  * Responsible for displaying setup information based on props passed in.
  */
 import React from 'react';
+import { List } from 'immutable'
+import ProxyStatus from './ProxyStatus'
 import './Setup.css'
 
 const Setup = (props) => {
   const proxyServers = (proxyServerList) => {
     return proxyServerList.map( (proxyServer) => {
-      return <p key={proxyServer.key}>{proxyServer.url}</p>
+      return <ProxyStatus key={proxyServer.get('url')} status={proxyServer.get('status')} url={proxyServer.get('url')} />
     })
   }
 
   return (
-    <div>
-        <button onClick={props.setupForRun}>
-          Setup for SPDZ
-        </button>
-        <div className='Setup-status'>
-          <h4>Spdz Proxy Servers</h4>
-          {proxyServers(props.spdzProxyServerList)}
-        </div>
+    <div className='Setup-panel'>
+      <span className='subHead'>Spdz Proxy Servers</span>
+      <button onClick={props.setupForRun}>
+        Setup for SPDZ
+      </button>
+      {proxyServers(props.spdzProxyServerList)}
     </div>
   )
 } 
 
-Setup.proptypes = {
+Setup.propTypes = {
   setupForRun: React.PropTypes.func.isRequired,
-  spdzProxyServerList: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+  spdzProxyServerList: React.PropTypes.instanceOf(List).isRequired
 }
 
 export default Setup

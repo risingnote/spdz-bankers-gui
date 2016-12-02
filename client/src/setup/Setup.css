@@ -1,3 +1,7 @@
-.Setup-status {
-  padding: 20px;
+.Setup-panel {
+  padding: 10px;
+  padding-top: 0px;
+  border: 2px solid lightblue;
+  width: 30%;
+  margin: 0 auto;
 }
