@@ -7,7 +7,7 @@ import { List } from 'immutable'
 
 import { initSpdzServerList, updateSpdzServerStatus } from './SetupContainerHelper' 
 import Setup from './Setup'
-import CheckRestStatus from '../rest_support/CheckStatus'
+import GetProxyConfig from '../rest_support/SpdzApi'
 import ProxyStatusCodes from './ProxyStatusCodes'
 
 class SetupContainer extends Component {
@@ -21,25 +21,13 @@ class SetupContainer extends Component {
   }
 
   componentDidMount() {
-    // TODO move into an api module, simplify testing, all rest in one place.
-    fetch('/spdzProxyConfig',
-      {
-        method: 'GET',
-        headers: {
-          'Accept-Type': 'application/json'
-        },
-        mode: 'same-origin'
-      })
-      .then(CheckRestStatus)
-      .then((response) => {
-        return response.json()
-      })
+    GetProxyConfig() 
       .then((json) => {
         this.setState({"spdzApiRoot": json.spdzApiRoot})
         this.setState({"spdzProxyList": initSpdzServerList(json.spdzProxyList)})
       })
       .catch((ex) => {
-        console.log('Parsing response from /spdzProxyConfig failed.', ex)
+        console.log(ex)
       })
   }
 
@@ -61,9 +49,7 @@ class SetupContainer extends Component {
 
   render() {
     return (
-      <div>
-        <Setup setupForRun={this.handleSetupClick} spdzProxyServerList={this.state.spdzProxyList}/>
-      </div>
+      <Setup setupForRun={this.handleSetupClick} spdzProxyServerList={this.state.spdzProxyList}/>
     );
   }
 }

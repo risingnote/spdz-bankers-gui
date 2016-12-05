@@ -1,10 +1,10 @@
 exports[`Setup display component rendering Renders as expected (compared to a snapshot) when passed properties 1`] = `
 <div
   className="Setup-panel">
-  <span
-    className="subHead">
+  <p
+    className="Setup-subHead">
     Spdz Proxy Servers
-  </span>
+  </p>
   <button
     onClick={[Function]}>
     Setup for SPDZ

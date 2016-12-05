@@ -7,9 +7,5 @@ body {
 }
 
 .smallText {
-  font-size: small;
-}
-
-.mediumText {
-  font-size: medium;
+  font-size: 12px;
 }
