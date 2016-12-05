@@ -2,23 +2,79 @@
   text-align: center;
 }
 
-.App-logo {
-  /*animation: App-logo-spin infinite 20s linear;*/
-  /*height: 80px;*/
-}
-
 .App-header {
-  background-color: #222;
-  height: 150px;
+  display: -webkit-flex;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;  
+  background-color: rgb(28, 118, 152);
   padding: 20px;
+  font-family: Georgia;
+  font-size: 16px;
   color: white;
+  vertical-align: middle;
 }
 
-.App-intro {
-  font-size: large;
+.App-header-fixed-col {
+  flex: 0;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.App-header-col {
+  flex: 1;
+}
+
+.App-main {
+  display: -webkit-flex;
+  display: flex;
+  flex-flow: row wrap;
+  padding: 20px;
+}
+
+.App-main-col {
+  flex: 1;
+}
+
+.App-footer {
+  display: -webkit-flex;
+  display: flex;
+  flex-flow: row wrap;
+  padding: 20px;
+  color: rgb(221,221,221);
+  background-color:#161b20;  
+  text-align: left;
+}
+
+.App-footer-col-left {
+    flex: 1;
+}
+
+.App-footer-col-right {
+    flex: 1;
+    text-align: right;
+}
+
+.App-footer h4 {
+  font-weight: normal;
+  color: #e5a310;
+  margin: 0;
+  padding: 0;  
+}
+
+.App-footer p {
+  margin: 0;
+  padding: 0;
+}
+
+.App-footer a:link {
+  text-decoration: none;
+  color: rgb(221,221,221);
+}
+
+.App-footer a:visited {
+  color: rgb(221,221,221);
+}
+
+.App-footer a:hover, a:focus {
+  color: rgb(221,221,221);
+  text-decoration: underline;
 }

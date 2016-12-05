@@ -1,7 +1,13 @@
 .Setup-panel {
   padding: 10px;
   padding-top: 0px;
-  border: 2px solid lightblue;
-  width: 30%;
+  border: 1px solid darkgrey;
   margin: 0 auto;
+  text-align: left;
+}
+
+.Setup-subHead {
+  display: inline-block;
+  color: rgb(28, 118, 152);
+  margin-right: 10px;
 }

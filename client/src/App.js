@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import logo from './logo.png'
+import cryptologo from './crypto-logo.png'
+import uoblogo from './uob-logo-white-largest.png'
 import './App.css'
 import SetupContainer from './setup/SetupContainer'
 
@@ -7,14 +8,35 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>SPDZ Demonstrators</h2>
+        <header className="App-header">
+          <a title="University of Bristol homepage" href="http://www.bristol.ac.uk">
+            <img src={uoblogo} className="App-header-fixed-col" alt="logo" />
+          </a>        
+          <h2 className="App-header-col">SPDZ Demonstrators</h2>
+          <a title="Bristol Cryptography Group" href="http://www.cs.bris.ac.uk/Research/CryptographySecurity/">
+            <img src={cryptologo} className="App-header-fixed-col" alt="logo" />
+          </a>          
+        </header>
+        <div className="App-main">
+          <div className="App-main-col">
+            Input and results goes here.
+          </div>
+          <SetupContainer className="App-main-col"/>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <SetupContainer />
+        <footer className="App-footer">
+          <div className="App-footer-col-left">
+            <h4>Department of Computer Science</h4>
+            <p>University of Bristol</p>
+            <p>Department of Computer Science</p>
+            <p>Merchant Venturers Building</p>
+            <p>Woodland Road</p>
+            <p>Bristol BS8 1UB UK</p>
+            <p>+44 (0)117 331 5663</p>
+          </div>
+          <div className="App-footer-col-right">     
+            <a href="http://www.bristol.ac.uk/web/policies/terms-conditions.html#copyright">© 2016 University of Bristol</a>
+          </div>
+        </footer>
       </div>
     )
   }
