@@ -1,5 +1,7 @@
-import GetProxyConfig from './SpdzApi'
-import MockResponse from './MockResponse'
+import HttpStatus from 'http-status-codes'
+
+import { getProxyConfig, connectProxyToEngine } from './SpdzApi'
+import mockResponse from './MockResponse'
 
 describe('Prove the SpdzApi with mock responses from fetch', () => {
   afterEach(() => {
@@ -8,33 +10,69 @@ describe('Prove the SpdzApi with mock responses from fetch', () => {
 
   it('Reads the GUI config successfully from /spdzconfig', (done) => {
     window.fetch = jest.fn().mockImplementation(() =>
-      Promise.resolve(MockResponse(200, null, '{ "foo": "bar" }'))
+      Promise.resolve(mockResponse(200, '{ "foo": "bar" }'))
     )
   
-    GetProxyConfig()
+    getProxyConfig()
       .then((json) => {
         expect(json).toEqual({"foo": "bar"})
         done()
       })
       .catch((err) => {
-        expect(err).toBeFalsy()
         done.fail(err)
       })  
   })
   
   it('Reads the GUI config and throws an error from /spdzconfig', (done) => {
     window.fetch = jest.fn().mockImplementation(() =>
-      Promise.resolve(MockResponse(500, 'testing error', null))
+      Promise.resolve(mockResponse(500))
     )
   
-    GetProxyConfig()
+    getProxyConfig()
       .then((json) => {
         expect(json).toBeFalsy()
         done()
       })
       .catch((err) => {
-        expect(err.message).toEqual('Parsing response from /spdzProxyConfig failed: Status: 500 Message: testing error')
+        expect(err.message).toEqual('Unable to read spdz proxy config. Status: 500.')
         done()
       })  
   })
+})
+
+describe('Connect the Spdz Proxy to the Spdz Engine for a client', () => {
+  afterEach(() => {
+    window.fetch.mockClear()
+  })
+
+  it('Successfully runs the connect setup', (done) => {
+    window.fetch = jest.fn().mockImplementation(() =>
+      Promise.resolve(mockResponse(HttpStatus.CREATED))
+    )
+  
+    connectProxyToEngine()
+      .then(() => {
+        done()
+      })
+      .catch((err) => {
+        done.fail(err)
+      })  
+  })
+
+  it('Throws an error if connect setup did not work', (done) => {
+    window.fetch = jest.fn().mockImplementation(() =>
+      Promise.resolve(mockResponse(HttpStatus.SERVICE_UNAVAILABLE, '{ "status": "503", "message": "test error" }'))
+    )
+  
+    connectProxyToEngine('http://spdzProxy', '/spdzApi', 23)
+      .then((response) => {
+        done.fail()
+      })
+      .catch((err) => {
+        expect(err.message).toEqual('Unable to make spdz proxy engine connection. Status: 503.')
+        expect(err.reason).toEqual({ "status": "503", "message": "test error" })
+        done() 
+      })  
+  })
+
 })

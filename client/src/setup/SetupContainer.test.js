@@ -8,7 +8,7 @@ import { List, Map } from 'immutable'
 
 // Mock out REST call
 jest.mock('../rest_support/SpdzApi')
-import GetProxyConfig from'../rest_support/SpdzApi'
+import { getProxyConfig } from'../rest_support/SpdzApi'
 
 describe('Setup controller component behaviour', () => {
   it('Checks state is set after getting /spdzProxyConfig', (done) => {
@@ -27,7 +27,7 @@ describe('Setup controller component behaviour', () => {
             ]
           }
     
-    GetProxyConfig.mockImplementation(() => Promise.resolve(exampleJsonConfig))
+    getProxyConfig.mockImplementation(() => Promise.resolve(exampleJsonConfig))
 
     // Mount and retrieve nodes doesn't work for stateless components, 
     // so just render and then check state
@@ -47,6 +47,6 @@ describe('Setup controller component behaviour', () => {
       }
     }, 500)
 
-    GetProxyConfig.mockClear()
+    getProxyConfig.mockClear()
   })
 })

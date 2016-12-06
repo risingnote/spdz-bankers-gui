@@ -4,7 +4,7 @@ import App from './App';
 
 // Mock out REST call
 jest.mock('./rest_support/SpdzApi')
-import GetProxyConfig from'./rest_support/SpdzApi'
+import { getProxyConfig } from'./rest_support/SpdzApi'
 
 
 it('renders without crashing', () => {
@@ -15,10 +15,10 @@ it('renders without crashing', () => {
           "spdzProxyList": []
         }
   
-  GetProxyConfig.mockImplementation(() => Promise.resolve(exampleConfig))
+  getProxyConfig.mockImplementation(() => Promise.resolve(exampleConfig))
   
   const div = document.createElement('div');
   ReactDOM.render(<App />, div);
 
-  GetProxyConfig.mockClear()
+  getProxyConfig.mockClear()
 });
