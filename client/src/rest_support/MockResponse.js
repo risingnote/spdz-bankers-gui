@@ -1,11 +1,11 @@
 /**
  * Provide a function for fetch request to determine if request was successful
  */
-export default (status, response=null) => {
-  const headers = new Headers()
+export default (status, response=null, headers=(new Headers()) ) => {
   if (response !== null) {
-    headers.append('Content-type','application/json')
+    headers.set('Content-type','application/json')
   }
+
   return new window.Response(response, {
     status: status,
     headers: headers

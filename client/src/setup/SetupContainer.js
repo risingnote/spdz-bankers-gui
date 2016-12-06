@@ -7,13 +7,15 @@ import { List } from 'immutable'
 
 import { initSpdzServerList, updateSpdzServerStatus } from './SetupContainerHelper' 
 import Setup from './Setup'
-import { getProxyConfig } from '../rest_support/SpdzApi'
+import { getProxyConfig, connectProxyToEngine } from '../rest_support/SpdzApi'
 import ProxyStatusCodes from './ProxyStatusCodes'
 
 class SetupContainer extends Component {
   constructor () {
     super()
+    //TODO where should clientid come from ?
     this.state = {
+      clientId : '0',
       spdzApiRoot : "/",
       spdzProxyList : List()
     }
@@ -36,6 +38,21 @@ class SetupContainer extends Component {
 
     //Run setup on all
     const proxyCount = this.state.spdzProxyList.size
+
+      
+    //Promise.all these and add then() to gather results and apply to state.
+    //Move to SetupContainerHelper and return promise, then to apply to state. 
+    // Timer to monitor status ?
+    connectProxyToEngine(this.state.spdzProxyList.get(0).get('url'), this.state.spdzApiRoot, this.state.clientId) 
+      .then((connectLocation) => {
+        console.log('it worked')
+        return {id: 0, status: ProxyStatusCodes.Connected}
+      }, (ex) => {
+        console.log(ex)
+        return {id: 0, status: ProxyStatusCodes.Failure}        
+      })
+
+
 
     //This is not how you use immutables
     //let proxyListForUpdate = this.state.spdzProxyList

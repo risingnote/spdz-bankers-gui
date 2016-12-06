@@ -6,12 +6,12 @@ import HttpStatus from 'http-status-codes'
 
 const isJson = (headers) => {
   return headers.has('Content-Type') &&
-          headers.get('Content-Type') === 'application/json'
+          headers.get('Content-Type').startsWith('application/json')
 }
 
 /**
  * Extract out body into a json object if it is JSON. 
- * Unsure because errors return a JSON body with reasons.
+ * Unsure because errors return a JSON body with (status, message, stack (in dev)).
  * Return json and response.
  */
 const parseIfJson = (response) => {
@@ -30,16 +30,6 @@ const parseIfJson = (response) => {
     })
   }
 }  
-
-const checkStatus = (result) => {
-  if (result.response.ok) {
-    return Promise.resolve(result)
-  } else {
-    let error = new Error(`Status: ${result.response.status}`)
-    error.reason = result.jsonData
-    return Promise.reject(error)
-  }
-}
 
 /**
  * Get the list of SPDZ proxy servers from the GUI Rest endpoint.
@@ -69,7 +59,7 @@ export const getProxyConfig = () => {
 }
 
 export const connectProxyToEngine = (host, apiRoot, clientId) => {
-  return fetch(`${host}${apiRoot}/${clientId}/engine-connection`,
+  return fetch(`${host}${apiRoot}/${clientId}/connect-to-engine`,
     {
       method: 'POST',
       headers: {
@@ -82,12 +72,13 @@ export const connectProxyToEngine = (host, apiRoot, clientId) => {
       if (result.response.status === HttpStatus.CREATED) {
         return Promise.resolve(result)
       } else {
-        let error = new Error(`Unable to make spdz proxy engine connection. Status: ${result.response.status}.`)
+        let error = new Error(
+          `Unable to make spdz proxy engine connection. Status: ${result.response.status}. Reason: ${result.jsonData.message}`)
         error.reason = result.jsonData
         return Promise.reject(error)
       }
     })
     .then((result) => {
-      return Promise.resolve()
+      return Promise.resolve(result.response.headers.get('Location'))
     })
 }

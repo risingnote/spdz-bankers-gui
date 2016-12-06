@@ -46,12 +46,16 @@ describe('Connect the Spdz Proxy to the Spdz Engine for a client', () => {
   })
 
   it('Successfully runs the connect setup', (done) => {
-    window.fetch = jest.fn().mockImplementation(() =>
-      Promise.resolve(mockResponse(HttpStatus.CREATED))
-    )
+    window.fetch = jest.fn().mockImplementation(() => {
+      let headers = new Headers()
+      headers.set('Location', 'http://somelocation')
+      return Promise.resolve(mockResponse(HttpStatus.CREATED, null, headers))
+    })
+    
   
     connectProxyToEngine()
-      .then(() => {
+      .then((location) => {
+        expect(location).toEqual('http://somelocation')
         done()
       })
       .catch((err) => {
@@ -69,7 +73,7 @@ describe('Connect the Spdz Proxy to the Spdz Engine for a client', () => {
         done.fail()
       })
       .catch((err) => {
-        expect(err.message).toEqual('Unable to make spdz proxy engine connection. Status: 503.')
+        expect(err.message).toEqual('Unable to make spdz proxy engine connection. Status: 503. Reason: test error')
         expect(err.reason).toEqual({ "status": "503", "message": "test error" })
         done() 
       })  

@@ -2,15 +2,15 @@
   "spdzApiRoot" : "/spdzapi",
   "spdzProxyList" : [
         {
-          "url": "http://localhost:3001",
+          "url": "http://localhost:3010",
           "publicKey": "0102030405060708010203040506070801020304050607080102030405060708" 
         },
         {
-          "url": "http://localhost:3002",
+          "url": "http://localhost:3011",
           "publicKey": "a1b2c3f4g5a6b7c8010203040506070801020304050607080102030405060708" 
         },
         {
-          "url": "http://localhost:3003",
+          "url": "http://localhost:3012",
           "publicKey": "a1b2c3f4g5a6b7c8010203040506070801020304050607080102030405060708" 
         }        
       ]
