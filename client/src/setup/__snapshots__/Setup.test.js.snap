@@ -7,7 +7,7 @@ exports[`Setup display component rendering Renders as expected (compared to a sn
   </p>
   <button
     onClick={[Function]}>
-    Setup for SPDZ
+    Connect
   </button>
   <div
     className="ProxyStatus-row">

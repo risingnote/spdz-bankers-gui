@@ -28,6 +28,7 @@
     "react-test-renderer": "^15.4.1"
   },
   "dependencies": {
+    "assert": "^1.4.1",
     "big-integer": "^1.6.17",
     "buffer": "^5.0.1",
     "classnames": "^2.2.5",

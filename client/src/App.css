@@ -8,7 +8,7 @@
   flex-flow: row wrap;
   align-items: center;  
   background-color: rgb(28, 118, 152);
-  padding: 20px;
+  padding: 10px 20px;
   font-family: Georgia;
   font-size: 16px;
   color: white;
@@ -38,7 +38,7 @@
   display: -webkit-flex;
   display: flex;
   flex-flow: row wrap;
-  padding: 20px;
+  padding: 10px 20px;
   color: rgb(221,221,221);
   background-color:#161b20;  
   text-align: left;

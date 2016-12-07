@@ -17,7 +17,7 @@ const Setup = (props) => {
     <div className='Setup-panel'>
       <p className='Setup-subHead'>Spdz Proxy Servers</p>
       <button onClick={props.setupForRun}>
-        Setup for SPDZ
+        Connect
       </button>
       {proxyServers(props.spdzProxyServerList)}
     </div>

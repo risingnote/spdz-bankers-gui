@@ -7,13 +7,13 @@ import { List } from 'immutable'
 
 import { initSpdzServerList, updateSpdzServerStatus } from './SetupContainerHelper' 
 import Setup from './Setup'
-import { getProxyConfig, connectProxyToEngine } from '../rest_support/SpdzApi'
-import ProxyStatusCodes from './ProxyStatusCodes'
+import { getProxyConfig } from '../rest_support/SpdzApi'
+import connectToSpdzProxies from '../rest_support/SpdzApiHelper'
 
 class SetupContainer extends Component {
   constructor () {
     super()
-    //TODO where should clientid come from ?
+    //Perhaps client id should be Diffie Hellman public key
     this.state = {
       clientId : '0',
       spdzApiRoot : "/",
@@ -36,35 +36,15 @@ class SetupContainer extends Component {
   handleSetupClick(e) {
     e.preventDefault();
 
-    //Run setup on all
-    const proxyCount = this.state.spdzProxyList.size
-
-      
-    //Promise.all these and add then() to gather results and apply to state.
-    //Move to SetupContainerHelper and return promise, then to apply to state. 
-    // Timer to monitor status ?
-    connectProxyToEngine(this.state.spdzProxyList.get(0).get('url'), this.state.spdzApiRoot, this.state.clientId) 
-      .then((connectLocation) => {
-        console.log('it worked')
-        return {id: 0, status: ProxyStatusCodes.Connected}
-      }, (ex) => {
-        console.log(ex)
-        return {id: 0, status: ProxyStatusCodes.Failure}        
+    connectToSpdzProxies(this.state.spdzProxyList, this.state.spdzApiRoot, this.state.clientId)
+      .then( (values) => {
+        const proxyListAfterUpdate = updateSpdzServerStatus(this.state.spdzProxyList, values)
+        this.setState({spdzProxyList: proxyListAfterUpdate}) 
       })
-
-
-
-    //This is not how you use immutables
-    //let proxyListForUpdate = this.state.spdzProxyList
-    for (let i=0; i<proxyCount; i++) {
-      let status = ProxyStatusCodes.Connected
-      if (i===2) {
-        status = ProxyStatusCodes.Failure
-      }
-
-      const proxyListForUpdate = updateSpdzServerStatus(this.state.spdzProxyList, i, status)
-      this.setState({spdzProxyList: proxyListForUpdate}) 
-    }
+      .catch( (ex) => {
+        // Really not expecting this
+        console.log('Got an exception when running connect to spdz proxies.', ex)
+      })
   }
 
   render() {
