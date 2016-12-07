@@ -16,7 +16,7 @@ const rInverse = r.modInv(prime)
  * @param bigIntNative Big integer holding native representation
  * @returns bigInt in montgomery format
  */
-export const toMontgomery = (bigIntNative) => {
+const toMontgomery = (bigIntNative) => {
   if (!(bigIntNative instanceof BigInt)) {
     throw new Error('Conversion toMontgomery requires a big integer type.')
   }
@@ -28,9 +28,11 @@ export const toMontgomery = (bigIntNative) => {
  * @param bigInt holding montgomery representation
  * @returns bigInt holding native representation
  */
-export const fromMontgomery = (bigIntMontgomery) => {
+const fromMontgomery = (bigIntMontgomery) => {
   if (!(bigIntMontgomery instanceof BigInt)) {
     throw new Error('Conversion fromMontgomery requires a big integer type.')
   }
   return BigInt(bigIntMontgomery).multiply(rInverse).mod(prime)
 }
+
+export { toMontgomery, fromMontgomery }

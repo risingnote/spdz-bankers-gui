@@ -5,7 +5,7 @@ import {Buffer} from 'buffer/'
 /**
  * Convert a typed array (Uint8Array) populated from the spdz proxy (litte endian) into a big integer
  */
-export const fromSpdzBinary = (spdzBinary) => {
+const fromSpdzBinary = (spdzBinary) => {
   if (!(spdzBinary instanceof Buffer)) {
     throw new Error('fromSpdzBinary expects a Buffer type.')
   }
@@ -17,7 +17,7 @@ export const fromSpdzBinary = (spdzBinary) => {
 /**
  * Convert a big integer into a base64 encoded string, representing a big endian integer.
  */
-export const base64Encode = (bigIntValue) => {
+const base64Encode = (bigIntValue) => {
   if (!(bigIntValue instanceof BigInt)) {
     throw new Error('base64Encode expects a BigInt type.')
   }
@@ -29,3 +29,5 @@ export const base64Encode = (bigIntValue) => {
   const buf = Buffer.from(hexValue, 'hex')
   return buf.toString('base64')
 }
+
+export { fromSpdzBinary, base64Encode }

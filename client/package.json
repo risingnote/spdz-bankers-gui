@@ -34,6 +34,8 @@
     "classnames": "^2.2.5",
     "http-status-codes": "^1.0.6",
     "immutable": "^3.8.1",
+    "libsodium": "^0.4.8",
+    "libsodium-wrappers": "^0.4.8",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "whatwg-fetch": "^2.0.1"

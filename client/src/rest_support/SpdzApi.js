@@ -34,7 +34,7 @@ const parseIfJson = (response) => {
 /**
  * Get the list of SPDZ proxy servers from the GUI Rest endpoint.
  */
-export const getProxyConfig = () => {
+const getProxyConfig = () => {
   return fetch('/spdzProxyConfig',
       {
         method: 'GET',
@@ -58,7 +58,7 @@ export const getProxyConfig = () => {
       })
 }
 
-export const connectProxyToEngine = (host, apiRoot, clientId) => {
+const connectProxyToEngine = (host, apiRoot, clientId) => {
   return fetch(`${host}${apiRoot}/${clientId}/connect-to-engine`,
     {
       method: 'POST',
@@ -82,3 +82,5 @@ export const connectProxyToEngine = (host, apiRoot, clientId) => {
       return Promise.resolve(result.response.headers.get('Location'))
     })
 }
+
+export { getProxyConfig, connectProxyToEngine }
