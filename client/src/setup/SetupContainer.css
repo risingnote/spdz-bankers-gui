@@ -1,0 +1,14 @@
+.SetupContainer-main {
+  display: -webkit-flex;
+  display: flex;
+  flex-flow: row wrap;
+  padding: 20px;
+}
+
+.SetupContainer-mpcgui {
+  flex: 1;
+}
+
+.SetupContainer-setup {
+  flex: 0 1 auto;
+}

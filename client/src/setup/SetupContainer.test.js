@@ -4,13 +4,22 @@
 import React from 'react'
 import SetupContainer from './SetupContainer'
 import { mount } from 'enzyme'
-import { List, Map } from 'immutable'
+import { List } from 'immutable'
+
+// As this is a higher order component, need to execute function with dummy GUI component.
+const ComponentUnderTest = SetupContainer(
+  class Dummy extends React.Component {
+    render() {
+      return <div>Dummy component not important</div>
+    }
+  })
 
 // Mock out REST call
 jest.mock('../rest_support/SpdzApi')
 import { getProxyConfig } from'../rest_support/SpdzApi'
 
 describe('Setup controller component behaviour', () => {
+
   it('Checks state is set after getting /spdzProxyConfig', (done) => {
     const exampleJsonConfig = 
           {
@@ -29,9 +38,9 @@ describe('Setup controller component behaviour', () => {
     
     getProxyConfig.mockImplementation(() => Promise.resolve(exampleJsonConfig))
 
-    // Mount and retrieve nodes doesn't work for stateless components, 
+    // Mount and retrieve nodes doesn't work for stateless components (Setup), 
     // so just render and then check state
-    const wrapper = mount(<SetupContainer />)
+    const wrapper = mount(<ComponentUnderTest />)
 
     //To manage async componentDidMount use timeout
     setTimeout(() => { 

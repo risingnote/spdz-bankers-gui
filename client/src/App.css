@@ -23,17 +23,6 @@
   flex: 1;
 }
 
-.App-main {
-  display: -webkit-flex;
-  display: flex;
-  flex-flow: row wrap;
-  padding: 20px;
-}
-
-.App-main-col {
-  flex: 1;
-}
-
 .App-footer {
   display: -webkit-flex;
   display: flex;

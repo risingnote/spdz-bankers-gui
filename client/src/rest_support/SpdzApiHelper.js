@@ -1,3 +1,12 @@
+/**
+ * Higher level functioins to interact with the SPDZ api.
+ * 
+ * TODO implement reading and writing of data
+ * How handle long poll ?
+ * See https://davidwalsh.name/javascript-polling for polling with promises, i.e. wait for data.
+ * Think about api like readShares, writeIntegers, readIntegers with params (encrypt (true/false), count) )
+ * 
+ */
 import { connectProxyToEngine } from './SpdzApi'
 import ProxyStatusCodes from '../setup/ProxyStatusCodes'
 
