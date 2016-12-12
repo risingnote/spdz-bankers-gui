@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import cryptologo from './crypto-logo.png'
 import uoblogo from './uob-logo-white-largest.png'
 import './App.css'
-import BankersContainer from './bankers_gui/BankersContainer'
+import BankersWithSetup from './bankers_gui/BankersWithSetup'
 
 class App extends Component {
   render() {
@@ -17,7 +17,7 @@ class App extends Component {
             <img src={cryptologo} className="App-header-fixed-col" alt="logo" />
           </a>          
         </header>
-        <BankersContainer />
+        <BankersWithSetup />
         <footer className="App-footer">
           <div className="App-footer-col-left">
             <h4>Department of Computer Science</h4>

@@ -5,7 +5,7 @@
 import React, { Component } from 'react'
 import { List } from 'immutable'
 
-import { initSpdzServerList, updateSpdzServerStatus } from './SetupContainerHelper' 
+import { initSpdzServerList, updateSpdzServerStatus, allProxiesConnected } from './SetupContainerHelper' 
 import Setup from './Setup'
 import { getProxyConfig } from '../rest_support/SpdzApi'
 import connectToSpdzProxies from '../rest_support/SpdzApiHelper'
@@ -53,7 +53,8 @@ function SetupWrapper(MPCGui) {
       return (
         <div className="SetupContainer-main">
           <div className="SetupContainer-mpcgui">
-              <MPCGui />
+              <MPCGui allProxiesConnected={allProxiesConnected(this.state.spdzProxyList)} 
+                      spdzProxyServerList={this.state.spdzProxyList}/>
           </div>
           <div className="SetupContainer-setup">
               <Setup setupForRun={this.handleSetupClick} spdzProxyServerList={this.state.spdzProxyList}/>

@@ -1,5 +1,5 @@
 import { List } from 'immutable'
-import { initSpdzServerList, updateSpdzServerStatus } from './SetupContainerHelper'
+import { initSpdzServerList, updateSpdzServerStatus, allProxiesConnected } from './SetupContainerHelper'
 import ProxyStatusCodes from './ProxyStatusCodes'
 
 const myjson = 
@@ -56,6 +56,20 @@ describe('Helper functions to parse and update spdz proxy status', () => {
     const functionWithThrow = () => updateSpdzServerStatus(state, updates)
 
     expect(functionWithThrow).toThrowError('Expecting the spdz proxy list 3 to be the same length as the status list 2.')
+  })
+
+  test('I can detect if all spdz proxies are connected', () => {
+    const state = initSpdzServerList(myjson)
+    expect(allProxiesConnected(state)).toBeFalsy()
+
+    const updates = [
+      { id: 0, status: 2 },
+      { id: 1, status: 2 },
+      { id: 2, status: 2 }
+    ]
+
+    const newState = updateSpdzServerStatus(state, updates)
+    expect(allProxiesConnected(newState)).toBeTruthy()
   })
 })
  

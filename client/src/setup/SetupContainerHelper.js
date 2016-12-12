@@ -36,4 +36,17 @@ const updateSpdzServerStatus = (spdzProxyList, values) => {
   )
 }
 
-export { initSpdzServerList, updateSpdzServerStatus }
+/**
+ * Do all spdz proxies have connected status ?
+ * @returns true if yes, false if no spdz proxies. 
+ */
+const allProxiesConnected = (spdzProxyList) => {
+  if (spdzProxyList.size === 0) {
+    return false;
+  }
+  return spdzProxyList.filter( spdzProxy => {
+      return spdzProxy.get('status') === ProxyStatusCodes.Connected  
+  }).size === spdzProxyList.size 
+}
+
+export { initSpdzServerList, updateSpdzServerStatus, allProxiesConnected }

@@ -1,0 +1,49 @@
+exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Renders as expected (compared to a snapshot) when proxies are connected 1`] = `
+<div>
+  <form
+    className="BankersForm"
+    onSubmit={[Function]}>
+    <label>
+      Bonus:
+      <input
+        disabled=""
+        onChange={[Function]}
+        type="text"
+        value={0} />
+    </label>
+    <input
+      disabled=""
+      type="submit"
+      value="Send" />
+  </form>
+  <p>
+    Proxies 
+    all connected
+  </p>
+</div>
+`;
+
+exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Renders as expected (compared to a snapshot) when proxies are not connected 1`] = `
+<div>
+  <form
+    className="BankersForm"
+    onSubmit={[Function]}>
+    <label>
+      Bonus:
+      <input
+        disabled="disabled"
+        onChange={[Function]}
+        type="text"
+        value={0} />
+    </label>
+    <input
+      disabled="disabled"
+      type="submit"
+      value="Send (disabled)" />
+  </form>
+  <p>
+    Proxies 
+    not all connected
+  </p>
+</div>
+`;

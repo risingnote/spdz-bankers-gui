@@ -26,6 +26,7 @@ describe('Setup display component rendering', () => {
   })
 
   it('Executes the call back when the setup button is clicked', () => {
+    //Need to use 
     const mockCallBack = jest.fn((e) => {})
 
     const tree = renderer.create(
