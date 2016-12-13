@@ -39,7 +39,7 @@ const getProxyConfig = () => {
       {
         method: 'GET',
         headers: {
-          'Accept-Type': 'application/json'
+          'Accept': 'application/json'
         },
         mode: 'same-origin'
       })
@@ -63,7 +63,7 @@ const connectProxyToEngine = (host, apiRoot, clientId) => {
     {
       method: 'POST',
       headers: {
-        'Accept-Type': 'application/json'
+        'Accept': 'application/json'
       },
       mode: 'cors'
     })
@@ -83,4 +83,33 @@ const connectProxyToEngine = (host, apiRoot, clientId) => {
     })
 }
 
-export { getProxyConfig, connectProxyToEngine }
+const consumeDataFromProxy = (host, apiRoot, clientId) => {
+  return fetch(`${host}${apiRoot}/${clientId}/consume-data`,
+    {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/octet-stream, application/json'
+      },
+      mode: 'cors'
+    })
+    .then(parseIfJson)
+    .then( (result) => {
+      if (result.response.status === HttpStatus.OK) {
+        return result.response.arrayBuffer()
+      } else if (result.response.status === HttpStatus.NO_CONTENT) {
+        let error = new Error(
+          `No data is available to consume from the spdz proxy. Status: ${result.response.status}.`)
+        return Promise.reject(error)
+      } else {
+        let error = new Error(
+          `Unable to consume data from spdz proxy. Status: ${result.response.status}. Reason: ${result.jsonData.message}`)
+        error.reason = result.jsonData
+        return Promise.reject(error)
+      }
+    })
+    .then((buffer) => {
+      return Promise.resolve(new Uint8Array(buffer))
+    })
+}
+
+export { getProxyConfig, connectProxyToEngine, consumeDataFromProxy }

@@ -4,6 +4,27 @@
 import { Map, List } from 'immutable'
 import assert from 'assert'
 import ProxyStatusCodes from './ProxyStatusCodes'
+import { createEncryptionKey } from '../crypto/cryptoLib'
+
+ /**
+  * Convert a json config into an immutable List structure.
+  * Add default connection status and encryption key to each spdzProxy entry 
+  */
+ const initSpdzServerList = (spdzProxyList) => {
+   return List(
+     spdzProxyList.map( (spdzProxy) => {
+       return Map(spdzProxy)
+         .set("status", ProxyStatusCodes.Disconnected)
+         .set("encryptionKey", createEncryptionKey(spdzProxy.publicKey))
+       }
+    )
+  )
+}
+
+
+const extractSpdzUrlList = (spdzProxyList) => {
+  return spdzProxyList.map( spdzProxy => spdzProxy.get('url'))
+}
 
 /**
  * Apply spdz server updates to the proxy list.
@@ -23,19 +44,6 @@ const updateSpdzServerStatus = (spdzProxyList, values) => {
     })
 }    
  
- /**
-  * Convert a json config into an immutable List structure and add a default status to each member.
-  */
- const initSpdzServerList = (spdzProxyList) => {
-   return List(
-     spdzProxyList.map( (spdzProxy) => {
-       return Map(spdzProxy).set(
-         "status", ProxyStatusCodes.Disconnected
-       )}
-    )
-  )
-}
-
 /**
  * Do all spdz proxies have connected status ?
  * @returns true if yes, false if no spdz proxies. 

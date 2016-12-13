@@ -10,11 +10,11 @@ const myjson =
     },
     {
       "url": "http://localhost:3002",
-      "publicKey": "a1b2c3f4g5a6b7c8010203040506070801020304050607080102030405060708" 
+      "publicKey": "a1b2c3d4e5f6b7c8010203040506070801020304050607080102030405060708" 
     },
     {
       "url": "http://localhost:3003",
-      "publicKey": "a1b2c3f4g5a6b7c8010203040506070801020304050607080102030405060708" 
+      "publicKey": "a1b2c3d4e5a6b7c8010203040506070801020304050607080102030405060708" 
     }        
 ]
 
@@ -26,6 +26,7 @@ describe('Helper functions to parse and update spdz proxy status', () => {
     expect(state.size).toEqual(3)
     for (let i=0; i<3; i++) {
       expect(state.get(i).get('status')).toEqual(ProxyStatusCodes.Disconnected)
+      expect(state.get(i).get('encryptionKey').length).toEqual(32)
     } 
   })
 

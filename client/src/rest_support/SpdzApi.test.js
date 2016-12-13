@@ -1,6 +1,6 @@
 import HttpStatus from 'http-status-codes'
 
-import { getProxyConfig, connectProxyToEngine } from './SpdzApi'
+import { getProxyConfig, connectProxyToEngine, consumeDataFromProxy } from './SpdzApi'
 import mockResponse from './MockResponse'
 
 describe('Prove the SpdzApi with mock responses from fetch', () => {
@@ -9,9 +9,10 @@ describe('Prove the SpdzApi with mock responses from fetch', () => {
   })
 
   it('Reads the GUI config successfully from /spdzconfig', (done) => {
-    window.fetch = jest.fn().mockImplementation(() =>
-      Promise.resolve(mockResponse(200, '{ "foo": "bar" }'))
-    )
+    window.fetch = jest.fn().mockImplementation(() => {
+      const headers = new Headers({'Content-type':'application/json'})
+      return Promise.resolve(mockResponse(200, '{ "foo": "bar" }', headers))
+    })
   
     getProxyConfig()
       .then((json) => {
@@ -47,12 +48,10 @@ describe('Connect the Spdz Proxy to the Spdz Engine for a client', () => {
 
   it('Successfully runs the connect setup', (done) => {
     window.fetch = jest.fn().mockImplementation(() => {
-      let headers = new Headers()
-      headers.set('Location', 'http://somelocation')
+      const headers = new Headers({'Location': 'http://somelocation'})
       return Promise.resolve(mockResponse(HttpStatus.CREATED, null, headers))
     })
     
-  
     connectProxyToEngine()
       .then((location) => {
         expect(location).toEqual('http://somelocation')
@@ -64,9 +63,11 @@ describe('Connect the Spdz Proxy to the Spdz Engine for a client', () => {
   })
 
   it('Throws an error if connect setup did not work', (done) => {
-    window.fetch = jest.fn().mockImplementation(() =>
-      Promise.resolve(mockResponse(HttpStatus.SERVICE_UNAVAILABLE, '{ "status": "503", "message": "test error" }'))
-    )
+    window.fetch = jest.fn().mockImplementation(() => {
+      const headers = new Headers({'Content-type':'application/json'})
+      return Promise.resolve(mockResponse(HttpStatus.SERVICE_UNAVAILABLE, 
+      '{ "status": "503", "message": "test error" }', headers))
+    })
   
     connectProxyToEngine('http://spdzProxy', '/spdzApi', 23)
       .then((response) => {
@@ -79,4 +80,47 @@ describe('Connect the Spdz Proxy to the Spdz Engine for a client', () => {
       })  
   })
 
+})
+
+describe('Consume a binary value from the Spdz Proxy', () => {
+  afterEach(() => {
+    window.fetch.mockClear()
+  })
+
+  it('Successfully retrieves some binary data', (done) => {
+    const expectedBuffer = Uint8Array.of(1,2,3,4,5,6,7,8,9,10,11)
+    const responseBody = new Blob([expectedBuffer.buffer])
+
+    window.fetch = jest.fn().mockImplementation(() => {
+      const headers = new Headers({'Content-type': 'application/octet-stream'})
+      return Promise.resolve(mockResponse(HttpStatus.OK, responseBody, headers))
+    })
+    
+    consumeDataFromProxy()
+      .then((buffer) => {
+        expect(buffer).toEqual(expectedBuffer)
+        done()
+      })
+      .catch((err) => {
+        done.fail(err)
+      })  
+  })
+
+  it('Throws an error if no data to retrieve', (done) => {
+    window.fetch = jest.fn().mockImplementation(() => {
+      const headers = new Headers()
+      return Promise.resolve(mockResponse(HttpStatus.NO_CONTENT, null, headers)) 
+    })
+  
+    consumeDataFromProxy()
+      .then((response) => {
+        done.fail()
+      })
+      .catch((err) => {
+        expect(err.message).toEqual('No data is available to consume from the spdz proxy. Status: 204.')
+        expect(err.reason).toBeUndefined()
+        done() 
+      })  
+  })
+  
 })

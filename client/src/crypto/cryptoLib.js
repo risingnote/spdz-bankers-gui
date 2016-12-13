@@ -6,7 +6,6 @@ import sodium from 'libsodium-wrappers'
 import assert from 'assert'
 
 let clientKeyPair
-let encryptionKeys
 
 /**
  * Creates client key pair on first use.
@@ -29,10 +28,12 @@ const createClientPublicKey = ( () => {
  *  shared key = hash(q || client_secretkey || server_publickey)
  *  q is scalarmult(client_secretkey, server_publickey)
  */
-const generateEncryptionKey = ( (serverPublicKeyHexString) => {
+const createEncryptionKey = ( (serverPublicKeyHexString) => {
   assert((typeof serverPublicKeyHexString === 'string') && (serverPublicKeyHexString.length === sodium.crypto_box_PUBLICKEYBYTES * 2), 
     `Server public key must be a string of ${sodium.crypto_box_PUBLICKEYBYTES * 2} hex characters, given <${serverPublicKeyHexString}>`)
   const serverPublicKey = sodium.from_hex(serverPublicKeyHexString)
+
+  createClientPublicKey() //Just incase not already run.
 
   const sharedSecret = sodium.crypto_scalarmult(clientKeyPair.clientSecretKey, serverPublicKey)
 
@@ -44,29 +45,12 @@ const generateEncryptionKey = ( (serverPublicKeyHexString) => {
 })
 
 /**
- * Create encryption keys. Note keys stored in same order as spdzProxyList order.
- * @param {spdzProxyList} Immutable list of Maps with publicKey element (string, 32 bytes hex)
- * @returns Array of Uint8Array encryption keys
- */
-const createEncryptionKeys = ( (spdzProxyList) => {
-  createClientPublicKey() //Just incase not already run.
-  encryptionKeys = spdzProxyList.map( (spdzProxy) => {
-    return generateEncryptionKey(spdzProxy.get('publicKey'))
-  })
-  return encryptionKeys
-})
-
-/**
  * Authenticated encryption of message for a spdz server.
- * @param {spdzServerNum} Position of server in list
+ * @param {encryptionKey} Previously generated session key between this client and the spdz proxy
  * @param {clearMessage} Message bytes to encrypt, can be Uint8Array or hex string
  * @returns ciphermessage as Uint8Array prepended with MAC (16 bytes) and appended with nonce (24 bytes). 
  */
-const encrypt = ( (spdzServerNum, clearMessage) => {
-  const encryptionKey = encryptionKeys.get(spdzServerNum) 
-  assert(encryptionKey !== undefined, 
-    `No encryption key has been generated for Spdz Engine ${spdzServerNum}, run createEncryptionKeys.`)
-
+const encrypt = ( (encryptionKey, clearMessage) => {
   let message = clearMessage
   if (typeof clearMessage === 'string') {
     message = sodium.from_hex(clearMessage)
@@ -84,15 +68,11 @@ const encrypt = ( (spdzServerNum, clearMessage) => {
 
 /**
  * Authenticated decryption of cipher text.
- * @param {spdzServerNum} Position of server in list
- * @param {cipherMessage} Message comprises, 16 byte mac + cipher text + 24 bytes nonce. Can be Uint8Array or hex string
+ * @param {encryptionKey} Previously generated session key between this client and the spdz proxy
+ * @param {cipherMessage} Message comprises, 16 byte mac + cipher text + 24 bytes nonce. Can be Uint8Array or hex string.
  * @returns clearMessage as Uint8Array (or throws) 
  */
-const decrypt = ( (spdzServerNum, cipherMessage) => {
-  const encryptionKey = encryptionKeys.get(spdzServerNum) 
-  assert(encryptionKey !== undefined, 
-    `No encryption key has been generated for Spdz Engine ${spdzServerNum}, run createEncryptionKeys.`)
-
+const decrypt = ( (encryptionKey, cipherMessage) => {
   let message = cipherMessage
   if (typeof cipherMessage === 'string') {
     message = sodium.from_hex(cipherMessage)
@@ -110,4 +90,4 @@ const decrypt = ( (spdzServerNum, cipherMessage) => {
   }
 })
 
-export { createEncryptionKeys, createClientPublicKey, encrypt, decrypt }
+export { createEncryptionKey, createClientPublicKey, encrypt, decrypt }

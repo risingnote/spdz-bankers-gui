@@ -9,15 +9,15 @@ import { initSpdzServerList, updateSpdzServerStatus, allProxiesConnected } from 
 import Setup from './Setup'
 import { getProxyConfig } from '../rest_support/SpdzApi'
 import connectToSpdzProxies from '../rest_support/SpdzApiHelper'
+import { createClientPublicKey } from '../crypto/cryptoLib'
 import './SetupContainer.css'
 
 function SetupWrapper(MPCGui) {
   return class SetupContainer extends Component {
     constructor (props) {
       super(props)
-      //Perhaps client id should be Diffie Hellman public key
       this.state = {
-        clientId : '0',
+        clientPublicKey : '',
         spdzApiRoot : "/",
         spdzProxyList : List()
       }
@@ -27,18 +27,22 @@ function SetupWrapper(MPCGui) {
     componentDidMount() {
       getProxyConfig() 
         .then((json) => {
-          this.setState({"spdzApiRoot": json.spdzApiRoot})
-          this.setState({"spdzProxyList": initSpdzServerList(json.spdzProxyList)})
+          const spdzProxyList = initSpdzServerList(json.spdzProxyList)
+          this.setState({spdzApiRoot: json.spdzApiRoot})          
+          this.setState({spdzProxyList: spdzProxyList})
         })
         .catch((ex) => {
           console.log(ex)
         })
+
+      this.setState({clientPublicKey: createClientPublicKey()})
     }
 
     handleSetupClick(e) {
       e.preventDefault()
 
-      connectToSpdzProxies(this.state.spdzProxyList, this.state.spdzApiRoot, this.state.clientId)
+      connectToSpdzProxies(this.state.spdzProxyList.map( spdzProxy => spdzProxy.get('url')), 
+                           this.state.spdzApiRoot, this.state.clientId)
         .then( (values) => {
           const proxyListAfterUpdate = updateSpdzServerStatus(this.state.spdzProxyList, values)
           this.setState({spdzProxyList: proxyListAfterUpdate}) 

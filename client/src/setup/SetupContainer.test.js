@@ -31,7 +31,7 @@ describe('Setup controller component behaviour', () => {
               },
               {
                 "url": "http://spdzproxythere:3002",
-                "publicKey": "a1b2c3f4g5a6b7c8010203040506070801020304050607080102030405060708" 
+                "publicKey": "a1b2c3d4e5a6b7c8010203040506070801020304050607080102030405060708" 
               }
             ]
           }
@@ -50,6 +50,8 @@ describe('Setup controller component behaviour', () => {
         expect(wrapper.state().spdzProxyList.size).toEqual(2)
         expect(wrapper.state().spdzProxyList.get(0).get('url')).toEqual('http://spdzproxyhere:3001')
         expect(wrapper.state().spdzProxyList.get(1).get('url')).toEqual('http://spdzproxythere:3002')
+        expect(wrapper.state().spdzProxyList.get(0).get('encryptionKey').length).toEqual(32)
+        expect(wrapper.state().spdzProxyList.get(1).get('encryptionKey').length).toEqual(32)
         done()
       } catch (err) {
         done.fail(err)
@@ -58,4 +60,8 @@ describe('Setup controller component behaviour', () => {
 
     getProxyConfig.mockClear()
   })
+
+  xit('When the setup button is clicked the spdz proxy connections are setup.', () => {
+  })
+
 })
