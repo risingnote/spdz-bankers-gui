@@ -4,7 +4,7 @@ import {Buffer} from 'buffer/'
 
 describe('Map between types when using binary data', () => {
   it('converts a binary payload deserialized into a typed array into a big int value', () => {
-    const spdzBinaryValue = Buffer.from([0x22, 0xa3, 0x66, 0x01])
+    const spdzBinaryValue = Uint8Array.from([0x22, 0xa3, 0x66, 0x01])
 
     expect(fromSpdzBinary(spdzBinaryValue)).toEqual(BigInt('23503650'))
   })
@@ -19,7 +19,7 @@ describe('Map between types when using binary data', () => {
     const testThrowsFromSpdzBinary = () => fromSpdzBinary('501978443')
     const testThrowsBase64Encode = () => base64Encode('501978443')
 
-    expect(testThrowsFromSpdzBinary).toThrowError('fromSpdzBinary expects a Buffer type.')
+    expect(testThrowsFromSpdzBinary).toThrowError('fromSpdzBinary expects a Uint8Array type.')
     expect(testThrowsBase64Encode).toThrowError('base64Encode expects a BigInt type.')
   })
 })

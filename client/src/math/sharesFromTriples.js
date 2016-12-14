@@ -7,6 +7,7 @@
  */
 import SpdzConstants from '../setup/SpdzConstants'
 import { fromSpdzBinary } from './binary'
+import { fromMontgomery } from './montgomery'
 
 const TRIPLE_BYTES =  3 * SpdzConstants.INTEGER_LENGTH_BYTES
 
@@ -22,7 +23,8 @@ class Triple {
     this.c = fromSpdzBinary(byteBuffer.slice(2*SpdzConstants.INTEGER_LENGTH_BYTES, 3*SpdzConstants.INTEGER_LENGTH_BYTES))
   }
   checkRelation() {
-    return this.a.add(this.b).mod(SpdzConstants.GFP_PRIME).equals(this.c) 
+    // TODO Special montgomery multiplication needed -yes (a * b * rInverse) (mod P)     
+    return fromMontgomery(this.a).multiply(fromMontgomery(this.b)).mod(SpdzConstants.GFP_PRIME).equals(fromMontgomery(this.c)) 
   }
   add(triple) {
     this.a = this.a.add(triple.a).mod(SpdzConstants.GFP_PRIME)
