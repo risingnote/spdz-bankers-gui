@@ -2,14 +2,14 @@
  * Utility functions to move between native and montgomery format in field gfp.
  */
 import BigInt from 'big-integer'
+import SpdzConstants from '../setup/SpdzConstants'
 
 /**
  * Hard code prime for gfp, montgomery conversion primatives.
  * Assumption that spdz is using a 128 bit field.
  */
-const prime = BigInt('172035116406933162231178957667602464769')
-const r = BigInt(2).pow(128)
-const rInverse = r.modInv(prime)
+const r = BigInt(2).pow(SpdzConstants.INTEGER_LENGTH_BYTES * 8)
+const rInverse = r.modInv(SpdzConstants.GFP_PRIME)
 
 /**
  * Convert from a native representation to a montgomery representation
@@ -20,7 +20,7 @@ const toMontgomery = (bigIntNative) => {
   if (!(bigIntNative instanceof BigInt)) {
     throw new Error('Conversion toMontgomery requires a big integer type.')
   }
-  return bigIntNative.multiply(r).mod(prime)
+  return bigIntNative.multiply(r).mod(SpdzConstants.GFP_PRIME)
 }
 
 /**
@@ -32,7 +32,7 @@ const fromMontgomery = (bigIntMontgomery) => {
   if (!(bigIntMontgomery instanceof BigInt)) {
     throw new Error('Conversion fromMontgomery requires a big integer type.')
   }
-  return BigInt(bigIntMontgomery).multiply(rInverse).mod(prime)
+  return BigInt(bigIntMontgomery).multiply(rInverse).mod(SpdzConstants.GFP_PRIME)
 }
 
 export { toMontgomery, fromMontgomery }

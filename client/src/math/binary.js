@@ -1,9 +1,10 @@
 import BigInt from 'big-integer'
 // Care on this import as it must override builtin Node Buffer global for testing.
+// TODO look for alternative base64 from hex encoding - to avoid using nodes Buffer 
 import {Buffer} from 'buffer/'
 
 /**
- * Convert a typed array (Uint8Array) populated from the spdz proxy (litte endian) into a big integer
+ * Convert a typed array (Uint8Array) populated from the spdz proxy (little endian) into a big integer
  */
 const fromSpdzBinary = (spdzBinary) => {
   if (!(spdzBinary instanceof Buffer)) {

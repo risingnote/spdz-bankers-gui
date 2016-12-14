@@ -9,6 +9,7 @@
 import { connectProxyToEngine, consumeDataFromProxy } from './SpdzApi'
 import ProxyStatusCodes from '../setup/ProxyStatusCodes'
 import { decrypt } from '../crypto/cryptoLib'
+import sharesFromTriples from '../math/sharesFromTriples'
 
 /**
  * Run connection setup on all spdz proxy servers for this client.
@@ -51,18 +52,33 @@ const consumeDataFromSpdzProxies = (spdzProxyUrlList, spdzApiRoot, clientId) => 
   return Promise.all(consumeList)
 }
 
-const consumeTriplesForShares = (tripleNum, encrypted, spdzProxyList, spdzApiRoot, clientId) => {
+/**
+ * Retrieve shares to be used to send input to SPDZ proxies.
+ * Wait for all SPDZ proxies to send shares rejecting if an error (no timeout)
+ * Validate the triples, sum them
+ * @param {inputNum} Number of shares required and so number of triples expected.
+ * @param {encrypted} true or false to indicate expect encrypted data
+ * @param {spdzProxyList} List containing url and encryptionKey for each proxy 
+ * @param {spdzApiRoot} url path
+ * @param {clientId} Identify client connection to proxy
+ * @returns Promise resolved with list of shares (length inputNum) or reject with Error
+ */
+const retrieveShares = (inputNum, encrypted, spdzProxyList, spdzApiRoot, clientId) => {
   return consumeDataFromSpdzProxies(spdzProxyList.map(spdzProxy => spdzProxy.get('url')), spdzApiRoot, clientId)
-    .then((values) => {
-      let decryptValues = values
-      if (encrypted) {
-        decryptValues = values.map( (buffer, index) => {
+    .then((cipherValues) => {
+      return (encrypted ? cipherValues.map( (buffer, index) => {
           const encryptionKey = spdzProxyList.get(index).get('encryptionKey')
           return decrypt(encryptionKey, buffer)
-        })
+          }) : cipherValues)
+    })
+    .then((clearValues) => {
+      // binary to bigint, montgomery addition, montgomery multiplication to verify
+      try {
+        return sharesFromTriples(inputNum, clearValues)
+      } catch (err) {
+        Promise.reject(err)
       }
-      return decryptValues
     })
 }
 
-export { connectToSpdzProxies, consumeDataFromSpdzProxies, consumeTriplesForShares }
+export { connectToSpdzProxies, consumeDataFromSpdzProxies, retrieveShares }
