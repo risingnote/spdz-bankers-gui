@@ -31,7 +31,8 @@ class Gfp {
    * Create Gfp from integer held in string
    */
   static fromString(integerString, montg=false) {
-    return new Gfp(BigInt(integerString), montg)
+    const inputStr = (typeof integerString !== 'string') ? integerString.toString() : integerString
+    return new Gfp(BigInt(inputStr), montg)
   }
 
   /**

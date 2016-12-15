@@ -58,4 +58,12 @@ describe('Map integers into Gfp finite field and convert between native and mont
     expect( (Gfp.fromString('99', false)).equals(Gfp.fromString('99', true)) ).toBeFalsy()
     expect( (new Gfp(BigInt('99'), false)).equals('why am I here') ).toBeFalsy()
   })
+
+  it('works out a montgomery triple share for my testing', () => {
+    const padHex = hex => (hex.length % 2 !== 0) ? '0'+hex : hex
+    const mult = Gfp.fromString('8', true).multiply(Gfp.fromString('10', true))
+    let hexValue = padHex(mult.val.toString(16))
+    //console.log('REMOVE ME hex is ', hexValue)
+  })
+  
 })

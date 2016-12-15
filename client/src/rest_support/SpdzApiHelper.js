@@ -10,6 +10,7 @@ import { connectProxyToEngine, consumeDataFromProxy } from './SpdzApi'
 import ProxyStatusCodes from '../setup/ProxyStatusCodes'
 import { decrypt } from '../crypto/cryptoLib'
 import sharesFromTriples from '../math/sharesFromTriples'
+import Gfp from '../math/Gfp'
 
 /**
  * Run connection setup on all spdz proxy servers for this client.
@@ -72,15 +73,35 @@ const retrieveShares = (inputNum, encrypted, spdzProxyList, spdzApiRoot, clientI
           }) : cipherValues)
     })
     .then((clearValues) => {
-      // binary to bigint, montgomery addition, montgomery multiplication to verify
       try {
-        return sharesFromTriples(inputNum, clearValues)
+        return Promise.resolve(sharesFromTriples(inputNum, clearValues))
       } catch (err) {
         Promise.reject(err)
       }
     })
 }
 
-//const sendInputs = 
+/**
+ * Send same inputs (masked with summed shares) to each SPDZ proxy 
+ */
+const sendInputs = ( (inputList ) => {
+  
+})
 
-export { connectToSpdzProxies, consumeDataFromSpdzProxies, retrieveShares }
+/**
+ * Sending a list of inputs to all Spdz proxies after retrieving shares and applying to inputs.
+ */
+const sendInputsWithShares = ( (inputList, encrypted, spdzProxyList, spdzApiRoot, clientId) => {
+  return retrieveShares(inputList.length, true, this.props.spdzProxyServerList, 
+                    this.props.spdzApiRoot, this.props.clientPublicKey )
+      .then( (shareList) => {
+        return inputList.map( (input, i) => {
+          return shareList[i].add(Gfp.fromString(input).toMontgomery())  
+        })
+      })
+      .then( (inputList) => {
+        return sendInputs(inputList)
+      })
+})
+
+export { connectToSpdzProxies, consumeDataFromSpdzProxies, retrieveShares, sendInputsWithShares }

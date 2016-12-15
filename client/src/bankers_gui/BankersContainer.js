@@ -4,7 +4,7 @@
  */
 import React, { Component } from 'react'
 import { List } from 'immutable'
-import { retrieveShares } from '../rest_support/SpdzApiHelper'
+import { sendInputsWithShares } from '../rest_support/SpdzApiHelper'
 import BankersForm from './BankersForm'
 import Gfp from '../math/Gfp'
 
@@ -17,17 +17,10 @@ class BankersContainer extends Component {
   }
 
   handleSubmitBonus(bonus) {
-    retrieveShares(1, true, this.props.spdzProxyServerList, this.props.spdzApiRoot, this.props.clientPublicKey )
-      .then( (shareList) => {
-        if (shareList.length !== 1) {
-          Promise.reject(new Error(`Expecting 1 share but got ${shareList.length}.`))
-        }
-        const bonusGfpMontg = Gfp.fromString(bonus).toMontgomery()
-        return [shareList[0].add(bonusGfpMontg)]
-      })
-      .then( (inputList) => {
-        console.log('input to send ', inputList[0].toString())
-        // send share to each spdz proxy
+    sendInputsWithShares([bonus], true, this.props.spdzProxyServerList, this.props.spdzApiRoot, this.props.clientPublicKey )
+      .then( () => {
+        //TODO create a status message for display 
+        console.log('Input sent.')
       })
       .catch((ex) => {
         //TODO create a status message for display (submit failed, see console logs for more information)

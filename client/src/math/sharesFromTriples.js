@@ -33,6 +33,9 @@ class Triple {
     this.c = this.c.add(triple.c)
     return this
   }
+  toString() {
+    return `a is ${this.a.toString()}, b is ${this.b.toString()}, c is ${this.c.toString()}`      
+  }
 }  
 
 /**
@@ -54,7 +57,7 @@ export default (expectedNum, byteBufferList) => {
 
   return range(expectedNum).map((i) => {
     const combinedTriple = byteBufferList
-      .map(byteBuffer => new Triple(byteBuffer.slice(i * TRIPLE_BYTES, (i + 1) * TRIPLE_BYTES)))
+      .map(byteBuffer => new Triple(byteBuffer.slice(i * TRIPLE_BYTES, (i + 1) * TRIPLE_BYTES)))    
       .reduce((sumTriple, triple) => sumTriple.add(triple), Triple.zero())
 
     if (!combinedTriple.checkRelation()) {
