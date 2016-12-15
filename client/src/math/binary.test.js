@@ -1,4 +1,3 @@
-import BigInt from 'big-integer'
 import Gfp from './Gfp'
 import {fromSpdzBinary, base64Encode} from './binary'
 
@@ -6,11 +5,11 @@ describe('Map between types when using binary data', () => {
   it('converts a binary payload deserialized into a typed array into a big int value', () => {
     const spdzBinaryValue = Uint8Array.from([0x22, 0xa3, 0x66, 0x01])
 
-    expect(fromSpdzBinary(spdzBinaryValue)).toEqual(new Gfp(BigInt('23503650'), false))
+    expect(fromSpdzBinary(spdzBinaryValue)).toEqual(Gfp.fromString('23503650', false))
   })
 
   it('converts a big int value into a base64 encoded string', () => {
-    const gfp = new Gfp(BigInt('452367'))
+    const gfp =  Gfp.fromString('452367')
 
     expect(base64Encode(gfp)).toEqual('BucP')
   })

@@ -1,7 +1,7 @@
 import HttpStatus from 'http-status-codes'
 
 import { getProxyConfig, connectProxyToEngine, consumeDataFromProxy } from './SpdzApi'
-import mockResponse from './MockResponse'
+import mockResponse from '../test_support/MockResponse'
 
 describe('Prove the SpdzApi with mock responses from fetch', () => {
   afterEach(() => {

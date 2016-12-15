@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 import { List } from 'immutable'
 import { retrieveShares } from '../rest_support/SpdzApiHelper'
 import BankersForm from './BankersForm'
+import Gfp from '../math/Gfp'
 
 class BankersContainer extends Component {
   constructor (props) {
@@ -16,17 +17,21 @@ class BankersContainer extends Component {
   }
 
   handleSubmitBonus(bonus) {
-    console.log('Do something with the bonus ', bonus)
-
-    retrieveShares(1, true, this.props.spdzProxyServerList, 'apiRoot', 'clientId' )
+    retrieveShares(1, true, this.props.spdzProxyServerList, this.props.spdzApiRoot, this.props.clientPublicKey )
       .then( (shareList) => {
-        //return input + share (gfp addition)
+        if (shareList.length !== 1) {
+          Promise.reject(new Error(`Expecting 1 share but got ${shareList.length}.`))
+        }
+        const bonusGfpMontg = Gfp.fromString(bonus).toMontgomery()
+        return [shareList[0].add(bonusGfpMontg)]
       })
       .then( (inputList) => {
+        console.log('input to send ', inputList[0].toString())
         // send share to each spdz proxy
       })
       .catch((ex) => {
-          console.log(ex)
+        //TODO create a status message for display (submit failed, see console logs for more information)
+        console.log(ex)
       })
   }
 
@@ -43,7 +48,9 @@ class BankersContainer extends Component {
 
 BankersContainer.propTypes = {
   allProxiesConnected: React.PropTypes.bool.isRequired,
-  spdzProxyServerList: React.PropTypes.instanceOf(List).isRequired
+  spdzProxyServerList: React.PropTypes.instanceOf(List).isRequired,
+  spdzApiRoot: React.PropTypes.string.isRequired,
+  clientPublicKey: React.PropTypes.string.isRequired
 }
 
 export default BankersContainer

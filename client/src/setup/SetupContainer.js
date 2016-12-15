@@ -58,7 +58,9 @@ function SetupWrapper(MPCGui) {
         <div className="SetupContainer-main">
           <div className="SetupContainer-mpcgui">
               <MPCGui allProxiesConnected={allProxiesConnected(this.state.spdzProxyList)} 
-                      spdzProxyServerList={this.state.spdzProxyList}/>
+                      spdzProxyServerList={this.state.spdzProxyList}
+                      spdzApiRoot={this.state.spdzApiRoot}
+                      clientPublicKey={this.state.clientPublicKey}/>
           </div>
           <div className="SetupContainer-setup">
               <Setup setupForRun={this.handleSetupClick} spdzProxyServerList={this.state.spdzProxyList}/>

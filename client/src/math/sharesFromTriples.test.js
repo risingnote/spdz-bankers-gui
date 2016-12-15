@@ -1,4 +1,3 @@
-import BigInt from 'big-integer'
 import Gfp from './Gfp'
 import sharesFromTriples from './sharesFromTriples'
 
@@ -51,7 +50,7 @@ describe('Byte buffers from SPDZ are validated and converted into a share', () =
     const shares = sharesFromTriples(1, byteBufferList)
     
     expect(shares.length).toEqual(1)
-    expect(shares[0]).toEqual(new Gfp(BigInt('50197844390672583818590000880091070221'), true))
-    expect(shares[0].fromMontgomery()).toEqual(new Gfp(BigInt(123)))
+    expect(shares[0]).toEqual(Gfp.fromString('50197844390672583818590000880091070221', true))
+    expect(shares[0].fromMontgomery()).toEqual(Gfp.fromString(123))
   })
 })

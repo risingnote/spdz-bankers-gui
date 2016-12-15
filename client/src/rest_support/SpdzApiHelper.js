@@ -81,4 +81,6 @@ const retrieveShares = (inputNum, encrypted, spdzProxyList, spdzApiRoot, clientI
     })
 }
 
+//const sendInputs = 
+
 export { connectToSpdzProxies, consumeDataFromSpdzProxies, retrieveShares }

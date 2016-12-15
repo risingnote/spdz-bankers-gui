@@ -21,7 +21,7 @@ const fromSpdzBinary = (spdzBinary, isMontgomery) => {
     return hexString + padHex(i.toString(16))
   }, '')
 
-  return new Gfp(BigInt(bufAsHexString, 16), isMontgomery)
+  return Gfp.fromHexString(bufAsHexString, isMontgomery)
 }
 
 /**

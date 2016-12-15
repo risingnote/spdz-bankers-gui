@@ -13,6 +13,9 @@ const r = BigInt(2).pow(INTEGER_LENGTH_BYTES * 8)
 const rInverse = r.modInv(GFP_PRIME)
 
 class Gfp {
+  /**
+   * Create Gfp from BigInt.
+   */
   constructor (bigint, montg=false) {
     if (!(bigint instanceof BigInt)) {
        throw new Error(`Gfp type must wrap a BigInt type.`)
@@ -25,11 +28,23 @@ class Gfp {
   }
 
   /**
-   * return true if montgomery format
+   * Create Gfp from integer held in string
    */
+  static fromString(integerString, montg=false) {
+    return new Gfp(BigInt(integerString), montg)
+  }
+
+  /**
+   * Create Gfp from integer held as hex in string
+   */
+  static fromHexString(hexString, montg=false) {
+    return new Gfp(BigInt(hexString, 16), montg)
+  }
+
   isMontgomery() {
     return this.montg
   }
+
   add(other) {
     if (!(other instanceof Gfp)) {
        throw new Error(`Add requires a Gfp type.`)
@@ -39,6 +54,7 @@ class Gfp {
     }
     return new Gfp(this.val.add(other.val).mod(GFP_PRIME), this.montg)
   }
+
   multiply(other) {
     if (!(other instanceof Gfp)) {
        throw new Error(`Mult requires a Gfp type.`)

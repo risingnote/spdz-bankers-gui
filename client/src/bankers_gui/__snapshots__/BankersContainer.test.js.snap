@@ -23,7 +23,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
 </div>
 `;
 
-exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Renders as expected (compared to a snapshot) when proxies are not connected 1`] = `
+exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Renders as expected (compared to a snapshot) when proxies are not all connected 1`] = `
 <div>
   <form
     className="BankersForm"
