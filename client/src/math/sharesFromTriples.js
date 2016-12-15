@@ -1,35 +1,36 @@
 /**
  * Given a list of Uint8Array buffers, from each SPDZ proxy, holding 1 or more triples:
  *  Check buffers are expected length
- *  Convert to bigint triples.
+ *  Convert to Gfp triples.
  *  Add together and verify.
- *  Return list of first triple, still in montgomery format
+ *  Return list of first triple, Gfp still in montgomery format
  */
-import SpdzConstants from '../setup/SpdzConstants'
 import { fromSpdzBinary } from './binary'
-import { fromMontgomery } from './montgomery'
+import Gfp from './Gfp'
 
-const TRIPLE_BYTES =  3 * SpdzConstants.INTEGER_LENGTH_BYTES
+const TRIPLE_BYTES =  3 * Gfp.integerLengthBytes()
 
 const range = (length) => [...Array(length).keys()]
 
 /**
- * Triple represents montgomery big ints [A, B, C]. 
+ * Triple represents montgomery Gfps [A, B, C]. 
  */
 class Triple {
   constructor (byteBuffer) {
-    this.a = fromSpdzBinary(byteBuffer.slice(0, SpdzConstants.INTEGER_LENGTH_BYTES))
-    this.b = fromSpdzBinary(byteBuffer.slice(SpdzConstants.INTEGER_LENGTH_BYTES, 2*SpdzConstants.INTEGER_LENGTH_BYTES))
-    this.c = fromSpdzBinary(byteBuffer.slice(2*SpdzConstants.INTEGER_LENGTH_BYTES, 3*SpdzConstants.INTEGER_LENGTH_BYTES))
+    this.a = fromSpdzBinary(byteBuffer.slice(0, Gfp.integerLengthBytes()), true)
+    this.b = fromSpdzBinary(byteBuffer.slice(Gfp.integerLengthBytes(), 2*Gfp.integerLengthBytes()), true)
+    this.c = fromSpdzBinary(byteBuffer.slice(2*Gfp.integerLengthBytes(), 3*Gfp.integerLengthBytes()), true)
+  }
+  static zero() {
+    return new Triple(new Uint8Array(3*Gfp.integerLengthBytes()))
   }
   checkRelation() {
-    // TODO Special montgomery multiplication needed -yes (a * b * rInverse) (mod P)     
-    return fromMontgomery(this.a).multiply(fromMontgomery(this.b)).mod(SpdzConstants.GFP_PRIME).equals(fromMontgomery(this.c)) 
+    return this.a.multiply(this.b).equals(this.c)
   }
   add(triple) {
-    this.a = this.a.add(triple.a).mod(SpdzConstants.GFP_PRIME)
-    this.b = this.b.add(triple.b).mod(SpdzConstants.GFP_PRIME)
-    this.c = this.c.add(triple.c).mod(SpdzConstants.GFP_PRIME)
+    this.a = this.a.add(triple.a)
+    this.b = this.b.add(triple.b)
+    this.c = this.c.add(triple.c)
     return this
   }
 }  
@@ -54,7 +55,7 @@ export default (expectedNum, byteBufferList) => {
   return range(expectedNum).map((i) => {
     const combinedTriple = byteBufferList
       .map(byteBuffer => new Triple(byteBuffer.slice(i * TRIPLE_BYTES, (i + 1) * TRIPLE_BYTES)))
-      .reduce((sumTriple, triple) => sumTriple.add(triple))
+      .reduce((sumTriple, triple) => sumTriple.add(triple), Triple.zero())
 
     if (!combinedTriple.checkRelation()) {
       throw new Error('Triple to be used for a share failed check.')

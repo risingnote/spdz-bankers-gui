@@ -4,7 +4,7 @@
  */
 import React, { Component } from 'react'
 import { List } from 'immutable'
-
+import { retrieveShares } from '../rest_support/SpdzApiHelper'
 import BankersForm from './BankersForm'
 
 class BankersContainer extends Component {
@@ -17,13 +17,17 @@ class BankersContainer extends Component {
 
   handleSubmitBonus(bonus) {
     console.log('Do something with the bonus ', bonus)
-    // read numinput triples[3] from each spdz proxy, wait until got all of them
 
-    // sum triples over spdz proxies and validate t1 * t2 = t3 for each input
-
-    // for each input, share = input + t1
-    
-    // send share to each spdz proxy
+    retrieveShares(1, true, this.props.spdzProxyServerList, 'apiRoot', 'clientId' )
+      .then( (shareList) => {
+        //return input + share (gfp addition)
+      })
+      .then( (inputList) => {
+        // send share to each spdz proxy
+      })
+      .catch((ex) => {
+          console.log(ex)
+      })
   }
 
   render() {
