@@ -39,11 +39,12 @@ describe('Bankers GUI (not wrapped in SetupContainer) rendering and behaviour', 
     const form = wrapper.find(BankersForm)
     const input = form.find('[type="text"]') //property selector find
     //Simulate user input followed by click submit
-    input.simulate('change', {target: {value: 123}})
+    const userInput = 123
+    input.simulate('change', {target: {value: userInput}})
     form.simulate('submit')
 
     expect(sendInputsWithShares.mock.calls.length).toEqual(1)
-    expect(sendInputsWithShares.mock.calls[0]).toEqual([[123], true, twoProxiesWith2Connected, '/spdzapi', 'a1b2c3d4'])
+    expect(sendInputsWithShares.mock.calls[0]).toEqual([[userInput], true, twoProxiesWith2Connected, '/spdzapi', 'a1b2c3d4'])
 
     sendInputsWithShares.mockClear()
   })

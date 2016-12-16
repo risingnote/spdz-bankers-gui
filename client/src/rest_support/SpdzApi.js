@@ -112,4 +112,30 @@ const consumeDataFromProxy = (host, apiRoot, clientId) => {
     })
 }
 
-export { getProxyConfig, connectProxyToEngine, consumeDataFromProxy }
+/**
+ * @param {host} Hostname of spdz proxy
+ * @param {apiRoot} api path
+ * @param {clientId} used to distinguish which client connection to used
+ * @param {payload} JSON array of base64 encoded 16 byte integers
+ */
+const sendDataToProxy = (host, apiRoot, clientId, payload) => {
+  return fetch(`${host}${apiRoot}/${clientId}/send-data`,
+    {
+      method: 'POST',
+      body: payload,
+      mode: 'cors'
+    })
+    .then(parseIfJson)
+    .then( (result) => {
+      if (result.response.status === HttpStatus.OK) {
+        return Promise.resolve()
+      } else {
+        let error = new Error(
+          `Unable to send data to spdz proxy. Status: ${result.response.status}. Reason: ${result.jsonData.message}`)
+        error.reason = result.jsonData
+        return Promise.reject(error)
+      }
+    })
+}
+
+export { getProxyConfig, connectProxyToEngine, consumeDataFromProxy, sendDataToProxy }

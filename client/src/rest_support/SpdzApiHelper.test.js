@@ -1,122 +1,17 @@
 import Gfp from '../math/Gfp'
-import { connectToSpdzProxies, consumeDataFromSpdzProxies, retrieveShares } from './SpdzApiHelper'
+import { retrieveShares, sendInputsWithShares } from './SpdzApiHelper'
 import { twoProxiesWith2Connected } from '../test_support/ProxyServerList'
 
-jest.mock('./SpdzApi')
-import { connectProxyToEngine, consumeDataFromProxy } from './SpdzApi'
+jest.mock('./SpdzApiAggregate')
+import { consumeDataFromProxies, sendInputsToProxies } from './SpdzApiAggregate'
 
-const spdzProxyUrlList = [
-  "http://spdzProxy.one:4000",
-  "http://spdzProxy.two:4000",
-  "http://spdzProxy.three:4000"
-]
-
-describe('Client making multiple Spdz proxy to engine connections', () => {
+describe('Client sending an input to 2 proxies', () => {
   afterEach(() => {
-    connectProxyToEngine.mockClear()
+    consumeDataFromProxies.mockClear()
+    sendInputsToProxies.mockClear()
   })
 
-  it('Sets the connection status when all connections work', (done) => {
-    connectProxyToEngine
-        .mockImplementationOnce(() => Promise.resolve('somelocation'))
-        .mockImplementationOnce(() => Promise.resolve('somelocation'))
-        .mockImplementationOnce(() => Promise.resolve('somelocation'))
-
-    const expectedResult = [
-      { id: 0, status: 2 },
-      { id: 1, status: 2 },
-      { id: 2, status: 2 }
-    ]
- 
-    connectToSpdzProxies(spdzProxyUrlList, '/apiroot', 0)
-      .then((values) => {
-        expect(values.length).toEqual(3)
-        expect(values).toEqual(expectedResult)
-        done()
-      })
-      .catch((err) => {
-        done.fail(err)
-      })  
-  })
-
-  it('Sets the connection status when some connections do not work', (done) => {
-    connectProxyToEngine
-        .mockImplementationOnce(() => Promise.resolve('somelocation'))
-        .mockImplementationOnce(() => Promise.reject(new Error('Forced in testing')))
-        .mockImplementationOnce(() => Promise.resolve('somelocation'))
-
-    const expectedResult = [
-      { id: 0, status: 2 },
-      { id: 1, status: 3 },
-      { id: 2, status: 2 }
-    ]
- 
-    connectToSpdzProxies(spdzProxyUrlList, '/apiroot', 0)
-      .then((values) => {
-        expect(values.length).toEqual(3)
-        expect(values).toEqual(expectedResult)
-        done()
-      })
-      .catch((err) => {
-        done.fail(err)
-      })  
-  })  
-})
-
-describe('Client requesting data from multiple Spdz proxies', () => {
-  afterEach(() => {
-    consumeDataFromProxy.mockClear()
-  })
-
-  it('Successfully receives the data from each proxy', (done) => {
-    const buffer0 = Uint8Array.of(1,2,3)
-    const buffer1 = Uint8Array.of(4,5,6)
-    const buffer2 = Uint8Array.of(7,8,9)
-
-    consumeDataFromProxy
-        .mockImplementationOnce(() => Promise.resolve(buffer0))
-        .mockImplementationOnce(() => Promise.resolve(buffer1))
-        .mockImplementationOnce(() => Promise.resolve(buffer2))
-
-    const expectedResult = [buffer0, buffer1, buffer2]
- 
-    consumeDataFromSpdzProxies(spdzProxyUrlList, '/apiroot', 0)
-      .then((values) => {
-        expect(values.length).toEqual(3)
-        expect(values).toEqual(expectedResult)
-        done()
-      })
-      .catch((err) => {
-        done.fail(err)
-      })  
-  })
-
-  it('Handles missing data from one of the proxies', (done) => {
-    const buffer0 = Uint8Array.of(1,2,3)
-    const buffer2 = Uint8Array.of(7,8,9)
-
-    consumeDataFromProxy
-        .mockImplementationOnce(() => Promise.resolve(buffer0))
-        .mockImplementationOnce(() => Promise.reject(new Error('Forced in testing')))
-        .mockImplementationOnce(() => Promise.resolve(buffer2))
-
-    consumeDataFromSpdzProxies(spdzProxyUrlList, '/apiroot', 0)
-      .then((values) => {
-        done.fail()
-      })
-      .catch((err) => {
-        expect(err.message).toEqual('Forced in testing')
-        expect(err.reason).toBeUndefined()
-        done()
-      })  
-  })  
-})
-
-describe('Client requests 1 set of triples from 2 proxies to use as shares', () => {
-  afterEach(() => {
-    consumeDataFromProxy.mockClear()
-  })
-
+  // Construct some byte arrays which represent a valid triple
   const a1 = Uint8Array.of(5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
   const b1 = Uint8Array.of(6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
   const c1 = Uint8Array.of(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
@@ -132,20 +27,40 @@ describe('Client requests 1 set of triples from 2 proxies to use as shares', () 
   byteBuffer2.set(a2, 0)
   byteBuffer2.set(b2, 16)
   byteBuffer2.set(c2, 32)
-  
+
   it('Returns a valid share from 2 SPDZ proxies', (done) => {
-    consumeDataFromProxy
-        .mockImplementationOnce(() => Promise.resolve(byteBuffer1))
-        .mockImplementationOnce(() => Promise.resolve(byteBuffer2))
+    consumeDataFromProxies.mockImplementationOnce(() => Promise.resolve([byteBuffer1, byteBuffer2]))
+
+    const expectedShare = Gfp.fromString('8', true)
 
     retrieveShares(1, false, twoProxiesWith2Connected, '/apiroot', 0)
         .then((shareList) => {
           expect(shareList.length).toEqual(1)
-          expect(shareList[0]).toEqual(Gfp.fromString('8', true))
+          expect(shareList[0]).toEqual(expectedShare)
           done()
         })
         .catch((err) => {
           done.fail(err)
         })  
   })
+
+  it('Sends an input combined with the valid share to 2 SPDZ proxies', (done) => {
+    consumeDataFromProxies.mockImplementationOnce(() => Promise.resolve([byteBuffer1, byteBuffer2]))
+    
+    const input = 4444
+    const inputGfpMontg = Gfp.fromString(input).toMontgomery()
+    const expectedShare = Gfp.fromString('8', true)
+    const inputToSend = inputGfpMontg.add(expectedShare)
+
+    sendInputsWithShares([input], false, twoProxiesWith2Connected, '/apiroot', 0)
+        .then(() => {
+          expect(sendInputsToProxies.mock.calls.length).toEqual(1)
+          expect(sendInputsToProxies.mock.calls[0]).toEqual([[inputToSend]])
+          done()
+        })
+        .catch((err) => {
+          done.fail(err)
+        })  
+  })  
 })
+

@@ -1,4 +1,3 @@
-import BigInt from 'big-integer'
 // Care on this import as it must override builtin Node Buffer global for testing.
 // TODO look for alternative base64 from hex encoding - to avoid using nodes Buffer 
 import {Buffer} from 'buffer/'

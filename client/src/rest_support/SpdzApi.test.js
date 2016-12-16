@@ -1,6 +1,6 @@
 import HttpStatus from 'http-status-codes'
 
-import { getProxyConfig, connectProxyToEngine, consumeDataFromProxy } from './SpdzApi'
+import { getProxyConfig, connectProxyToEngine, consumeDataFromProxy, sendDataToProxy } from './SpdzApi'
 import mockResponse from '../test_support/MockResponse'
 
 describe('Prove the SpdzApi with mock responses from fetch', () => {
@@ -123,4 +123,48 @@ describe('Consume a binary value from the Spdz Proxy', () => {
       })  
   })
   
+})
+
+describe('Sends array of base64 encoded integers to the Spdz Proxy', () => {
+  afterEach(() => {
+    window.fetch.mockClear()
+  })
+
+  it('Successfully sends data', (done) => {
+    const examplePayloadData = ['J72LqIgKBjKu5zFKt1vo4g==', 'J72LqIgKBjKu5zFKt1vo4g==']
+
+    window.fetch = jest.fn().mockImplementation(() => {
+      return Promise.resolve(mockResponse(HttpStatus.OK))
+    })
+    
+    sendDataToProxy('http://somehost', 'apiroot', '123', examplePayloadData)
+      .then(() => {
+        done()
+      })
+      .catch((err) => {
+        done.fail(err)
+      })  
+  })
+
+  it('Manages non OK status code', (done) => {
+    window.fetch = jest.fn().mockImplementation(() => {
+      const headers = new Headers({'Content-type': 'application/json'})
+      const responseBody = '{"status": "400", "message": "force error for testing"}'
+      return Promise.resolve(mockResponse(HttpStatus.BAD_REQUEST, responseBody, headers)) 
+    })
+  
+    sendDataToProxy('http://somehost', 'apiroot', '123', "wrong format data")
+      .then((response) => {
+        done.fail()
+      })
+      .catch((err) => {
+        expect(err.message).toEqual('Unable to send data to spdz proxy. Status: 400. Reason: force error for testing')
+        expect(err.reason).toEqual({
+              "message": "force error for testing",
+              "status": "400"
+            })
+        done()
+      })  
+  })
+ 
 })

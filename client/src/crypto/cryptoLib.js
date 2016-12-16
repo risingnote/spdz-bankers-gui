@@ -31,17 +31,21 @@ const createClientPublicKey = ( () => {
 const createEncryptionKey = ( (serverPublicKeyHexString) => {
   assert((typeof serverPublicKeyHexString === 'string') && (serverPublicKeyHexString.length === sodium.crypto_box_PUBLICKEYBYTES * 2), 
     `Server public key must be a string of ${sodium.crypto_box_PUBLICKEYBYTES * 2} hex characters, given <${serverPublicKeyHexString}>`)
-  const serverPublicKey = sodium.from_hex(serverPublicKeyHexString)
+  try {    
+    const serverPublicKey = sodium.from_hex(serverPublicKeyHexString)
 
-  createClientPublicKey() //Just incase not already run.
+    createClientPublicKey() //Just incase not already run.
 
-  const sharedSecret = sodium.crypto_scalarmult(clientKeyPair.clientSecretKey, serverPublicKey)
+    const sharedSecret = sodium.crypto_scalarmult(clientKeyPair.clientSecretKey, serverPublicKey)
 
-  let stateAddress = sodium.crypto_generichash_init(null, sodium.crypto_generichash_BYTES)
-  sodium.crypto_generichash_update(stateAddress, sharedSecret)
-  sodium.crypto_generichash_update(stateAddress, clientKeyPair.clientPublicKey)
-  sodium.crypto_generichash_update(stateAddress, serverPublicKey)
-  return sodium.crypto_generichash_final(stateAddress, sodium.crypto_generichash_BYTES)
+    let stateAddress = sodium.crypto_generichash_init(null, sodium.crypto_generichash_BYTES)
+    sodium.crypto_generichash_update(stateAddress, sharedSecret)
+    sodium.crypto_generichash_update(stateAddress, clientKeyPair.clientPublicKey)
+    sodium.crypto_generichash_update(stateAddress, serverPublicKey)
+    return sodium.crypto_generichash_final(stateAddress, sodium.crypto_generichash_BYTES)
+  } catch (err) {
+    throw new Error(`Unable to generate encryption key from Spdz public key ${serverPublicKeyHexString}. Original message ${err.message}.`)
+  }
 })
 
 /**

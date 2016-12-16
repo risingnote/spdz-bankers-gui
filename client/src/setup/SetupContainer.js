@@ -8,7 +8,7 @@ import { List } from 'immutable'
 import { initSpdzServerList, updateSpdzServerStatus, allProxiesConnected } from './SetupContainerHelper' 
 import Setup from './Setup'
 import { getProxyConfig } from '../rest_support/SpdzApi'
-import connectToSpdzProxies from '../rest_support/SpdzApiHelper'
+import { connectToProxies } from '../rest_support/SpdzApiAggregate'
 import { createClientPublicKey } from '../crypto/cryptoLib'
 import './SetupContainer.css'
 
@@ -41,7 +41,7 @@ function SetupWrapper(MPCGui) {
     handleSetupClick(e) {
       e.preventDefault()
 
-      connectToSpdzProxies(this.state.spdzProxyList.map( spdzProxy => spdzProxy.get('url')), 
+      connectToProxies(this.state.spdzProxyList.map( spdzProxy => spdzProxy.get('url')), 
                            this.state.spdzApiRoot, this.state.clientId)
         .then( (values) => {
           const proxyListAfterUpdate = updateSpdzServerStatus(this.state.spdzProxyList, values)

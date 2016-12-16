@@ -21,11 +21,6 @@ import { createEncryptionKey } from '../crypto/cryptoLib'
   )
 }
 
-
-const extractSpdzUrlList = (spdzProxyList) => {
-  return spdzProxyList.map( spdzProxy => spdzProxy.get('url'))
-}
-
 /**
  * Apply spdz server updates to the proxy list.
  * @param {spdzProxyList} Immutable List of proxy servers

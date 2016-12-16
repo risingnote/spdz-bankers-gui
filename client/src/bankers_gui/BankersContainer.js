@@ -6,7 +6,6 @@ import React, { Component } from 'react'
 import { List } from 'immutable'
 import { sendInputsWithShares } from '../rest_support/SpdzApiHelper'
 import BankersForm from './BankersForm'
-import Gfp from '../math/Gfp'
 
 class BankersContainer extends Component {
   constructor (props) {
