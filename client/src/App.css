@@ -9,10 +9,14 @@
   align-items: center;  
   background-color: rgb(28, 118, 152);
   padding: 10px 20px;
-  font-family: Georgia;
+  font-family: "Tahoma, Geneva, sans-serif"; 
   font-size: 16px;
   color: white;
   vertical-align: middle;
+}
+
+.App-header h2 {
+  letter-spacing: 0.3rem;
 }
 
 .App-header-fixed-col {
@@ -23,10 +27,15 @@
   flex: 1;
 }
 
+.App-spdzlogo {
+  height: 4rem;
+}
+
 .App-footer {
   display: -webkit-flex;
   display: flex;
   flex-flow: row wrap;
+  align-items: center;
   padding: 10px 20px;
   color: rgb(221,221,221);
   background-color:#161b20;  
@@ -34,12 +43,17 @@
 }
 
 .App-footer-col-left {
-    flex: 1;
+  flex: 1;
 }
 
 .App-footer-col-right {
-    flex: 1;
-    text-align: right;
+  flex: 1;
+  text-align: right;
+}
+
+.App-footer-col-right img {
+  margin: 0 0 2rem auto;
+  display: block;
 }
 
 .App-footer h4 {
