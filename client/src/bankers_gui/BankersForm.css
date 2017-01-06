@@ -1,3 +1,50 @@
-.BankersForm input[type="text"]:disabled {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==) repeat;
+.bankersForm {
+  margin-right: 3rem;
+  text-align: left;
 }
+
+.bankersForm label {
+  display: block;
+}
+
+.bankersForm input {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.diners {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.atable {
+  background: lightyellow;
+  border: thin solid grey;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 50%;
+  position: relative;
+}
+
+.aplace {
+  background: white;
+  border: thin solid grey;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 10%;
+  position: absolute;
+  /* centre in container */
+  top: 50%;
+  left: 50%;
+  margin: -2rem 0 0 -2rem;
+  /* centre contained text */
+  text-align: center;
+  vertical-align: middle;
+  line-height: 4rem;
+}
+
+/* Translation is 
+ * (radius.sinØ, -radiuscosØ)
+*/

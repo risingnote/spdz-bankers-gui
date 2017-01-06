@@ -1,6 +1,7 @@
 /**
  * Responsible for managing data and behaviour for the bankers GUI.
  * Note normally wrapped in SetupContainer to allow interaction with SPDZ proxies.
+ * Manage websocket to join list of parties.
  */
 import React, { Component } from 'react'
 import { List } from 'immutable'
