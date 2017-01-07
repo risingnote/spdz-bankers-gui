@@ -1,6 +1,5 @@
 /**
  * Responsible for managing local state on form before submit.
- * TODO move display table into separate component 
  */
 import React, { Component } from 'react'
 
@@ -34,35 +33,17 @@ class BankersForm extends Component {
   render() {
     const disableSubmit = this.props.enableSubmit ? '' : 'disabled'
     const submitText = this.props.enableSubmit ? 'Send' : 'Send (disabled)'
-    //Diners transform is (radius.sinØ, -radiuscosØ)
-    return (
-      <div className='diners'>
-        <form className="bankersForm" onSubmit={this.handleSubmit}>
-          <label>Join meal as</label>
-          <input type="text" value={this.state.participantName} onChange={this.handleNameChange} disabled={disableSubmit}/>
-          <label>Bonus</label>
-          <input type="text" value={this.state.bonus} onChange={this.handleBonusChange} disabled={disableSubmit}/>
-          <input type="submit" value={submitText} disabled={disableSubmit}/>
-        </form>
+    const proxyStatusMessage = (this.props.allProxiesConnected ? 'all connected' : 'not all connected')
 
-        <div className='atable'>
-          <div className='aplace' style={{transform: 'translate(0rem, -6.8rem)'}}>
-            Me
-          </div>
-          <div className='aplace' style={{transform: 'translate(4.8rem, -4.8rem)'}}>
-            Fred
-          </div>
-          <div className='aplace' style={{transform: 'translate(6.8rem, 0rem)'}}>
-            Sue
-          </div>
-          <div className='aplace' style={{transform: 'translate(0rem, 6.8rem)'}}>
-            Bob
-          </div>
-          <div className='aplace' style={{transform: 'translate(-6.8rem, 0rem)'}}>
-            Malmo
-          </div>
-        </div> 
-      </div>
+    return (
+      <form className="bankersForm" onSubmit={this.handleSubmit}>
+        <label>Join meal as</label>
+        <input type="text" value={this.state.participantName} onChange={this.handleNameChange} disabled={disableSubmit}/>
+        <label>Bonus</label>
+        <input type="text" value={this.state.bonus} onChange={this.handleBonusChange} disabled={disableSubmit}/>
+        <input type="submit" value={submitText} disabled={disableSubmit}/>
+        <p className='smallText'>Proxies {proxyStatusMessage}</p>
+      </form>
     )
   }
 }

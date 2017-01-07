@@ -1,6 +1,9 @@
 .bankersForm {
   margin-right: 3rem;
   text-align: left;
+  padding: 1rem;
+  border-top: thin solid grey;
+  border-bottom: thin solid grey;
 }
 
 .bankersForm label {
@@ -11,40 +14,3 @@
   display: block;
   margin-bottom: 10px;
 }
-
-.diners {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-
-.atable {
-  background: lightyellow;
-  border: thin solid grey;
-  width: 18rem;
-  height: 18rem;
-  border-radius: 50%;
-  position: relative;
-}
-
-.aplace {
-  background: white;
-  border: thin solid grey;
-  width: 4rem;
-  height: 4rem;
-  border-radius: 10%;
-  position: absolute;
-  /* centre in container */
-  top: 50%;
-  left: 50%;
-  margin: -2rem 0 0 -2rem;
-  /* centre contained text */
-  text-align: center;
-  vertical-align: middle;
-  line-height: 4rem;
-}
-
-/* Translation is 
- * (radius.sinØ, -radiuscosØ)
-*/

@@ -1,49 +1,367 @@
 exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Renders as expected (compared to a snapshot) when proxies are connected 1`] = `
-<div>
+<div
+  className="diners">
   <form
-    className="BankersForm"
+    className="bankersForm"
     onSubmit={[Function]}>
     <label>
-      Bonus:
-      <input
-        disabled=""
-        onChange={[Function]}
-        type="text"
-        value={0} />
+      Join meal as
     </label>
+    <input
+      disabled=""
+      onChange={[Function]}
+      type="text"
+      value="" />
+    <label>
+      Bonus
+    </label>
+    <input
+      disabled=""
+      onChange={[Function]}
+      type="text"
+      value={0} />
     <input
       disabled=""
       type="submit"
       value="Send" />
+    <p
+      className="smallText">
+      Proxies 
+      not all connected
+    </p>
   </form>
-  <p>
-    Proxies 
-    all connected
-  </p>
+  <div
+    className="atable">
+    <div
+      className="place"
+      style={
+        Object {
+          "transform": "translate(0rem, -8.3rem) rotate(180deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-180deg)",
+            }
+          }>
+          Me
+        </div>
+      </div>
+    </div>
+    <div
+      className="place paying"
+      style={
+        Object {
+          "transform": "translate(5.8rem, -5.8rem) rotate(225deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-225deg)",
+            }
+          }>
+          Fred
+        </div>
+      </div>
+    </div>
+    <div
+      className="place"
+      style={
+        Object {
+          "transform": "translate(8.3rem, 0rem) rotate(270deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-270deg)",
+            }
+          }>
+          Alice
+        </div>
+      </div>
+    </div>
+    <div
+      className="place"
+      style={
+        Object {
+          "transform": "translate(5.8rem, 5.8rem) rotate(315deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-315deg)",
+            }
+          } />
+      </div>
+    </div>
+    <div
+      className="place"
+      style={
+        Object {
+          "transform": "translate(0rem, 8.3rem) rotate(0deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-0deg)",
+            }
+          }>
+          Bob
+        </div>
+      </div>
+    </div>
+    <div
+      className="place"
+      style={
+        Object {
+          "transform": "translate(-5.8rem, 5.8rem) rotate(45deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-45deg)",
+            }
+          } />
+      </div>
+    </div>
+    <div
+      className="place"
+      style={
+        Object {
+          "transform": "translate(-8.3rem, 0rem) rotate(90deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-90deg)",
+            }
+          }>
+          Mal
+        </div>
+      </div>
+    </div>
+    <div
+      className="place"
+      style={
+        Object {
+          "transform": "translate(-5.8rem, -5.8rem) rotate(135deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-135deg)",
+            }
+          } />
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Renders as expected (compared to a snapshot) when proxies are not all connected 1`] = `
-<div>
+<div
+  className="diners">
   <form
-    className="BankersForm"
+    className="bankersForm"
     onSubmit={[Function]}>
     <label>
-      Bonus:
-      <input
-        disabled="disabled"
-        onChange={[Function]}
-        type="text"
-        value={0} />
+      Join meal as
     </label>
+    <input
+      disabled="disabled"
+      onChange={[Function]}
+      type="text"
+      value="" />
+    <label>
+      Bonus
+    </label>
+    <input
+      disabled="disabled"
+      onChange={[Function]}
+      type="text"
+      value={0} />
     <input
       disabled="disabled"
       type="submit"
       value="Send (disabled)" />
+    <p
+      className="smallText">
+      Proxies 
+      not all connected
+    </p>
   </form>
-  <p>
-    Proxies 
-    not all connected
-  </p>
+  <div
+    className="atable">
+    <div
+      className="place"
+      style={
+        Object {
+          "transform": "translate(0rem, -8.3rem) rotate(180deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-180deg)",
+            }
+          }>
+          Me
+        </div>
+      </div>
+    </div>
+    <div
+      className="place paying"
+      style={
+        Object {
+          "transform": "translate(5.8rem, -5.8rem) rotate(225deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-225deg)",
+            }
+          }>
+          Fred
+        </div>
+      </div>
+    </div>
+    <div
+      className="place"
+      style={
+        Object {
+          "transform": "translate(8.3rem, 0rem) rotate(270deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-270deg)",
+            }
+          }>
+          Alice
+        </div>
+      </div>
+    </div>
+    <div
+      className="place"
+      style={
+        Object {
+          "transform": "translate(5.8rem, 5.8rem) rotate(315deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-315deg)",
+            }
+          } />
+      </div>
+    </div>
+    <div
+      className="place"
+      style={
+        Object {
+          "transform": "translate(0rem, 8.3rem) rotate(0deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-0deg)",
+            }
+          }>
+          Bob
+        </div>
+      </div>
+    </div>
+    <div
+      className="place"
+      style={
+        Object {
+          "transform": "translate(-5.8rem, 5.8rem) rotate(45deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-45deg)",
+            }
+          } />
+      </div>
+    </div>
+    <div
+      className="place"
+      style={
+        Object {
+          "transform": "translate(-8.3rem, 0rem) rotate(90deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-90deg)",
+            }
+          }>
+          Mal
+        </div>
+      </div>
+    </div>
+    <div
+      className="place"
+      style={
+        Object {
+          "transform": "translate(-5.8rem, -5.8rem) rotate(135deg)",
+        }
+      }>
+      <div
+        className="place-setting">
+        <div
+          style={
+            Object {
+              "transform": "rotate(-135deg)",
+            }
+          } />
+      </div>
+    </div>
+  </div>
 </div>
 `;

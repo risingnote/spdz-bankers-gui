@@ -5,8 +5,12 @@
  */
 import React, { Component } from 'react'
 import { List } from 'immutable'
+
 import { sendInputsWithShares } from '../rest_support/SpdzApiHelper'
 import BankersForm from './BankersForm'
+import BankersTable from './BankersTable'
+
+import './BankersContainer.css'
 
 class BankersContainer extends Component {
   constructor (props) {
@@ -29,11 +33,10 @@ class BankersContainer extends Component {
   }
 
   render() {
-    const proxyStatusMessage = (this.props.allProxiesConnected ? 'all connected' : 'not all connected')
     return (
-      <div>
+      <div className='diners'>
         <BankersForm submitBonus={this.handleSubmitBonus} enableSubmit={this.props.allProxiesConnected} />
-        <p>Proxies {proxyStatusMessage}</p>
+        <BankersTable diners={[]}/>
       </div>
     )
   }

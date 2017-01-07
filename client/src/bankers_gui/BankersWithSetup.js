@@ -1,6 +1,6 @@
 /**
  * Wrap Bankers GUI with higher order component to manage proxy server connections.
- * Separated out to simplify testing. 
+ * Wrapping separated out to simplify testing of BankersContainers. 
  */
 import BankersContainer from './BankersContainer'
 import SetupContainer from '../setup/SetupContainer'
