@@ -36,14 +36,16 @@ class BankersForm extends Component {
     const proxyStatusMessage = (this.props.allProxiesConnected ? 'all connected' : 'not all connected')
 
     return (
-      <form className="bankersForm" onSubmit={this.handleSubmit}>
-        <label htmlFor="joinName">Join meal as</label>
-        <input type="text" id="joinName" value={this.state.participantName} onChange={this.handleNameChange} disabled={disableSubmit}/>
-        <label htmlFor="bonusValue">Bonus</label>
-        <input type="text" id="bonusValue" value={this.state.bonus} onChange={this.handleBonusChange} disabled={disableSubmit}/>
-        <input type="submit" value={submitText} disabled={disableSubmit}/>
-        <p className='smallText'>Proxies {proxyStatusMessage}</p>
-      </form>
+        <form className="BankersForm" onSubmit={this.handleSubmit}>
+          <h4>Bankers Celebration Dinner</h4>
+          <p>...but who should pay?</p>        
+          <label htmlFor="joinName">Join meal as</label>
+          <input type="text" id="joinName" value={this.state.participantName} onChange={this.handleNameChange} disabled={disableSubmit}/>
+          <label htmlFor="bonusValue">Bonus</label>
+          <input type="text" id="bonusValue" value={this.state.bonus} onChange={this.handleBonusChange} disabled={disableSubmit}/>
+          <input type="submit" value={submitText} disabled={disableSubmit}/>
+          <p className='smallText'>Proxies {proxyStatusMessage}</p>
+        </form>
     )
   }
 }

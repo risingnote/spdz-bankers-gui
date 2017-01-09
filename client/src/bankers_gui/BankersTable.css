@@ -1,4 +1,4 @@
-.atable {
+.BankersTable {
   background: lightyellow;
   border: thin solid grey;
   width: 22rem;
@@ -36,7 +36,3 @@
 .paying {
   background: gold;
 }
-
-/* Translation is 
- * (radius.sinØ, -radiuscosØ)
-*/

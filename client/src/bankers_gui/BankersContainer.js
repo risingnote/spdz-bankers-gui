@@ -33,10 +33,11 @@ class BankersContainer extends Component {
   }
 
   render() {
+    const testDiners = [{name: 'me'}, {name: 'Alice'}, {name: 'Bob'}, {name: 'Mal'}, {name: 'Rich', paying: 'true'}]
     return (
-      <div className='diners'>
+      <div className='Bankers'>
         <BankersForm submitBonus={this.handleSubmitBonus} enableSubmit={this.props.allProxiesConnected} />
-        <BankersTable diners={[]}/>
+        <BankersTable diners={testDiners}/>
       </div>
     )
   }

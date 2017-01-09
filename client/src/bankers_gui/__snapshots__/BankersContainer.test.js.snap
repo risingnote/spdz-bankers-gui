@@ -1,9 +1,15 @@
 exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Renders as expected (compared to a snapshot) when proxies are connected 1`] = `
 <div
-  className="diners">
+  className="Bankers">
   <form
-    className="bankersForm"
+    className="BankersForm"
     onSubmit={[Function]}>
+    <h4>
+      Bankers Celebration Dinner
+    </h4>
+    <p>
+      ...but who should pay?
+    </p>
     <label
       htmlFor="joinName">
       Join meal as
@@ -35,12 +41,12 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
     </p>
   </form>
   <div
-    className="atable">
+    className="BankersTable">
     <div
       className="place"
       style={
         Object {
-          "transform": "translate(0rem, -8.3rem) rotate(180deg)",
+          "transform": "translate(0rem, -8.2rem) rotate(180deg)",
         }
       }>
       <div
@@ -51,7 +57,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-180deg)",
             }
           }>
-          Me
+          me
         </div>
       </div>
     </div>
@@ -70,7 +76,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-225deg)",
             }
           }>
-          Fred
+          Rich
         </div>
       </div>
     </div>
@@ -78,7 +84,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
       className="place"
       style={
         Object {
-          "transform": "translate(8.3rem, 0rem) rotate(270deg)",
+          "transform": "translate(8.2rem, 0rem) rotate(270deg)",
         }
       }>
       <div
@@ -89,7 +95,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-270deg)",
             }
           }>
-          Alice
+          Bob
         </div>
       </div>
     </div>
@@ -107,14 +113,16 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
             Object {
               "transform": "rotate(-315deg)",
             }
-          } />
+          }>
+          
+        </div>
       </div>
     </div>
     <div
       className="place"
       style={
         Object {
-          "transform": "translate(0rem, 8.3rem) rotate(0deg)",
+          "transform": "translate(0rem, 8.2rem) rotate(0deg)",
         }
       }>
       <div
@@ -125,7 +133,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-0deg)",
             }
           }>
-          Bob
+          Alice
         </div>
       </div>
     </div>
@@ -143,14 +151,16 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
             Object {
               "transform": "rotate(-45deg)",
             }
-          } />
+          }>
+          
+        </div>
       </div>
     </div>
     <div
       className="place"
       style={
         Object {
-          "transform": "translate(-8.3rem, 0rem) rotate(90deg)",
+          "transform": "translate(-8.2rem, 0rem) rotate(90deg)",
         }
       }>
       <div
@@ -179,7 +189,9 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
             Object {
               "transform": "rotate(-135deg)",
             }
-          } />
+          }>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -188,10 +200,16 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
 
 exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Renders as expected (compared to a snapshot) when proxies are not all connected 1`] = `
 <div
-  className="diners">
+  className="Bankers">
   <form
-    className="bankersForm"
+    className="BankersForm"
     onSubmit={[Function]}>
+    <h4>
+      Bankers Celebration Dinner
+    </h4>
+    <p>
+      ...but who should pay?
+    </p>
     <label
       htmlFor="joinName">
       Join meal as
@@ -223,12 +241,12 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
     </p>
   </form>
   <div
-    className="atable">
+    className="BankersTable">
     <div
       className="place"
       style={
         Object {
-          "transform": "translate(0rem, -8.3rem) rotate(180deg)",
+          "transform": "translate(0rem, -8.2rem) rotate(180deg)",
         }
       }>
       <div
@@ -239,7 +257,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-180deg)",
             }
           }>
-          Me
+          me
         </div>
       </div>
     </div>
@@ -258,7 +276,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-225deg)",
             }
           }>
-          Fred
+          Rich
         </div>
       </div>
     </div>
@@ -266,7 +284,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
       className="place"
       style={
         Object {
-          "transform": "translate(8.3rem, 0rem) rotate(270deg)",
+          "transform": "translate(8.2rem, 0rem) rotate(270deg)",
         }
       }>
       <div
@@ -277,7 +295,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-270deg)",
             }
           }>
-          Alice
+          Bob
         </div>
       </div>
     </div>
@@ -295,14 +313,16 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
             Object {
               "transform": "rotate(-315deg)",
             }
-          } />
+          }>
+          
+        </div>
       </div>
     </div>
     <div
       className="place"
       style={
         Object {
-          "transform": "translate(0rem, 8.3rem) rotate(0deg)",
+          "transform": "translate(0rem, 8.2rem) rotate(0deg)",
         }
       }>
       <div
@@ -313,7 +333,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-0deg)",
             }
           }>
-          Bob
+          Alice
         </div>
       </div>
     </div>
@@ -331,14 +351,16 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
             Object {
               "transform": "rotate(-45deg)",
             }
-          } />
+          }>
+          
+        </div>
       </div>
     </div>
     <div
       className="place"
       style={
         Object {
-          "transform": "translate(-8.3rem, 0rem) rotate(90deg)",
+          "transform": "translate(-8.2rem, 0rem) rotate(90deg)",
         }
       }>
       <div
@@ -367,7 +389,9 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
             Object {
               "transform": "rotate(-135deg)",
             }
-          } />
+          }>
+          
+        </div>
       </div>
     </div>
   </div>
