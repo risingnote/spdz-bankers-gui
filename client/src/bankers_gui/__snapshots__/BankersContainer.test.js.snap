@@ -4,19 +4,23 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
   <form
     className="bankersForm"
     onSubmit={[Function]}>
-    <label>
+    <label
+      htmlFor="joinName">
       Join meal as
     </label>
     <input
       disabled=""
+      id="joinName"
       onChange={[Function]}
       type="text"
       value="" />
-    <label>
+    <label
+      htmlFor="bonusValue">
       Bonus
     </label>
     <input
       disabled=""
+      id="bonusValue"
       onChange={[Function]}
       type="text"
       value={0} />
@@ -188,19 +192,23 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
   <form
     className="bankersForm"
     onSubmit={[Function]}>
-    <label>
+    <label
+      htmlFor="joinName">
       Join meal as
     </label>
     <input
       disabled="disabled"
+      id="joinName"
       onChange={[Function]}
       type="text"
       value="" />
-    <label>
+    <label
+      htmlFor="bonusValue">
       Bonus
     </label>
     <input
       disabled="disabled"
+      id="bonusValue"
       onChange={[Function]}
       type="text"
       value={0} />

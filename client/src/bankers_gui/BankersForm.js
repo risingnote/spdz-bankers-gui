@@ -37,10 +37,10 @@ class BankersForm extends Component {
 
     return (
       <form className="bankersForm" onSubmit={this.handleSubmit}>
-        <label>Join meal as</label>
-        <input type="text" value={this.state.participantName} onChange={this.handleNameChange} disabled={disableSubmit}/>
-        <label>Bonus</label>
-        <input type="text" value={this.state.bonus} onChange={this.handleBonusChange} disabled={disableSubmit}/>
+        <label htmlFor="joinName">Join meal as</label>
+        <input type="text" id="joinName" value={this.state.participantName} onChange={this.handleNameChange} disabled={disableSubmit}/>
+        <label htmlFor="bonusValue">Bonus</label>
+        <input type="text" id="bonusValue" value={this.state.bonus} onChange={this.handleBonusChange} disabled={disableSubmit}/>
         <input type="submit" value={submitText} disabled={disableSubmit}/>
         <p className='smallText'>Proxies {proxyStatusMessage}</p>
       </form>
