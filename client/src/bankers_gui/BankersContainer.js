@@ -1,7 +1,8 @@
 /**
  * Responsible for managing data and behaviour for the bankers GUI.
  * Note normally wrapped in SetupContainer to allow interaction with SPDZ proxies.
- * Manage websocket to join list of parties.
+ * Manage websocket to read and write to list of diners who have joined meal
+ *  each diner reports name - displayed, publicKey - unique identifier, paying - optional flag for 'winner'.
  */
 import React, { Component } from 'react'
 import { List } from 'immutable'
@@ -16,9 +17,18 @@ class BankersContainer extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      dinersList: []
     }
     this.handleSubmitBonus = this.handleSubmitBonus.bind(this)
   }
+
+//client
+// const Io = require('socket.io-client')
+// const socket = new Io()
+// socket.on('connect', .....)
+// socket.on('disconnect', .....)
+// socket.on('players', {})
+// socket.emit('joinMeal', {})
 
   handleSubmitBonus(bonus) {
     sendInputsWithShares([bonus], true, this.props.spdzProxyServerList, this.props.spdzApiRoot, this.props.clientPublicKey )
@@ -34,6 +44,7 @@ class BankersContainer extends Component {
 
   render() {
     const testDiners = [{name: 'me'}, {name: 'Alice'}, {name: 'Bob'}, {name: 'Mal'}, {name: 'Rich', paying: 'true'}]
+    //TODO enableSubmit must check proxies connected and not already submitted, based on clientPublicKey.
     return (
       <div className='Bankers'>
         <BankersForm submitBonus={this.handleSubmitBonus} enableSubmit={this.props.allProxiesConnected} />
