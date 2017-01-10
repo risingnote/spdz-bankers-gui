@@ -38,6 +38,7 @@
     "libsodium-wrappers": "^0.4.8",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "socket.io-client": "^1.7.2",
     "whatwg-fetch": "^2.0.1"
   },
   "scripts": {

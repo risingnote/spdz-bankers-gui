@@ -23,11 +23,13 @@
     <script>
       var socket = io('/diners');
       $('form').submit(function(){
-        socket.emit('joinMeal', {name: $('#m').val(), publicKey: 'aabbcc'});
+        socket.emit('joinMeal', {name: $('#m').val(), publicKey: 'aabbcc'}, function(error) {
+          if (error) console.log(error);
+        });
         $('#m').val('');
         return false;
       });
-      socket.on('dinerList', function(msg) {
+      socket.on('diners', function(msg) {
         $('#messages').append($('<li>').text(JSON.stringify(msg)))
       });
     </script>

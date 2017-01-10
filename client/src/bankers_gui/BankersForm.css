@@ -4,6 +4,7 @@
   padding: 1rem;
   border-top: thin solid grey;
   border-bottom: thin solid grey;
+  width: 12rem;
 }
 
 .BankersForm label {
@@ -13,6 +14,10 @@
 .BankersForm input {
   display: block;
   margin-bottom: 10px;
+}
+
+.BankersForm input:disabled {
+  background-color: lightgrey;
 }
 
 .BankersForm h4 {

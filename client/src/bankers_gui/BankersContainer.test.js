@@ -35,7 +35,7 @@ describe('Bankers GUI (not wrapped in SetupContainer) rendering and behaviour', 
       <BankersContainer allProxiesConnected={true} spdzProxyServerList={twoProxiesWith2Connected}
                         spdzApiRoot={'/spdzapi'} clientPublicKey={'a1b2c3d4'} />
     )
-//console.log(wrapper.debug())
+
     const form = wrapper.find(BankersForm)
     const input = form.find('[id="bonusValue"]') //property selector find
     //Simulate user input followed by click submit

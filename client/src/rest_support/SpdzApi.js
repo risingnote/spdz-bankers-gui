@@ -46,15 +46,12 @@ const getProxyConfig = () => {
       .then(parseIfJson)
       .then( (result) => {
         if (result.response.ok) {
-          return Promise.resolve(result)
+          return Promise.resolve(result.jsonData)
         } else {
           let error = new Error(`Unable to read spdz proxy config. Status: ${result.response.status}.`)
           error.reason = result.jsonData
           return Promise.reject(error)
         }
-      })
-      .then((result) => {
-        return Promise.resolve(result.jsonData)
       })
 }
 

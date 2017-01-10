@@ -29,15 +29,14 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
       id="bonusValue"
       onChange={[Function]}
       type="text"
-      value={0} />
+      value="" />
     <input
       disabled=""
       type="submit"
       value="Send" />
     <p
       className="smallText">
-      Proxies 
-      not all connected
+      
     </p>
   </form>
   <div
@@ -57,12 +56,12 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-180deg)",
             }
           }>
-          me
+          
         </div>
       </div>
     </div>
     <div
-      className="place paying"
+      className="place"
       style={
         Object {
           "transform": "translate(5.8rem, -5.8rem) rotate(225deg)",
@@ -76,7 +75,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-225deg)",
             }
           }>
-          Rich
+          
         </div>
       </div>
     </div>
@@ -95,7 +94,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-270deg)",
             }
           }>
-          Bob
+          
         </div>
       </div>
     </div>
@@ -133,7 +132,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-0deg)",
             }
           }>
-          Alice
+          
         </div>
       </div>
     </div>
@@ -171,7 +170,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-90deg)",
             }
           }>
-          Mal
+          
         </div>
       </div>
     </div>
@@ -229,15 +228,14 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
       id="bonusValue"
       onChange={[Function]}
       type="text"
-      value={0} />
+      value="" />
     <input
       disabled="disabled"
       type="submit"
-      value="Send (disabled)" />
+      value="Send" />
     <p
       className="smallText">
-      Proxies 
-      not all connected
+      You must be connected to all SPDZ proxies.
     </p>
   </form>
   <div
@@ -257,12 +255,12 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-180deg)",
             }
           }>
-          me
+          
         </div>
       </div>
     </div>
     <div
-      className="place paying"
+      className="place"
       style={
         Object {
           "transform": "translate(5.8rem, -5.8rem) rotate(225deg)",
@@ -276,7 +274,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-225deg)",
             }
           }>
-          Rich
+          
         </div>
       </div>
     </div>
@@ -295,7 +293,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-270deg)",
             }
           }>
-          Bob
+          
         </div>
       </div>
     </div>
@@ -333,7 +331,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-0deg)",
             }
           }>
-          Alice
+          
         </div>
       </div>
     </div>
@@ -371,7 +369,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
               "transform": "rotate(-90deg)",
             }
           }>
-          Mal
+          
         </div>
       </div>
     </div>

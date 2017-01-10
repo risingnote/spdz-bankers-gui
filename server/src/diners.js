@@ -1,45 +1,47 @@
 /**
  * Run the socket io server to manage list of diners.
- * Only allowed to join meal once. Note that a page refresh will be a disconnect and join,
- * ideally state should be stored in cookie to overcome this.
- * Or...use publickey as index, only remove if specifically ask with a message i.e. not on disconnect.
+ * Only allowed to join meal once.
+ * Currently clients are stateless so a page refresh will be a disconnect and join.
  */
 'use strict'
 
 const Io = require('socket.io')
-let clients = []
+// Hold list of diners who have joined meal with fields; id, name, publicKey
+let dinerList = []
 
-//Should dinners list (clients) order be reset as diners join - probably yes.
-//or just hold dinerslist, no need for clients??
-const dinerList = () => {
-  return clients.map(client => {return {'name': client.name, 'publicKey': client.publicKey} })
-                    .filter(value => value.name != undefined)
+// Remove socket id before sending to clients.
+const dinerDisplay = () => {
+  return dinerList.map(diner => {return {'name': diner.name, 'publicKey': diner.publicKey} })
 }
 
-const joinMeal = ((ns, socket, msg) => {
+const joinMeal = ((ns, socket, msg, errorCallback) => {
     if (!msg.hasOwnProperty('name') || !msg.hasOwnProperty('publicKey')) {
-      console.log('Wrong message format from diner, received ', msg)
+      const errMsg = `Wrong message format from diner, received ${msg}.`
+      console.log(errMsg)
+      errorCallback(errMsg)
     } else {
-      const client = clients.find(client => client.id === socket.id)
-      if (client && client.name !== undefined) {
-        console.log(`Diner has already joined as ${client.name} cannot join again.`)
+      const diner = dinerList.find(diner => diner.id === socket.id)
+      if (diner !== undefined) {
+        const errMsg = `Diner has already joined as ${diner.name} cannot join again.`
+        console.log(errMsg)
+        errorCallback(errMsg)        
       } else {
-        client.name = msg.name
-        client.publicKey = msg.publicKey
-        ns.emit('dinerList', dinerList())         
+        dinerList.push({id: socket.id, name: msg.name, publicKey: msg.publicKey})
+        ns.emit('diners', dinerDisplay())         
       }
     }
 })
 
 const disconnect = ((ns, socket) => {
-    const index = clients.findIndex(client => client.id === socket.id)  
+    const index = dinerList.findIndex(diner => diner.id === socket.id)  
     if (index > -1) {
-      clients.splice(index, 1)
+      dinerList.splice(index, 1)
       socket.disconnect()
       console.log('Diner disconnected with id ' + socket.id)
-      ns.emit('dinerList', dinerList())               
+      ns.emit('diners', dinerDisplay())         
     } else {
-      console.log('Diner cannot be disconnected, cannot find connections.')        
+      socket.disconnect()
+      console.log('Diner disconnected (without joining meal) with id ' + socket.id)
     }
 })
 
@@ -52,17 +54,15 @@ module.exports = {
     ns.on('connection', (socket) => {
 
       console.log('Got a diner connected with id ' + socket.id)
-      clients.push({id: socket.id, name: undefined, publicKey: undefined})
-      socket.emit('dinerList', dinerList())
+      socket.emit('diners', dinerDisplay())         
 
-      socket.on('joinMeal', (msg) => {
-        joinMeal(ns, socket, msg)
+      socket.on('joinMeal', (msg, errorCallback) => {
+        joinMeal(ns, socket, msg, errorCallback)
       })
 
       socket.once('disconnect', () => {
         disconnect(ns, socket)
       })
     });
-    
   }
 }

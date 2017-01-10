@@ -6,6 +6,7 @@
  */
 import React, { Component } from 'react'
 import { List } from 'immutable'
+import Io from 'socket.io-client'
 
 import { sendInputsWithShares } from '../rest_support/SpdzApiHelper'
 import BankersForm from './BankersForm'
@@ -19,18 +20,28 @@ class BankersContainer extends Component {
     this.state = {
       dinersList: []
     }
+    this.socket = undefined
     this.handleSubmitBonus = this.handleSubmitBonus.bind(this)
   }
 
-//client
-// const Io = require('socket.io-client')
-// const socket = new Io()
-// socket.on('connect', .....)
-// socket.on('disconnect', .....)
-// socket.on('players', {})
-// socket.emit('joinMeal', {})
+  componentDidMount() {
+    this.socket = Io('/diners')
 
-  handleSubmitBonus(bonus) {
+    this.socket.on('diners', (msg) => {
+      this.setState({dinersList: msg})
+    });
+  }
+
+  componentWillUnmount() {
+    this.socket.on('disconnect', () => {})
+  }
+
+  handleSubmitBonus(name, bonus) {
+    //TODO chaining errors
+    this.socket.emit('joinMeal', {name: name, publicKey: this.props.clientPublicKey}, function(error) {
+        if (error) console.log(error)
+    })
+    
     sendInputsWithShares([bonus], true, this.props.spdzProxyServerList, this.props.spdzApiRoot, this.props.clientPublicKey )
       .then( () => {
         //TODO create a status message for display 
@@ -43,12 +54,12 @@ class BankersContainer extends Component {
   }
 
   render() {
-    const testDiners = [{name: 'me'}, {name: 'Alice'}, {name: 'Bob'}, {name: 'Mal'}, {name: 'Rich', paying: 'true'}]
-    //TODO enableSubmit must check proxies connected and not already submitted, based on clientPublicKey.
+    const myEntry = this.state.dinersList.find(diner => diner.publicKey === this.props.clientPublicKey)
+    const joinedName = (myEntry !== undefined ? myEntry.name : undefined)
     return (
       <div className='Bankers'>
-        <BankersForm submitBonus={this.handleSubmitBonus} enableSubmit={this.props.allProxiesConnected} />
-        <BankersTable diners={testDiners}/>
+        <BankersForm submitBonus={this.handleSubmitBonus} proxiesConnected={this.props.allProxiesConnected} joinedName={joinedName} />
+        <BankersTable diners={this.state.dinersList}/>
       </div>
     )
   }

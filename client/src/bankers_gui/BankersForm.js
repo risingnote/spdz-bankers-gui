@@ -9,7 +9,7 @@ class BankersForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      bonus: 0,
+      bonus: '',
       participantName: ''
     }
     this.handleBonusChange = this.handleBonusChange.bind(this)
@@ -26,14 +26,18 @@ class BankersForm extends Component {
   }
 
   handleSubmit(event) {
-    this.props.submitBonus(this.state.bonus)
+    this.props.submitBonus(this.state.participantName, this.state.bonus)
+    this.setState({bonus: '', participantName: ''})
     event.preventDefault()
   }
 
   render() {
-    const disableSubmit = this.props.enableSubmit ? '' : 'disabled'
-    const submitText = this.props.enableSubmit ? 'Send' : 'Send (disabled)'
-    const proxyStatusMessage = (this.props.allProxiesConnected ? 'all connected' : 'not all connected')
+    const disableSubmit = this.props.proxiesConnected && !this.props.joinedName  ? '' : 'disabled'
+    const statusMessage = () => {
+      if (!this.props.proxiesConnected) return 'You must be connected to all SPDZ proxies.'
+      else if (this.props.joinedName) return `You have joined the meal as ${this.props.joinedName}.`
+      else return ''
+    }
 
     return (
         <form className="BankersForm" onSubmit={this.handleSubmit}>
@@ -43,8 +47,8 @@ class BankersForm extends Component {
           <input type="text" id="joinName" value={this.state.participantName} onChange={this.handleNameChange} disabled={disableSubmit}/>
           <label htmlFor="bonusValue">Bonus</label>
           <input type="text" id="bonusValue" value={this.state.bonus} onChange={this.handleBonusChange} disabled={disableSubmit}/>
-          <input type="submit" value={submitText} disabled={disableSubmit}/>
-          <p className='smallText'>Proxies {proxyStatusMessage}</p>
+          <input type="submit" value="Send" disabled={disableSubmit}/>
+          <p className='smallText'>{statusMessage()}</p>
         </form>
     )
   }
@@ -52,7 +56,8 @@ class BankersForm extends Component {
 
 BankersForm.propTypes = {
   submitBonus: React.PropTypes.func.isRequired,
-  enableSubmit: React.PropTypes.bool.isRequired
+  proxiesConnected: React.PropTypes.bool.isRequired,
+  joinedName: React.PropTypes.string
 }
 
 export default BankersForm
