@@ -5,6 +5,7 @@
 
 const express = require('express')
 const http = require('http')
+const compression = require('compression')
 const guiConfig = require('../config/spdzGui.json')
 const proxyConfig = require('../config/spdzProxy.json')
 const diners = require('./diners')
@@ -14,9 +15,13 @@ const environ = process.env.NODE_ENV || 'development'
 
 const app = express()
 
-// Do not use express to serve GUI in development
+// Serve GUI from bundled production build files if not in development.
 if (environ !== 'development') {
-  app.use(express.static('../../client/build'))
+  app.use(compression())  
+  app.use(express.static(__dirname + '/../../client/build'))
+  app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, '/../../client/build', 'index.html'))
+  }); 
 }
 
 app.get('/spdzProxyConfig', (req, res) => {

@@ -37,7 +37,6 @@ class BankersContainer extends Component {
   }
 
   handleSubmitBonus(name, bonus) {
-    //TODO chaining errors
     this.socket.emit('joinMeal', {name: name, publicKey: this.props.clientPublicKey}, function(error) {
         if (error) console.log(error)
     })
