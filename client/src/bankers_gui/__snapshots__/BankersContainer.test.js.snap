@@ -194,6 +194,8 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
       </div>
     </div>
   </div>
+  <div
+    className="s-alert-wrapper" />
 </div>
 `;
 
@@ -393,5 +395,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
       </div>
     </div>
   </div>
+  <div
+    className="s-alert-wrapper" />
 </div>
 `;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ClassNames from 'classnames'
+
 import cryptologo from './crypto-logo.png'
 import uoblogo from './uob-logo-white-largest.png'
 import spdzlogo from './spdz_logo.svg'

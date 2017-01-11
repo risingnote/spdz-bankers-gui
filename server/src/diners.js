@@ -14,19 +14,20 @@ const dinerDisplay = () => {
   return dinerList.map(diner => {return {'name': diner.name, 'publicKey': diner.publicKey} })
 }
 
-const joinMeal = ((ns, socket, msg, errorCallback) => {
+const joinMeal = ((ns, socket, msg, resultCallback) => {
     if (!msg.hasOwnProperty('name') || !msg.hasOwnProperty('publicKey')) {
       const errMsg = `Wrong message format from diner, received ${msg}.`
       console.log(errMsg)
-      errorCallback(errMsg)
+      resultCallback(errMsg)
     } else {
       const diner = dinerList.find(diner => diner.id === socket.id)
       if (diner !== undefined) {
         const errMsg = `Diner has already joined as ${diner.name} cannot join again.`
         console.log(errMsg)
-        errorCallback(errMsg)        
+        resultCallback(errMsg)        
       } else {
         dinerList.push({id: socket.id, name: msg.name, publicKey: msg.publicKey})
+        resultCallback()
         ns.emit('diners', dinerDisplay())         
       }
     }
@@ -56,8 +57,8 @@ module.exports = {
       console.log('Got a diner connected with id ' + socket.id)
       socket.emit('diners', dinerDisplay())         
 
-      socket.on('joinMeal', (msg, errorCallback) => {
-        joinMeal(ns, socket, msg, errorCallback)
+      socket.on('joinMeal', (msg, resultCallback) => {
+        joinMeal(ns, socket, msg, resultCallback)
       })
 
       socket.once('disconnect', () => {

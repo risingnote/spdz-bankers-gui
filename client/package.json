@@ -23,6 +23,7 @@
   "proxy": "http://localhost:3001",
   "devDependencies": {
     "enzyme": "^2.6.0",
+    "mock-socket": "^6.0.4",
     "react-addons-test-utils": "^15.4.1",
     "react-scripts": "0.8.4",
     "react-test-renderer": "^15.4.1"

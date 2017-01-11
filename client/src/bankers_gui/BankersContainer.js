@@ -1,12 +1,16 @@
 /**
  * Responsible for managing data and behaviour for the bankers GUI.
  * Note normally wrapped in SetupContainer to allow interaction with SPDZ proxies.
- * Manage websocket to read and write to list of diners who have joined meal
- *  each diner reports name - displayed, publicKey - unique identifier, paying - optional flag for 'winner'.
+ * Interacts with GUI via websocket to read and write list of diners who have joined meal.
+ * Interacts with SPDZ to send shares of data and poll for result.
  */
 import React, { Component } from 'react'
 import { List } from 'immutable'
 import Io from 'socket.io-client'
+
+import Alert from 'react-s-alert'
+import 'react-s-alert/dist/s-alert-default.css'
+import 'react-s-alert/dist/s-alert-css-effects/flip.css'
 
 import { sendInputsWithShares } from '../rest_support/SpdzApiHelper'
 import BankersForm from './BankersForm'
@@ -22,6 +26,7 @@ class BankersContainer extends Component {
     }
     this.socket = undefined
     this.handleSubmitBonus = this.handleSubmitBonus.bind(this)
+    this.joinMeal = this.joinMeal.bind(this)
   }
 
   componentDidMount() {
@@ -36,19 +41,34 @@ class BankersContainer extends Component {
     this.socket.on('disconnect', () => {})
   }
 
-  handleSubmitBonus(name, bonus) {
-    this.socket.emit('joinMeal', {name: name, publicKey: this.props.clientPublicKey}, function(error) {
-        if (error) console.log(error)
+  /**
+   * Join meal by sending websocket message, wrapped as promise.
+   */
+  joinMeal(socket, name, clientPublicKey) {
+    return new Promise(function(resolve, reject) {
+      socket.emit('joinMeal', {name: name, publicKey: clientPublicKey}, function(error) {
+          if (error) {
+            reject(error)
+          } else {
+            resolve()
+          }
+      })
     })
-    
-    sendInputsWithShares([bonus], true, this.props.spdzProxyServerList, this.props.spdzApiRoot, this.props.clientPublicKey )
+  } 
+
+  /**
+   * Join list of diners and if successful send bonus as shares to each SPDZ proxy.
+   */
+  handleSubmitBonus(name, bonus) {
+    this.joinMeal(this.socket, name, this.props.clientPublicKey)
+      .then(() => sendInputsWithShares([bonus], true, this.props.spdzProxyServerList, 
+              this.props.spdzApiRoot, this.props.clientPublicKey))
       .then( () => {
-        //TODO create a status message for display 
-        console.log('Input sent.')
+        Alert.info('You have joined the meal.', {html: false})
       })
       .catch((ex) => {
-        //TODO create a status message for display (submit failed, see console logs for more information)
         console.log(ex)
+        Alert.error(`<h4>Unable to successfully send bonus to SPDZ proxies.</h4><p>${ex}</p>`, {timeout: 'none'})
       })
   }
 
@@ -57,8 +77,10 @@ class BankersContainer extends Component {
     const joinedName = (myEntry !== undefined ? myEntry.name : undefined)
     return (
       <div className='Bankers'>
-        <BankersForm submitBonus={this.handleSubmitBonus} proxiesConnected={this.props.allProxiesConnected} joinedName={joinedName} />
+        <BankersForm submitBonus={this.handleSubmitBonus} proxiesConnected={this.props.allProxiesConnected}
+                     joinedName={joinedName} />
         <BankersTable diners={this.state.dinersList}/>
+        <Alert stack={{limit: 3}} timeout={5000} position={'top-left'} effect={'flip'} offset={100} html={true} />
       </div>
     )
   }
