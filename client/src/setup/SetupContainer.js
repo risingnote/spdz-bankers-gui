@@ -42,7 +42,7 @@ function SetupWrapper(MPCGui) {
       e.preventDefault()
 
       connectToProxies(this.state.spdzProxyList.map( spdzProxy => spdzProxy.get('url')), 
-                           this.state.spdzApiRoot, this.state.clientId)
+                           this.state.spdzApiRoot, this.state.clientPublicKey)
         .then( (values) => {
           const proxyListAfterUpdate = updateSpdzServerStatus(this.state.spdzProxyList, values)
           this.setState({spdzProxyList: proxyListAfterUpdate}) 

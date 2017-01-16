@@ -19,6 +19,8 @@ jest.mock('../rest_support/SpdzApi')
 import { getProxyConfig } from'../rest_support/SpdzApi'
 jest.mock('../rest_support/SpdzApiAggregate')
 import { connectToProxies } from '../rest_support/SpdzApiAggregate'
+jest.mock('../crypto/cryptoLib')
+import { createClientPublicKey } from '../crypto/cryptoLib'
 
 describe('Setup controller component behaviour', () => {
 
@@ -40,6 +42,7 @@ describe('Setup controller component behaviour', () => {
   it('Checks state is set after getting /spdzProxyConfig', (done) => {
     
     getProxyConfig.mockImplementation(() => Promise.resolve(exampleJsonConfig))
+    createClientPublicKey.mockImplementation(() => '900fac89aaeb349c657a60354b2edc47ce56e1dc6c50580bbf815b2753a10014')
 
     // Mount and retrieve nodes doesn't work for stateless components (Setup), 
     // so just render and then check state - not sure about this
@@ -49,12 +52,13 @@ describe('Setup controller component behaviour', () => {
     setTimeout(() => { 
       try {
         expect(wrapper.state().spdzApiRoot).toEqual('/spdzapi')
+        expect(wrapper.state().clientPublicKey).toEqual('900fac89aaeb349c657a60354b2edc47ce56e1dc6c50580bbf815b2753a10014')
         expect(wrapper.state().spdzProxyList).toBeInstanceOf(List);
         expect(wrapper.state().spdzProxyList.size).toEqual(2)
         expect(wrapper.state().spdzProxyList.get(0).get('url')).toEqual('http://spdzproxyhere:3001')
         expect(wrapper.state().spdzProxyList.get(1).get('url')).toEqual('http://spdzproxythere:3002')
-        expect(wrapper.state().spdzProxyList.get(0).get('encryptionKey').length).toEqual(32)
-        expect(wrapper.state().spdzProxyList.get(1).get('encryptionKey').length).toEqual(32)
+        expect(wrapper.state().spdzProxyList.get(0).get('publicKey')).toEqual('0102030405060708010203040506070801020304050607080102030405060708')
+        expect(wrapper.state().spdzProxyList.get(1).get('publicKey')).toEqual('a1b2c3d4e5a6b7c8010203040506070801020304050607080102030405060708')
         done()
       } catch (err) {
         done.fail(err)
@@ -71,6 +75,8 @@ describe('Setup controller component behaviour', () => {
       { id: 0, status: 2 },
       { id: 1, status: 2 }
     ]))
+    // mock out calculating public key
+    createClientPublicKey.mockImplementation(() => '900fac89aaeb349c657a60354b2edc47ce56e1dc6c50580bbf815b2753a10014')
 
     const wrapper = mount(<ComponentUnderTest />)
 
@@ -90,7 +96,8 @@ describe('Setup controller component behaviour', () => {
           // check mock calls
           expect(connectToProxies.mock.calls.length).toEqual(1)
           expect(connectToProxies.mock.calls[0]).toEqual(
-            [List.of('http://spdzproxyhere:3001', 'http://spdzproxythere:3002'), '/spdzapi', undefined])
+            [List.of('http://spdzproxyhere:3001', 'http://spdzproxythere:3002'), 
+                      '/spdzapi', '900fac89aaeb349c657a60354b2edc47ce56e1dc6c50580bbf815b2753a10014'])
 
           // check state updated
           expect(wrapper.state().spdzProxyList.size).toEqual(2)
@@ -108,7 +115,8 @@ describe('Setup controller component behaviour', () => {
       }
     }, 500)
 
-    connectToProxies.mockClear()    
+    connectToProxies.mockClear()  
+    createClientPublicKey.mockClear()  
   })
 
 })
