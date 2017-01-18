@@ -51,11 +51,12 @@ describe('Client sending an input to 2 proxies', () => {
     const inputGfpMontg = Gfp.fromString(input).toMontgomery()
     const expectedShare = Gfp.fromString('8', true)
     const inputToSend = inputGfpMontg.add(expectedShare)
+    const proxyUrls = twoProxiesWith2Connected.map(spdzProxy => spdzProxy.get('url'))
 
     sendInputsWithShares([input], false, twoProxiesWith2Connected, '/apiroot', 0)
         .then(() => {
           expect(sendInputsToProxies.mock.calls.length).toEqual(1)
-          expect(sendInputsToProxies.mock.calls[0]).toEqual([[inputToSend]])
+          expect(sendInputsToProxies.mock.calls[0]).toEqual([proxyUrls, '/apiroot', 0, [inputToSend]])
           done()
         })
         .catch((err) => {

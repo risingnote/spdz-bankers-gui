@@ -126,7 +126,7 @@ describe('Client sends inputs to multiple Spdz proxies', () => {
     sendInputsToProxies(spdzProxyUrlList, '/apiroot', 0, inputList)
         .then(() => {
           expect(sendDataToProxy.mock.calls.length).toEqual(3)
-          expect(sendDataToProxy.mock.calls[0]).toEqual(['http://spdzProxy.one:4000', '/apiroot', 0, ["BQ==","Bg=="]])
+          expect(sendDataToProxy.mock.calls[0]).toEqual(['http://spdzProxy.one:4000', '/apiroot', 0, '["BQ==","Bg=="]'])
           done()
         })
         .catch((err) => {

@@ -119,6 +119,9 @@ const sendDataToProxy = (host, apiRoot, clientId, payload) => {
   return fetch(`${host}${apiRoot}/${clientId}/send-data`,
     {
       method: 'POST',
+      headers: {
+        'content-type': 'application/json; charset=utf-8'
+      },
       body: payload,
       mode: 'cors'
     })

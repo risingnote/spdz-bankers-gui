@@ -46,7 +46,8 @@ const sendInputsWithShares = ( (inputList, encrypted, spdzProxyList, spdzApiRoot
         })
       })
       .then( (inputList) => {
-        return sendInputsToProxies(inputList)
+        return sendInputsToProxies(spdzProxyList.map(spdzProxy => spdzProxy.get('url')),
+                 spdzApiRoot, clientId, inputList)
       })
 })
 

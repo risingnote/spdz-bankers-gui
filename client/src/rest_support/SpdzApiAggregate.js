@@ -48,6 +48,7 @@ const consumeDataFromProxies = (spdzProxyUrlList, spdzApiRoot, clientId) => {
 
 /**
  * Manage sending 1 or more inputs to each SPDZ proxy 
+ * @param {spdzProxyUrlList} List of urls, one per SPDZ proxy
  * @param {inputList} List of Gfp types, typically montgomery format with shares added in.
  * @returns Promise with empty return if all OK or rejects with error   
  */
@@ -55,7 +56,7 @@ const sendInputsToProxies = ( (spdzProxyUrlList, spdzApiRoot, clientId, inputLis
   const payload = inputList.map( gfpInput => base64Encode(gfpInput))
 
   const sendInputsList = spdzProxyUrlList.map( (url, index) => {
-    return sendDataToProxy(url, spdzApiRoot, clientId, payload) 
+    return sendDataToProxy(url, spdzApiRoot, clientId, JSON.stringify(payload)) 
   })
 
   return Promise.all(sendInputsList)  
