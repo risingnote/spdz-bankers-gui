@@ -5,6 +5,7 @@ import { consumeDataFromProxies, sendInputsToProxies } from './SpdzApiAggregate'
 import { decrypt } from '../crypto/cryptoLib'
 import sharesFromTriples from '../math/sharesFromTriples'
 import Gfp from '../math/Gfp'
+import extractClientId from '../math/clientIdFromBuffer'
 
 /**
  * Retrieve shares to be used to send input to SPDZ proxies.
@@ -35,6 +36,28 @@ const retrieveShares = (inputNum, encrypted, spdzProxyList, spdzApiRoot, clientI
 }
 
 /**
+ * Retrieve winner client id.
+ * Wait for all SPDZ proxies to send expected same value of client public key as 32 bit buffer.
+ * @param {spdzProxyList} List containing url and encryptionKey for each proxy 
+ * @param {spdzApiRoot} url path
+ * @param {clientId} Identify client connection to proxy
+ * @returns Promise resolved with list of shares (length inputNum) or reject with Error
+ */
+const retrieveWinnerClientId = (spdzProxyList, spdzApiRoot, clientId) => {
+  return consumeDataFromProxies(spdzProxyList.map(spdzProxy => spdzProxy.get('url')), spdzApiRoot, clientId)
+    .then((values) => {
+      if (spdzProxyList.size !== values.length) {
+        return Promise.reject(new Error(`Expecting ${spdzProxyList.size} client ids from SPDZ, got ${values.length}.`))
+      }
+      try {
+        return Promise.resolve(extractClientId(values))
+      } catch (err) {
+        return Promise.reject(err)
+      }
+    })
+}
+
+/**
  * Sending a list of inputs to all Spdz proxies after retrieving shares and applying to inputs.
  * @returns Promise with empty return if all OK or rejects with error
  */
@@ -54,7 +77,7 @@ const sendInputsWithShares = ( (inputList, encrypted, spdzProxyList, spdzApiRoot
 const pollForResult = ( () => {
   // How handle long poll ?
   // See https://davidwalsh.name/javascript-polling for polling with promises, i.e. wait for data.
-  // Think about api like readShares, writeIntegers, readIntegers with params (encrypt (true/false), count) )
+  // call into retrieveWinnerClientId ?
 })
 
-export { retrieveShares, sendInputsWithShares, pollForResult }
+export { retrieveShares, retrieveWinnerClientId, sendInputsWithShares, pollForResult }

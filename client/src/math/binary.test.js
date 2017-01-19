@@ -18,7 +18,7 @@ describe('Map between types when using binary data', () => {
     const testThrowsFromSpdzBinary = () => fromSpdzBinary('501978443')
     const testThrowsBase64Encode = () => base64Encode('501978443')
 
-    expect(testThrowsFromSpdzBinary).toThrowError('fromSpdzBinary expects a Uint8Array type.')
+    expect(testThrowsFromSpdzBinary).toThrowError('fromSpdzBinary expects a Uint8Array type, got a string.')
     expect(testThrowsBase64Encode).toThrowError('base64Encode expects a Gfp type.')
   })
 })

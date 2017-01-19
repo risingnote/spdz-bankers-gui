@@ -1,14 +1,18 @@
 import Gfp from '../math/Gfp'
-import { retrieveShares, sendInputsWithShares } from './SpdzApiHelper'
+import { retrieveShares, sendInputsWithShares, retrieveWinnerClientId } from './SpdzApiHelper'
 import { twoProxiesWith2Connected } from '../test_support/ProxyServerList'
 
 jest.mock('./SpdzApiAggregate')
 import { consumeDataFromProxies, sendInputsToProxies } from './SpdzApiAggregate'
 
+jest.mock('../math/clientIdFromBuffer')
+import extractClientId from '../math/clientIdFromBuffer'
+
 describe('Client sending an input to 2 proxies', () => {
   afterEach(() => {
     consumeDataFromProxies.mockClear()
     sendInputsToProxies.mockClear()
+    extractClientId.mockClear()
   })
 
   // Construct some byte arrays which represent a valid triple
@@ -63,5 +67,54 @@ describe('Client sending an input to 2 proxies', () => {
           done.fail(err)
         })  
   })  
+
+  it('Returns the winner client id from 2 SPDZ proxies', (done) => {
+    const clientId1 = Uint8Array.of(1,0,0,0,2,0,0,0,3,0,0,0,4,0,0,0,5,0,0,0,6,0,0,0,7,0,0,0,8,0,0,0)
+    const clientId2 = Uint8Array.of(1,0,0,0,2,0,0,0,3,0,0,0,4,0,0,0,5,0,0,0,6,0,0,0,7,0,0,0,8,0,0,0)
+    consumeDataFromProxies.mockImplementationOnce(() => Promise.resolve([clientId1, clientId2]))
+    
+    const winningId = '0000000100000002000000030000000400000005000000060000000700000008'
+    extractClientId.mockImplementationOnce(() => winningId)
+
+    retrieveWinnerClientId(twoProxiesWith2Connected, '/apiroot', 'a1a2a3a4')
+        .then((result) => {
+          expect(result).toEqual(winningId)
+          done()
+        })
+        .catch((err) => {
+          done.fail(err)
+        })  
+  })
+
+  it('Rejects if the number of return values does not match the number of proxies', (done) => {
+    const clientId1 = Uint8Array.of(1,0,0,0,2,0,0,0,3,0,0,0,4,0,0,0,5,0,0,0,6,0,0,0,7,0,0,0,8,0,0,0)
+    consumeDataFromProxies.mockImplementationOnce(() => Promise.resolve([clientId1]))
+    
+    retrieveWinnerClientId(twoProxiesWith2Connected, '/apiroot', 'a1a2a3a4')
+        .then((result) => {
+          done.fail('Expecting test to throw.')
+        })
+        .catch((err) => {
+          expect(err.message).toEqual('Expecting 2 client ids from SPDZ, got 1.')
+          done()
+        })
+  })
+  
+  it('Rejects if the retrieve client id function throws', (done) => {
+    const clientId1 = Uint8Array.of(1,0,0,0,2,0,0,0,3,0,0,0,4,0,0,0,5,0,0,0,6,0,0,0,7,0,0,0,8,0,0,0)
+    const clientId2 = Uint8Array.of(1,0,0,0,2,0,0,0,3,0,0,0,4,0,0,0,5,0,0,0,6,0,0,0,7,0,0,0,8,0,0,0)
+    consumeDataFromProxies.mockImplementationOnce(() => Promise.resolve([clientId1, clientId2]))
+    
+    extractClientId.mockImplementationOnce(() => {throw new Error('Fake error for extractClientId.')})
+
+    retrieveWinnerClientId(twoProxiesWith2Connected, '/apiroot', 'a1a2a3a4')
+        .then((result) => {
+          done.fail('Expecting test to throw.')
+        })
+        .catch((err) => {
+          expect(err.message).toEqual('Fake error for extractClientId.')
+          done()
+        })
+  })
 })
 

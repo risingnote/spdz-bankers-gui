@@ -1,9 +1,16 @@
 // Care on this import as it must override builtin Node Buffer global for testing.
 // TODO look for alternative base64 from hex encoding - to avoid using nodes Buffer 
 import {Buffer} from 'buffer/'
+import assert from 'assert'
 import Gfp from './Gfp'
 
 const padHex = hex => (hex.length % 2 !== 0) ? '0'+hex : hex
+
+const binaryToHex = (binaryArray => {
+  return binaryArray.reduce((hexString, i) => {
+    return hexString + padHex(i.toString(16))
+  }, '')
+})
 
 /**
  * Convert binary into Gfp type
@@ -12,13 +19,9 @@ const padHex = hex => (hex.length % 2 !== 0) ? '0'+hex : hex
  * @returns Gfp type
  */
 const fromSpdzBinary = (spdzBinary, isMontgomery) => {
-  if (!(spdzBinary instanceof Uint8Array)) {
-    throw new Error('fromSpdzBinary expects a Uint8Array type.')
-  }
-
-  const bufAsHexString = spdzBinary.reverse().reduce((hexString, i) => {
-    return hexString + padHex(i.toString(16))
-  }, '')
+  assert(spdzBinary instanceof Uint8Array, `fromSpdzBinary expects a Uint8Array type, got a ${typeof spdzBinary}.`)
+  
+  const bufAsHexString = binaryToHex(spdzBinary.reverse())
 
   return Gfp.fromHexString(bufAsHexString, isMontgomery)
 }
@@ -35,4 +38,4 @@ const base64Encode = (gfp) => {
   return buf.toString('base64')
 }
 
-export { fromSpdzBinary, base64Encode }
+export { binaryToHex, fromSpdzBinary, base64Encode }
