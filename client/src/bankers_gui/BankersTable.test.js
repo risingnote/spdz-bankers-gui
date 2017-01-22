@@ -16,7 +16,9 @@ describe('Bankers Table display component rendering', () => {
   it('Renders as expected (compared to a snapshot) 5 diners, 1 paying', () => {
 
     const tree = renderer.create(
-      <BankersTable diners={[{name: 'me'}, {name: 'Alice'}, {name: 'Bob'}, {name: 'Mal'}, {name: 'Rich', paying: 'true'}]}/>
+      <BankersTable diners={[{name: 'me', clientPublicKey: 'aaa'}, {name: 'Alice', clientPublicKey: 'bbb'},
+                             {name: 'Bob', clientPublicKey: 'ccc'}, {name: 'Mal', clientPublicKey: 'ddd'}, {name: 'Rich', clientPublicKey: 'eee'}]}
+                    winningClientId={'eee'}/>
     ).toJSON()
 
     expect(tree).toMatchSnapshot()

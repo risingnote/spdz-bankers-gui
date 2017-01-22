@@ -1,5 +1,6 @@
 /**
  * Display the diners table with names of diners from props and whose paying if any.
+ * Maxium of 8 places, not all have to be filled. Any more will be ignored.
  */
 import React, { PropTypes } from 'react'
 import ClassNames from 'classnames'
@@ -15,7 +16,8 @@ const BankersTable = (props) => {
   const placeClass = (position => {
     return ClassNames({
       'place': true,
-      'paying': (position < props.diners.length && props.diners[position].paying)
+      'paying': (position < props.diners.length && props.winningClientId !== undefined &&
+                 props.diners[position].publicKey === props.winningClientId)
     })
   })
 
@@ -74,7 +76,8 @@ const BankersTable = (props) => {
 }
 
 BankersTable.propTypes = {
-  diners: PropTypes.array.isRequired
+  diners: PropTypes.array.isRequired,
+  winningClientId: PropTypes.string
 }
 
 export default BankersTable

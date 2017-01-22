@@ -12,7 +12,7 @@ import Alert from 'react-s-alert'
 import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/flip.css'
 
-import { sendInputsWithShares } from '../rest_support/SpdzApiHelper'
+import { sendInputsWithShares, retrieveWinnerClientId } from '../rest_support/SpdzApiHelper'
 import BankersForm from './BankersForm'
 import BankersTable from './BankersTable'
 
@@ -22,16 +22,20 @@ class BankersContainer extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      dinersList: []
+      dinersList: [],
+      winningClientId: undefined
     }
     this.socket = undefined
+    this.resultTimerId = undefined
     this.handleSubmitBonus = this.handleSubmitBonus.bind(this)
     this.joinMeal = this.joinMeal.bind(this)
+    this.pollForResult = this.pollForResult.bind(this)
   }
 
   componentDidMount() {
     this.socket = Io('/diners')
 
+    // Expect list of {name: <somename>, publicKey: <key>}
     this.socket.on('diners', (msg) => {
       this.setState({dinersList: msg})
     });
@@ -39,6 +43,28 @@ class BankersContainer extends Component {
 
   componentWillUnmount() {
     this.socket.on('disconnect', () => {})
+    if (this.resultTimerId !== undefined) {
+      clearInterval(this.resultTimerId)
+      this.resultTimerId = undefined
+    } 
+  }
+
+  /**
+   * Start an interval timer to poll the SPDZ proxies for the winner of the computation.
+   */
+  pollForResult(spdzProxyServerList, spdzApiRoot, clientPublicKey) {
+    this.resultTimerId = setInterval(() => {
+      retrieveWinnerClientId(spdzProxyServerList, spdzApiRoot, clientPublicKey)
+      .then( winningClientId => {
+        this.setState({winningClientId: winningClientId})
+        console.log('Got winning client of ', winningClientId)        
+        clearInterval(this.resultTimerId)
+      })
+      .catch( err => {
+        console.log('Problem when polling for result ', err)
+        clearInterval(this.resultTimerId)        
+      })
+    }, 2000)
   }
 
   /**
@@ -64,6 +90,8 @@ class BankersContainer extends Component {
       .then(() => sendInputsWithShares([bonus], true, this.props.spdzProxyServerList, 
               this.props.spdzApiRoot, this.props.clientPublicKey))
       .then( () => {
+        this.pollForResult(this.props.spdzProxyServerList, this.props.spdzApiRoot, 
+              this.props.clientPublicKey)
         Alert.info('You have joined the meal.', {html: false})
       })
       .catch((ex) => {
@@ -79,7 +107,7 @@ class BankersContainer extends Component {
       <div className='Bankers'>
         <BankersForm submitBonus={this.handleSubmitBonus} proxiesConnected={this.props.allProxiesConnected}
                      joinedName={joinedName} />
-        <BankersTable diners={this.state.dinersList}/>
+        <BankersTable diners={this.state.dinersList} winningClientId={this.state.winningClientId}/>
         <Alert stack={{limit: 3}} timeout={5000} position={'top-left'} effect={'flip'} offset={100} html={true} />
       </div>
     )
