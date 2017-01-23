@@ -3,6 +3,7 @@
  */
 import 'whatwg-fetch'
 import HttpStatus from 'http-status-codes'
+import NoContentError from './NoContentError'
 
 const isJson = (headers) => {
   return headers.has('Content-Type') &&
@@ -94,7 +95,7 @@ const consumeDataFromProxy = (host, apiRoot, clientId) => {
       if (result.response.status === HttpStatus.OK) {
         return result.response.arrayBuffer()
       } else if (result.response.status === HttpStatus.NO_CONTENT) {
-        let error = new Error(
+        let error = new NoContentError(
           `No data is available to consume from the spdz proxy. Status: ${result.response.status}.`)
         return Promise.reject(error)
       } else {

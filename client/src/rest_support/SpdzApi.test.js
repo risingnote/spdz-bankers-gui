@@ -1,5 +1,6 @@
 import HttpStatus from 'http-status-codes'
 
+import NoContentError from './NoContentError'
 import { getProxyConfig, connectProxyToEngine, consumeDataFromProxy, sendDataToProxy } from './SpdzApi'
 import mockResponse from '../test_support/MockResponse'
 
@@ -106,7 +107,7 @@ describe('Consume a binary value from the Spdz Proxy', () => {
       })  
   })
 
-  it('Throws an error if no data to retrieve', (done) => {
+  it('Throws a no content error if no data to retrieve', (done) => {
     window.fetch = jest.fn().mockImplementation(() => {
       const headers = new Headers()
       return Promise.resolve(mockResponse(HttpStatus.NO_CONTENT, null, headers)) 
@@ -117,9 +118,34 @@ describe('Consume a binary value from the Spdz Proxy', () => {
         done.fail()
       })
       .catch((err) => {
+        expect(err).toBeInstanceOf(NoContentError)
         expect(err.message).toEqual('No data is available to consume from the spdz proxy. Status: 204.')
         expect(err.reason).toBeUndefined()
         done() 
+      })  
+  })
+
+  it('Throws a general error with bad http response', (done) => {
+    window.fetch = jest.fn().mockImplementation(() => {
+      const headers = new Headers({'Content-type':'application/json'})
+      return Promise.resolve(mockResponse(HttpStatus.SERVICE_UNAVAILABLE, 
+      '{ "status": "503", "message": "test error" }', headers))
+    })
+  
+    consumeDataFromProxy()
+      .then((response) => {
+        done.fail()
+      })
+      .catch((err) => {
+        try {
+          expect(err).toBeInstanceOf(Error)
+          expect(err.message).toEqual('Unable to consume data from spdz proxy. Status: 503. Reason: test error')
+          expect(err.reason).toEqual({ "status": "503", "message": "test error" })
+          done() 
+        }
+        catch(ex) {
+          done.fail(ex)
+        }
       })  
   })
   

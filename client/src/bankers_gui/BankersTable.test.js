@@ -16,8 +16,8 @@ describe('Bankers Table display component rendering', () => {
   it('Renders as expected (compared to a snapshot) 5 diners, 1 paying', () => {
 
     const tree = renderer.create(
-      <BankersTable diners={[{name: 'me', clientPublicKey: 'aaa'}, {name: 'Alice', clientPublicKey: 'bbb'},
-                             {name: 'Bob', clientPublicKey: 'ccc'}, {name: 'Mal', clientPublicKey: 'ddd'}, {name: 'Rich', clientPublicKey: 'eee'}]}
+      <BankersTable diners={[{name: 'me', publicKey: 'aaa'}, {name: 'Alice', publicKey: 'bbb'},
+                             {name: 'Bob', publicKey: 'ccc'}, {name: 'Mal', publicKey: 'ddd'}, {name: 'Rich', publicKey: 'eee'}]}
                     winningClientId={'eee'}/>
     ).toJSON()
 

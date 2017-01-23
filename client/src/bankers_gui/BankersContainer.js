@@ -13,6 +13,7 @@ import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/flip.css'
 
 import { sendInputsWithShares, retrieveWinnerClientId } from '../rest_support/SpdzApiHelper'
+import NoContentError from '../rest_support/NoContentError'
 import BankersForm from './BankersForm'
 import BankersTable from './BankersTable'
 
@@ -61,8 +62,14 @@ class BankersContainer extends Component {
         clearInterval(this.resultTimerId)
       })
       .catch( err => {
-        console.log('Problem when polling for result ', err)
-        clearInterval(this.resultTimerId)        
+        if (err instanceof NoContentError) {
+          // Keep going, data should turn up.
+          console.log('No result data yet.')
+        }
+        else {
+          console.log('Problem when polling for result ', err)
+          clearInterval(this.resultTimerId)        
+        }
       })
     }, 2000)
   }
