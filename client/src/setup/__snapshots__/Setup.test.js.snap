@@ -5,10 +5,6 @@ exports[`Setup display component rendering Renders as expected (compared to a sn
     className="Setup-subHead">
     Spdz Proxy Servers
   </p>
-  <button
-    onClick={[Function]}>
-    Connect
-  </button>
   <div
     className="ProxyStatus-row">
     <div

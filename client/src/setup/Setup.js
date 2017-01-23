@@ -16,16 +16,12 @@ const Setup = (props) => {
   return (
     <div className='Setup-panel'>
       <p className='Setup-subHead'>Spdz Proxy Servers</p>
-      <button onClick={props.setupForRun}>
-        Connect
-      </button>
       {proxyServers(props.spdzProxyServerList)}
     </div>
   )
 } 
 
 Setup.propTypes = {
-  setupForRun: React.PropTypes.func.isRequired,
   spdzProxyServerList: React.PropTypes.instanceOf(List).isRequired
 }
 

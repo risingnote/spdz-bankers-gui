@@ -1,7 +1,7 @@
 /**
  * Aggregated SPDZ REST API functions to communicate with all SPDZ proxies.
  */
-import { connectProxyToEngine, consumeDataFromProxy, sendDataToProxy } from './SpdzApi'
+import { connectProxyToEngine, checkEngineConnection, consumeDataFromProxy, sendDataToProxy } from './SpdzApi'
 import ProxyStatusCodes from '../setup/ProxyStatusCodes'
 import { base64Encode } from '../math/binary'
 
@@ -17,7 +17,7 @@ const connectToProxies = (spdzProxyUrlList, spdzApiRoot, clientId) => {
 
   const connectList = spdzProxyUrlList.map( (url, index) => {
     return connectProxyToEngine(url, spdzApiRoot, clientId) 
-      .then((connectLocation) => {
+      .then(() => {
         return {id: index, status: ProxyStatusCodes.Connected}
       }, (ex) => {
         console.log('Unable to successfully run connection setup.', (ex.reason ? ex.reason.message : ex.message))
@@ -28,6 +28,27 @@ const connectToProxies = (spdzProxyUrlList, spdzApiRoot, clientId) => {
   return Promise.all(connectList)
 }
 
+/**
+ * Run check on connections for all spdz proxy servers for this client.
+ * No throws or rejects expected.
+ *  
+ * @param {spdzProxyUrlList} List of urls, one per SPDZ proxy
+ * @returns Promise which is thenable once all status checks are finished.
+ *          Returns a list of objects with id (position in url list) and status. 
+ */
+const checkProxies = (spdzProxyUrlList, spdzApiRoot, clientId) => {
+
+  const checkList = spdzProxyUrlList.map( (url, index) => {
+    return checkEngineConnection(url, spdzApiRoot, clientId) 
+      .then(() => {
+        return {id: index, status: ProxyStatusCodes.Connected}
+      }, (ex) => {
+        return {id: index, status: ProxyStatusCodes.Failure}        
+      })
+  })
+
+  return Promise.all(checkList)
+}
 /**
  * Consume binary data from all spdz proxy servers. A low level function which should be wrapped
  * for specific expected data.
@@ -62,4 +83,4 @@ const sendInputsToProxies = ( (spdzProxyUrlList, spdzApiRoot, clientId, inputLis
   return Promise.all(sendInputsList)  
 })
 
-export { connectToProxies, consumeDataFromProxies, sendInputsToProxies }
+export { connectToProxies, checkProxies, consumeDataFromProxies, sendInputsToProxies }

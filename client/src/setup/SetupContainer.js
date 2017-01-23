@@ -1,5 +1,6 @@
 /**
  * Responsible for managing data and behaviour for SPDZ proxy connections.
+ * Connections are polled for on a timer.
  * Acts as a higher order component to wrap an MPC GUI component.
  */
 import React, { Component } from 'react'
@@ -8,7 +9,7 @@ import { List } from 'immutable'
 import { initSpdzServerList, updateSpdzServerStatus, allProxiesConnected } from './SetupContainerHelper' 
 import Setup from './Setup'
 import { getProxyConfig } from '../rest_support/SpdzApi'
-import { connectToProxies } from '../rest_support/SpdzApiAggregate'
+import { connectToProxies, checkProxies } from '../rest_support/SpdzApiAggregate'
 import { createClientPublicKey } from '../crypto/cryptoLib'
 import './SetupContainer.css'
 
@@ -21,7 +22,8 @@ function SetupWrapper(MPCGui) {
         spdzApiRoot : "/",
         spdzProxyList : List()
       }
-      this.handleSetupClick = this.handleSetupClick.bind(this)
+      this.connectionTimerId = undefined
+      this.setupAndPollSpdzConnections = this.setupAndPollSpdzConnections.bind(this)      
     }
 
     componentDidMount() {
@@ -30,27 +32,47 @@ function SetupWrapper(MPCGui) {
           const spdzProxyList = initSpdzServerList(json.spdzProxyList)
           this.setState({spdzApiRoot: json.spdzApiRoot})          
           this.setState({spdzProxyList: spdzProxyList})
+
+          this.setState({clientPublicKey: createClientPublicKey()})
+
+          this.setupAndPollSpdzConnections()
         })
         .catch((ex) => {
           console.log(ex)
         })
-
-      this.setState({clientPublicKey: createClientPublicKey()})
     }
 
-    handleSetupClick(e) {
-      e.preventDefault()
+    /**
+     * Start an interval timer to maintain connection to SPDZ proxies.
+     * If not connected, try connecting. 
+     * If already connected, check connection status.
+     */
+    setupAndPollSpdzConnections() {
+      if (this.state.spdzProxyList.size === 0) {
+          console.log('No point trying to setup connect and poll spdz proxies, none found.')
+          return
+      }
+      this.connectionTimerId = setInterval(() => {
+        const allConnected = allProxiesConnected(this.state.spdzProxyList)
 
-      connectToProxies(this.state.spdzProxyList.map( spdzProxy => spdzProxy.get('url')), 
-                           this.state.spdzApiRoot, this.state.clientPublicKey)
-        .then( (values) => {
-          const proxyListAfterUpdate = updateSpdzServerStatus(this.state.spdzProxyList, values)
-          this.setState({spdzProxyList: proxyListAfterUpdate}) 
-        })
-        .catch( (ex) => {
-          // Really not expecting this
-          console.log('Got an exception when running connect to spdz proxies.', ex)
-        })
+        const connectionPromise = (allConnected) ? 
+            checkProxies(this.state.spdzProxyList.map( spdzProxy => spdzProxy.get('url')), 
+                                this.state.spdzApiRoot, this.state.clientPublicKey) :
+            connectToProxies(this.state.spdzProxyList.map( spdzProxy => spdzProxy.get('url')), 
+                                this.state.spdzApiRoot, this.state.clientPublicKey)
+
+        connectionPromise                                
+            .then( (values) => {
+              const proxyListAfterUpdate = updateSpdzServerStatus(this.state.spdzProxyList, values)
+              this.setState({spdzProxyList: proxyListAfterUpdate}) 
+            })
+            .catch( (ex) => {
+              // Really not expecting this
+              console.log('Got an exception in setup/poll status of spdz proxies.', ex)
+              clearInterval(this.connectionTimerId)              
+            })
+            
+      }, 5000)
     }
 
     render() {
@@ -63,7 +85,7 @@ function SetupWrapper(MPCGui) {
                       clientPublicKey={this.state.clientPublicKey}/>
           </div>
           <div className="SetupContainer-setup">
-              <Setup setupForRun={this.handleSetupClick} spdzProxyServerList={this.state.spdzProxyList}/>
+              <Setup spdzProxyServerList={this.state.spdzProxyList}/>
           </div>
         </div>
       )

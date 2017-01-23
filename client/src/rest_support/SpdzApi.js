@@ -56,6 +56,9 @@ const getProxyConfig = () => {
       })
 }
 
+/**
+ * Success here is a new connection created or already connected.
+ */
 const connectProxyToEngine = (host, apiRoot, clientId) => {
   return fetch(`${host}${apiRoot}/${clientId}/connect-to-engine`,
     {
@@ -67,7 +70,8 @@ const connectProxyToEngine = (host, apiRoot, clientId) => {
     })
     .then(parseIfJson)
     .then( (result) => {
-      if (result.response.status === HttpStatus.CREATED) {
+      if (result.response.status === HttpStatus.CREATED || 
+          result.response.status === HttpStatus.OK) {
         return Promise.resolve(result)
       } else {
         let error = new Error(
@@ -78,6 +82,31 @@ const connectProxyToEngine = (host, apiRoot, clientId) => {
     })
     .then((result) => {
       return Promise.resolve(result.response.headers.get('Location'))
+    })
+}
+
+/**
+ * Success here is a new connection created or already connected.
+ */
+const checkEngineConnection = (host, apiRoot, clientId) => {
+  return fetch(`${host}${apiRoot}/${clientId}/engine-connection`,
+    {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      },
+      mode: 'cors'
+    })
+    .then(parseIfJson)
+    .then( (result) => {
+      if (result.response.status === HttpStatus.OK) {
+        return Promise.resolve()
+      } else {
+        let error = new Error(
+          `Spdz proxy not connected to engine. Status: ${result.response.status}. Reason: ${result.jsonData.message}`)
+        error.reason = result.jsonData
+        return Promise.reject(error)
+      }
     })
 }
 
@@ -139,4 +168,4 @@ const sendDataToProxy = (host, apiRoot, clientId, payload) => {
     })
 }
 
-export { getProxyConfig, connectProxyToEngine, consumeDataFromProxy, sendDataToProxy }
+export { getProxyConfig, connectProxyToEngine, checkEngineConnection, consumeDataFromProxy, sendDataToProxy }

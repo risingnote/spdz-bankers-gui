@@ -1,7 +1,8 @@
 import HttpStatus from 'http-status-codes'
 
 import NoContentError from './NoContentError'
-import { getProxyConfig, connectProxyToEngine, consumeDataFromProxy, sendDataToProxy } from './SpdzApi'
+import { getProxyConfig, connectProxyToEngine, checkEngineConnection,
+           consumeDataFromProxy, sendDataToProxy } from './SpdzApi'
 import mockResponse from '../test_support/MockResponse'
 
 describe('Prove the SpdzApi with mock responses from fetch', () => {
@@ -63,6 +64,22 @@ describe('Connect the Spdz Proxy to the Spdz Engine for a client', () => {
       })  
   })
 
+  it('Will accept the connect setup if already connected', (done) => {
+    window.fetch = jest.fn().mockImplementation(() => {
+      const headers = new Headers()
+      return Promise.resolve(mockResponse(HttpStatus.OK, null, headers))
+    })
+    
+    connectProxyToEngine()
+      .then((location) => {
+        expect(location).toBeNull()
+        done()
+      })
+      .catch((err) => {
+        done.fail(err)
+      })  
+  })
+
   it('Throws an error if connect setup did not work', (done) => {
     window.fetch = jest.fn().mockImplementation(() => {
       const headers = new Headers({'Content-type':'application/json'})
@@ -81,6 +98,38 @@ describe('Connect the Spdz Proxy to the Spdz Engine for a client', () => {
       })  
   })
 
+  it('Will check the status of the connection (success)', (done) => {
+    window.fetch = jest.fn().mockImplementation(() => {
+      const headers = new Headers()
+      return Promise.resolve(mockResponse(HttpStatus.OK, null, headers))
+    })
+    
+    checkEngineConnection()
+      .then(() => {
+        done()
+      })
+      .catch((err) => {
+        done.fail(err)
+      })  
+  })
+  
+  it('Will check the status of the connection (failure)', (done) => {
+    window.fetch = jest.fn().mockImplementation(() => {
+      const headers = new Headers({'Content-type':'application/json'})
+      return Promise.resolve(mockResponse(HttpStatus.NOT_FOUND, 
+      '{ "status": "404", "message": "test error" }', headers))
+    })
+    
+    checkEngineConnection()
+      .then(() => {
+        done.fail('Expected err to be raised.')
+      })
+      .catch((err) => {
+        expect(err.message).toEqual('Spdz proxy not connected to engine. Status: 404. Reason: test error')
+        expect(err.reason).toEqual({ "status": "404", "message": "test error" })
+        done()
+      })  
+  })  
 })
 
 describe('Consume a binary value from the Spdz Proxy', () => {
