@@ -1,4 +1,6 @@
-# SPDZ Bankers GUI
+# SPDZ Bankers 
+![SPDZ Logo](https://github.com/bristolcrypto/spdz-bankers-gui/blob/master/client/src/spdz_logo.svg)
+
 Demonstrator using SPDZ to solve the bankers bonus (aka millionaires) problem.
 
 ## Dev environment
