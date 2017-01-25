@@ -24,11 +24,11 @@ To run a version of the GUI during dev so that changes can be viewed in the brow
 
 2. Run a webpack dev server to service the GUI and perform hot reloads:
 
-`cd client ; npm start`
+ `cd client ; npm start`
 
 3. Run GUI tests with: 
 
-`cd client ; npm test`
+ `cd client ; npm test`
 
 ## Deployment
 
@@ -75,4 +75,15 @@ Check that the http port is set as required in `server/config/spdzGui.json`.
 
 `cd server; NODE_ENV=production node src/index.js` to run the GUI web server.
 
+## Restrictions
 
+To use the GUI the following restrictions apply:
+
+1. The number of expected clients needed to join the computation is hardcoded into the bankers_bonus.mpc 
+program and is typically set to 3. 
+
+2. Because making a connection to SPDZ and getting client input is blocking in SPDZ then the order of operations is 
+important. All clients must first connect (this should happen automatically) and then each client may send
+input. If a client sends input before this then an error will show indicating that no shares are yet available.
+
+Time allowing these will be addressed.
