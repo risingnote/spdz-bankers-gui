@@ -110,6 +110,31 @@ const checkEngineConnection = (host, apiRoot, clientId) => {
     })
 }
 
+/**
+ * Success here is a new connection created or already connected.
+ */
+const disconnectProxyFromEngine = (host, apiRoot, clientId) => {
+  return fetch(`${host}${apiRoot}/${clientId}/connect-to-engine`,
+    {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json'
+      },
+      mode: 'cors'
+    })
+    .then(parseIfJson)
+    .then( (result) => {
+      if (result.response.status === HttpStatus.OK) {
+        return Promise.resolve(result)
+      } else {
+        let error = new Error(
+          `Unable to disconnect from spdz proxy engine. Status: ${result.response.status}. Reason: ${result.jsonData.message}`)
+        error.reason = result.jsonData
+        return Promise.reject(error)
+      }
+    })
+}
+
 const consumeDataFromProxy = (host, apiRoot, clientId) => {
   return fetch(`${host}${apiRoot}/${clientId}/consume-data`,
     {
@@ -168,4 +193,4 @@ const sendDataToProxy = (host, apiRoot, clientId, payload) => {
     })
 }
 
-export { getProxyConfig, connectProxyToEngine, checkEngineConnection, consumeDataFromProxy, sendDataToProxy }
+export { getProxyConfig, connectProxyToEngine, checkEngineConnection, disconnectProxyFromEngine, consumeDataFromProxy, sendDataToProxy }

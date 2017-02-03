@@ -1,4 +1,4 @@
-.Setup-panel {
+.Connection-panel {
   padding: 10px;
   padding-top: 0px;
   border: 1px solid darkgrey;
@@ -6,7 +6,7 @@
   text-align: left;
 }
 
-.Setup-subHead {
+.Connection-subHead {
   display: inline-block;
   color: rgb(28, 118, 152);
   margin-right: 10px;

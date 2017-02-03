@@ -1,8 +1,8 @@
 exports[`Setup display component rendering Renders as expected (compared to a snapshot) when passed properties 1`] = `
 <div
-  className="Setup-panel">
+  className="Connection-panel">
   <p
-    className="Setup-subHead">
+    className="Connection-subHead">
     Spdz Proxy Servers
   </p>
   <div

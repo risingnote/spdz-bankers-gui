@@ -3,7 +3,7 @@
  */
 import { Map, List } from 'immutable'
 import assert from 'assert'
-import ProxyStatusCodes from './ProxyStatusCodes'
+import ProxyStatusCodes from '../rest_support/ProxyStatusCodes'
 import { createEncryptionKey } from '../crypto/cryptoLib'
 
  /**

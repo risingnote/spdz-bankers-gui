@@ -3,6 +3,6 @@
  * Wrapping separated out to simplify testing of BankersContainers. 
  */
 import BankersContainer from './BankersContainer'
-import SetupContainer from '../setup/SetupContainer'
+import ConnectionContainer from '../connection/ConnectionContainer'
 
-export default SetupContainer(BankersContainer)
+export default ConnectionContainer(BankersContainer)

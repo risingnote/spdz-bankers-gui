@@ -1,6 +1,6 @@
 import { List } from 'immutable'
-import { initSpdzServerList, updateSpdzServerStatus, allProxiesConnected } from './SetupContainerHelper'
-import ProxyStatusCodes from './ProxyStatusCodes'
+import { initSpdzServerList, updateSpdzServerStatus, allProxiesConnected } from './ConnectionContainerHelper'
+import ProxyStatusCodes from '../rest_support/ProxyStatusCodes'
 
 const myjson = 
 [

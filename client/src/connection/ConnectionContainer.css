@@ -1,14 +1,14 @@
-.SetupContainer-main {
+.ConnectionContainer-main {
   display: -webkit-flex;
   display: flex;
   flex-flow: row wrap;
   padding: 20px;
 }
 
-.SetupContainer-mpcgui {
+.ConnectionContainer-mpcgui {
   flex: 1;
 }
 
-.SetupContainer-setup {
+.ConnectionContainer-setup {
   flex: 0 1 auto;
 }

@@ -2,7 +2,7 @@ import HttpStatus from 'http-status-codes'
 
 import NoContentError from './NoContentError'
 import { getProxyConfig, connectProxyToEngine, checkEngineConnection,
-           consumeDataFromProxy, sendDataToProxy } from './SpdzApi'
+           disconnectProxyFromEngine, consumeDataFromProxy, sendDataToProxy } from './SpdzApi'
 import mockResponse from '../test_support/MockResponse'
 
 describe('Prove the SpdzApi with mock responses from fetch', () => {
@@ -129,7 +129,22 @@ describe('Connect the Spdz Proxy to the Spdz Engine for a client', () => {
         expect(err.reason).toEqual({ "status": "404", "message": "test error" })
         done()
       })  
-  })  
+  })
+
+  it('Will disconnect from the SPDZ engine', (done) => {
+    window.fetch = jest.fn().mockImplementation(() => {
+      const headers = new Headers()
+      return Promise.resolve(mockResponse(HttpStatus.OK, null, headers))
+    })
+    
+    disconnectProxyFromEngine()
+      .then(() => {
+        done()
+      })
+      .catch((err) => {
+        done.fail(err)
+      })  
+  })
 })
 
 describe('Consume a binary value from the Spdz Proxy', () => {

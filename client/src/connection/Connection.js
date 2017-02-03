@@ -1,12 +1,12 @@
 /**
- * Responsible for displaying setup information based on props passed in.
+ * Responsible for displaying SPDZ connection information based on props passed in.
  */
 import React from 'react';
 import { List } from 'immutable'
 import ProxyStatus from './ProxyStatus'
-import './Setup.css'
+import './Connection.css'
 
-const Setup = (props) => {
+const Connection = (props) => {
   const proxyServers = (proxyServerList) => {
     return proxyServerList.map( (proxyServer) => {
       return <ProxyStatus key={proxyServer.get('url')} status={proxyServer.get('status')} url={proxyServer.get('url')} />
@@ -14,15 +14,15 @@ const Setup = (props) => {
   }
 
   return (
-    <div className='Setup-panel'>
-      <p className='Setup-subHead'>Spdz Proxy Servers</p>
+    <div className='Connection-panel'>
+      <p className='Connection-subHead'>Spdz Proxy Servers</p>
       {proxyServers(props.spdzProxyServerList)}
     </div>
   )
 } 
 
-Setup.propTypes = {
+Connection.propTypes = {
   spdzProxyServerList: React.PropTypes.instanceOf(List).isRequired
 }
 
-export default Setup
+export default Connection

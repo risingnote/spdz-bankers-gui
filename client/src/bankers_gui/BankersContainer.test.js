@@ -10,10 +10,13 @@ import { twoProxiesWith1Connected, twoProxiesWith2Connected } from '../test_supp
 jest.mock('../rest_support/SpdzApiHelper')
 import { sendInputsWithShares } from '../rest_support/SpdzApiHelper'
 
+const mockFn = jest.fn()
+
 describe('Bankers GUI (not wrapped in SetupContainer) rendering and behaviour', () => {
   it('Renders as expected (compared to a snapshot) when proxies are not all connected', () => {
     const tree = renderer.create(
-      <BankersContainer allProxiesConnected={false} spdzProxyServerList={twoProxiesWith1Connected}
+      <BankersContainer allProxiesConnected={false} startGame={mockFn} stopGame={mockFn}
+                        spdzProxyServerList={twoProxiesWith1Connected}
                         spdzApiRoot={'/spdzapi'} clientPublicKey={'a1b2c3d4'} />
     ).toJSON()
 
@@ -22,7 +25,8 @@ describe('Bankers GUI (not wrapped in SetupContainer) rendering and behaviour', 
 
   it('Renders as expected (compared to a snapshot) when proxies are connected', () => {
     const tree = renderer.create(
-      <BankersContainer allProxiesConnected={true} spdzProxyServerList={twoProxiesWith2Connected}
+      <BankersContainer allProxiesConnected={true} startGame={mockFn} stopGame={mockFn}
+                        spdzProxyServerList={twoProxiesWith2Connected}
                         spdzApiRoot={'/spdzapi'} clientPublicKey={'a1b2c3d4'} />
     ).toJSON()
 

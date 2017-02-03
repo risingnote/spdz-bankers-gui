@@ -2,7 +2,7 @@
  * Examples of spdzProxyList state maintained in SetupContainer, used for testing.
  */
 import { List, Map } from 'immutable'
-import ProxyStatusCodes from '../setup/ProxyStatusCodes'
+import ProxyStatusCodes from '../rest_support/ProxyStatusCodes'
 
 const twoProxiesWith0Connected = List.of(
       Map({

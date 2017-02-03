@@ -4,7 +4,7 @@
  * Interacts with GUI via websocket to read and write list of diners who have joined meal.
  * Interacts with SPDZ to send shares of data and poll for result.
  */
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { List } from 'immutable'
 import Io from 'socket.io-client'
 
@@ -12,7 +12,8 @@ import Alert from 'react-s-alert'
 import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/flip.css'
 
-import { sendInputsWithShares, retrieveWinnerClientId } from '../rest_support/SpdzApiHelper'
+import { connectToProxies, disconnectFromProxies, 
+           sendInputsWithShares, retrieveWinnerClientId } from '../rest_support/SpdzApiHelper'
 import NoContentError from '../rest_support/NoContentError'
 import BankersForm from './BankersForm'
 import BankersTable from './BankersTable'
@@ -122,10 +123,12 @@ class BankersContainer extends Component {
 }
 
 BankersContainer.propTypes = {
-  allProxiesConnected: React.PropTypes.bool.isRequired,
-  spdzProxyServerList: React.PropTypes.instanceOf(List).isRequired,
-  spdzApiRoot: React.PropTypes.string.isRequired,
-  clientPublicKey: React.PropTypes.string.isRequired
+  allProxiesConnected: PropTypes.bool.isRequired,
+  startGame: PropTypes.func.isRequired,
+  stopGame: PropTypes.func.isRequired,  
+  spdzProxyServerList: PropTypes.instanceOf(List).isRequired,
+  spdzApiRoot: PropTypes.string.isRequired,
+  clientPublicKey: PropTypes.string.isRequired
 }
 
 export default BankersContainer

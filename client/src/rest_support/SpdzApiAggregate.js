@@ -1,8 +1,9 @@
 /**
  * Aggregated SPDZ REST API functions to communicate with all SPDZ proxies.
  */
-import { connectProxyToEngine, checkEngineConnection, consumeDataFromProxy, sendDataToProxy } from './SpdzApi'
-import ProxyStatusCodes from '../setup/ProxyStatusCodes'
+import { connectProxyToEngine, checkEngineConnection, disconnectProxyFromEngine, 
+           consumeDataFromProxy, sendDataToProxy } from './SpdzApi'
+import ProxyStatusCodes from './ProxyStatusCodes'
 import { base64Encode } from '../math/binary'
 
 /**
@@ -49,6 +50,30 @@ const checkProxies = (spdzProxyUrlList, spdzApiRoot, clientId) => {
 
   return Promise.all(checkList)
 }
+
+/**
+ * Run disconnect on all spdz proxy servers for this client.
+ * No throws or rejects expected.
+ *  
+ * @param {spdzProxyUrlList} List of urls, one per SPDZ proxy
+ * @returns Promise which is thenable once all connection setup requests are finished.
+ *          Returns a list of objects with id (position in url list) and status. 
+ */
+const disconnectFromProxies = (spdzProxyUrlList, spdzApiRoot, clientId) => {
+
+  const disconnectList = spdzProxyUrlList.map( (url, index) => {
+    return disconnectProxyFromEngine(url, spdzApiRoot, clientId) 
+      .then(() => {
+        return {id: index, status: ProxyStatusCodes.Disconnected}
+      }, (ex) => {
+        console.log('Disconnect from SPDZ proxy failed.', (ex.reason ? ex.reason.message : ex.message))
+        return {id: index, status: ProxyStatusCodes.Disconnected}        
+      })
+  })
+
+  return Promise.all(disconnectList)
+}
+
 /**
  * Consume binary data from all spdz proxy servers. A low level function which should be wrapped
  * for specific expected data.
@@ -83,4 +108,4 @@ const sendInputsToProxies = ( (spdzProxyUrlList, spdzApiRoot, clientId, inputLis
   return Promise.all(sendInputsList)  
 })
 
-export { connectToProxies, checkProxies, consumeDataFromProxies, sendInputsToProxies }
+export { connectToProxies, checkProxies, disconnectFromProxies, consumeDataFromProxies, sendInputsToProxies }

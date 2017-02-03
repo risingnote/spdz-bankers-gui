@@ -5,7 +5,7 @@ import cryptologo from './crypto-logo.png'
 import uoblogo from './uob-logo-white-largest.png'
 import spdzlogo from './spdz_logo.svg'
 import './App.css'
-import BankersWithSetup from './bankers_gui/BankersWithSetup'
+import BankersWithConnection from './bankers_gui/BankersWithConnection'
 
 class App extends Component {
   render() {
@@ -21,7 +21,7 @@ class App extends Component {
             <img src={uoblogo} className="App-header-fixed-col" alt="logo" />
           </a>      
         </header>
-        <BankersWithSetup />
+        <BankersWithConnection />
         <footer className="App-footer">
           <div className="App-footer-col-left">
             <h4>Department of Computer Science</h4>

@@ -2,12 +2,12 @@
  * Runs full DOM rendering to allow lifecycle methods to be tested.
  */
 import React from 'react'
-import SetupContainer from './SetupContainer'
+import ConnectionContainer from './ConnectionContainer'
 import { mount } from 'enzyme'
 import { List } from 'immutable'
 
 // As this is a higher order component, need to execute function with dummy GUI component.
-const ComponentUnderTest = SetupContainer(
+const ComponentUnderTest = ConnectionContainer(
   class Dummy extends React.Component {
     render() {
       return <div>Dummy component not important</div>
@@ -22,7 +22,7 @@ import { connectToProxies } from '../rest_support/SpdzApiAggregate'
 jest.mock('../crypto/cryptoLib')
 import { createClientPublicKey } from '../crypto/cryptoLib'
 
-describe('Setup controller component behaviour', () => {
+describe('Connection controller component behaviour', () => {
 
   const exampleJsonConfig = 
         {
@@ -44,7 +44,7 @@ describe('Setup controller component behaviour', () => {
     getProxyConfig.mockImplementation(() => Promise.resolve(exampleJsonConfig))
     createClientPublicKey.mockImplementation(() => '900fac89aaeb349c657a60354b2edc47ce56e1dc6c50580bbf815b2753a10014')
 
-    // Mount and retrieve nodes doesn't work for stateless components (Setup), 
+    // Mount and retrieve nodes doesn't work for stateless components (Connection), 
     // so just render and then check state - not sure about this
     const wrapper = mount(<ComponentUnderTest />)
 
@@ -71,7 +71,7 @@ describe('Setup controller component behaviour', () => {
   /**
    * TODO Getting proxy state is now on a timer, need to adjust this.....
    */
-  xit('When the setup button is clicked the spdz proxy state is changed.', (done) => {
+  xit('Changes to connection state on timer.', (done) => {
     getProxyConfig.mockImplementation(() => Promise.resolve(exampleJsonConfig))
     // mock out successful connection for both proxies 
     connectToProxies.mockImplementation(() => Promise.resolve([
@@ -87,7 +87,7 @@ describe('Setup controller component behaviour', () => {
     setTimeout(() => { 
       try {
         //simulate click on connect event
-        const btnContainer = wrapper.find('[className="Setup-panel"]')
+        const btnContainer = wrapper.find('[className="Connection-panel"]')
         expect(btnContainer).toBeDefined()
         const btn = btnContainer.find('button')
         expect(btn).toBeDefined()
