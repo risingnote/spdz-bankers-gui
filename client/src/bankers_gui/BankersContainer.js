@@ -12,9 +12,10 @@ import Alert from 'react-s-alert'
 import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/flip.css'
 
-import { connectToProxies, disconnectFromProxies, 
-           sendInputsWithShares, retrieveWinnerClientId } from '../rest_support/SpdzApiHelper'
+import { connectToProxies, disconnectFromProxies } from '../rest_support/SpdzApiAggregate'
+import { sendInputsWithShares, retrieveWinnerClientId } from '../rest_support/SpdzApiHelper'
 import NoContentError from '../rest_support/NoContentError'
+
 import BankersForm from './BankersForm'
 import BankersTable from './BankersTable'
 
@@ -29,11 +30,14 @@ class BankersContainer extends Component {
     }
     this.socket = undefined
     this.resultTimerId = undefined
-    this.handleSubmitBonus = this.handleSubmitBonus.bind(this)
+    this.handleSubmitEntry = this.handleSubmitEntry.bind(this)
     this.joinMeal = this.joinMeal.bind(this)
     this.pollForResult = this.pollForResult.bind(this)
   }
 
+  /**
+   * At startup get list of diners who have already joined the meal.
+   */
   componentDidMount() {
     this.socket = Io('/diners')
 
@@ -49,10 +53,14 @@ class BankersContainer extends Component {
       clearInterval(this.resultTimerId)
       this.resultTimerId = undefined
     } 
+    disconnectFromProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.get('url')), 
+                          this.props.spdzApiRoot, this.props.clientPublicKey)
   }
 
   /**
    * Start an interval timer to poll the SPDZ proxies for the winner of the computation.
+   * If successfully get result:
+   *   Disconnect from SPDZ engines and notify ConnectionContainer.
    */
   pollForResult(spdzProxyServerList, spdzApiRoot, clientPublicKey) {
     this.resultTimerId = setInterval(() => {
@@ -61,6 +69,13 @@ class BankersContainer extends Component {
         this.setState({winningClientId: winningClientId})
         console.log('Got winning client of ', winningClientId)        
         clearInterval(this.resultTimerId)
+      })
+      .then( () => {
+        return disconnectFromProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.get('url')), 
+                          this.props.spdzApiRoot, this.props.clientPublicKey)
+      })
+      .then( (values) => {
+        this.props.stopGame(values)
       })
       .catch( err => {
         if (err instanceof NoContentError) {
@@ -91,12 +106,23 @@ class BankersContainer extends Component {
   } 
 
   /**
-   * Join list of diners and if successful send bonus as shares to each SPDZ proxy.
+   * Join game by:
+   *   Running connection to SPDZ engines and notifying ConnectionContainer.
+   *   If all OK join meal with a name
+   *   If all OK send bonus as shares to all SPDZ proxies.
+   *   Start timer polling for result.
    */
-  handleSubmitBonus(name, bonus) {
-    this.joinMeal(this.socket, name, this.props.clientPublicKey)
-      .then(() => sendInputsWithShares([bonus], true, this.props.spdzProxyServerList, 
-              this.props.spdzApiRoot, this.props.clientPublicKey))
+  handleSubmitEntry(name, bonus) {
+    connectToProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.get('url')), 
+                                this.props.spdzApiRoot, this.props.clientPublicKey)
+      .then( (values) => {
+        this.props.startGame(values)
+        return this.joinMeal(this.socket, name, this.props.clientPublicKey)
+      })
+      .then( () => {
+        return sendInputsWithShares([bonus], true, this.props.spdzProxyServerList, 
+              this.props.spdzApiRoot, this.props.clientPublicKey)
+      })
       .then( () => {
         this.pollForResult(this.props.spdzProxyServerList, this.props.spdzApiRoot, 
               this.props.clientPublicKey)
@@ -111,10 +137,13 @@ class BankersContainer extends Component {
   render() {
     const myEntry = this.state.dinersList.find(diner => diner.publicKey === this.props.clientPublicKey)
     const joinedName = (myEntry !== undefined ? myEntry.name : undefined)
+    const winnerChosen = this.state.winningClientId !== undefined
+    const connectionProblem = this.props.spdzProxyServerList.size === 0 ? "No SPDZ servers found." : undefined
+
     return (
       <div className='Bankers'>
-        <BankersForm submitBonus={this.handleSubmitBonus} proxiesConnected={this.props.allProxiesConnected}
-                     joinedName={joinedName} />
+        <BankersForm submitBonus={this.handleSubmitEntry} joinedName={joinedName} 
+                     winnerChosen={winnerChosen} connectionProblem={connectionProblem}/>
         <BankersTable diners={this.state.dinersList} winningClientId={this.state.winningClientId}/>
         <Alert stack={{limit: 3}} timeout={5000} position={'top-left'} effect={'flip'} offset={100} html={true} />
       </div>
@@ -123,7 +152,6 @@ class BankersContainer extends Component {
 }
 
 BankersContainer.propTypes = {
-  allProxiesConnected: PropTypes.bool.isRequired,
   startGame: PropTypes.func.isRequired,
   stopGame: PropTypes.func.isRequired,  
   spdzProxyServerList: PropTypes.instanceOf(List).isRequired,

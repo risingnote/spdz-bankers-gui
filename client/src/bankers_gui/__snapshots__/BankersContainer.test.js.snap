@@ -1,4 +1,4 @@
-exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Renders as expected (compared to a snapshot) when proxies are connected 1`] = `
+exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Renders as expected (compared to a snapshot) at start of game 1`] = `
 <div
   className="Bankers">
   <form
@@ -199,7 +199,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
 </div>
 `;
 
-exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Renders as expected (compared to a snapshot) when proxies are not all connected 1`] = `
+exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Renders as expected (compared to a snapshot) at start of game, no proxies found 1`] = `
 <div
   className="Bankers">
   <form
@@ -237,7 +237,7 @@ exports[`Bankers GUI (not wrapped in SetupContainer) rendering and behaviour Ren
       value="Send" />
     <p
       className="smallText">
-      You must be connected to all SPDZ proxies.
+      No SPDZ servers found.
     </p>
   </form>
   <div

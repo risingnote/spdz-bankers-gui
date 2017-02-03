@@ -4,6 +4,8 @@
 import { List, Map } from 'immutable'
 import ProxyStatusCodes from '../rest_support/ProxyStatusCodes'
 
+const noProxies = List()
+
 const twoProxiesWith0Connected = List.of(
       Map({
         url: "http://spdzProxy.one:4000",
@@ -49,4 +51,4 @@ const twoProxiesWith2Connected = List.of(
       })
     )
 
-export { twoProxiesWith0Connected, twoProxiesWith1Connected, twoProxiesWith2Connected }
+export { noProxies, twoProxiesWith0Connected, twoProxiesWith1Connected, twoProxiesWith2Connected }

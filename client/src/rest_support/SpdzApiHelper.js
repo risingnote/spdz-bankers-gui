@@ -74,10 +74,4 @@ const sendInputsWithShares = ( (inputList, encrypted, spdzProxyList, spdzApiRoot
       })
 })
 
-const pollForResult = ( () => {
-  // How handle long poll ?
-  // See https://davidwalsh.name/javascript-polling for polling with promises, i.e. wait for data.
-  // call into retrieveWinnerClientId ?
-})
-
-export { retrieveShares, retrieveWinnerClientId, sendInputsWithShares, pollForResult }
+export { retrieveShares, retrieveWinnerClientId, sendInputsWithShares }

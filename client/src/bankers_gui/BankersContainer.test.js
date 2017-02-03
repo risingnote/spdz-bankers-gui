@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer'
 import { SocketIO, Server } from 'mock-socket'
 import BankersContainer from './BankersContainer'
 import BankersForm from './BankersForm'
-import { twoProxiesWith1Connected, twoProxiesWith2Connected } from '../test_support/ProxyServerList'
+import { noProxies, twoProxiesWith1Connected, twoProxiesWith2Connected } from '../test_support/ProxyServerList'
 
 // Mock out REST call
 jest.mock('../rest_support/SpdzApiHelper')
@@ -13,9 +13,9 @@ import { sendInputsWithShares } from '../rest_support/SpdzApiHelper'
 const mockFn = jest.fn()
 
 describe('Bankers GUI (not wrapped in SetupContainer) rendering and behaviour', () => {
-  it('Renders as expected (compared to a snapshot) when proxies are not all connected', () => {
+  it('Renders as expected (compared to a snapshot) at start of game', () => {
     const tree = renderer.create(
-      <BankersContainer allProxiesConnected={false} startGame={mockFn} stopGame={mockFn}
+      <BankersContainer startGame={mockFn} stopGame={mockFn}
                         spdzProxyServerList={twoProxiesWith1Connected}
                         spdzApiRoot={'/spdzapi'} clientPublicKey={'a1b2c3d4'} />
     ).toJSON()
@@ -23,10 +23,10 @@ describe('Bankers GUI (not wrapped in SetupContainer) rendering and behaviour', 
     expect(tree).toMatchSnapshot()
   })
 
-  it('Renders as expected (compared to a snapshot) when proxies are connected', () => {
+  it('Renders as expected (compared to a snapshot) at start of game, no proxies found', () => {
     const tree = renderer.create(
-      <BankersContainer allProxiesConnected={true} startGame={mockFn} stopGame={mockFn}
-                        spdzProxyServerList={twoProxiesWith2Connected}
+      <BankersContainer startGame={mockFn} stopGame={mockFn}
+                        spdzProxyServerList={noProxies}
                         spdzApiRoot={'/spdzapi'} clientPublicKey={'a1b2c3d4'} />
     ).toJSON()
 

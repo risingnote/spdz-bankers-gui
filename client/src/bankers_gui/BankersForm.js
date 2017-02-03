@@ -1,7 +1,7 @@
 /**
  * Responsible for managing local state on form before submit.
  */
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import './BankersForm.css'
 
@@ -32,10 +32,11 @@ class BankersForm extends Component {
   }
 
   render() {
-    const disableSubmit = this.props.proxiesConnected && !this.props.joinedName  ? '' : 'disabled'
+    const disableSubmit = this.props.joinedName === undefined && this.props.connectionProblem === undefined ? '' : 'disabled'
     const statusMessage = () => {
-      if (!this.props.proxiesConnected) return 'You must be connected to all SPDZ proxies.'
-      else if (this.props.joinedName) return `You have joined the meal as ${this.props.joinedName}.`
+      if (this.props.connectionProblem !== undefined) return this.props.connectionProblem
+      else if (this.props.winnerChosen) return `A winner has been chosen.`
+      else if (this.props.joinedName !== undefined) return `You have joined the meal as ${this.props.joinedName}.`
       else return ''
     }
 
@@ -55,9 +56,10 @@ class BankersForm extends Component {
 }
 
 BankersForm.propTypes = {
-  submitBonus: React.PropTypes.func.isRequired,
-  proxiesConnected: React.PropTypes.bool.isRequired,
-  joinedName: React.PropTypes.string
+  submitBonus: PropTypes.func.isRequired,
+  joinedName: PropTypes.string,
+  winnerChosen: PropTypes.bool,
+  connectionProblem: PropTypes.string
 }
 
 export default BankersForm

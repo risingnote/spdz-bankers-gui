@@ -1,0 +1,163 @@
+exports[`Bankers Form display component rendering Renders as expected (compared to a snapshot) after user has joined game. 1`] = `
+<form
+  className="BankersForm"
+  onSubmit={[Function]}>
+  <h4>
+    Bankers Celebration Dinner
+  </h4>
+  <p>
+    ...but who should pay?
+  </p>
+  <label
+    htmlFor="joinName">
+    Join meal as
+  </label>
+  <input
+    disabled="disabled"
+    id="joinName"
+    onChange={[Function]}
+    type="text"
+    value="" />
+  <label
+    htmlFor="bonusValue">
+    Bonus
+  </label>
+  <input
+    disabled="disabled"
+    id="bonusValue"
+    onChange={[Function]}
+    type="text"
+    value="" />
+  <input
+    disabled="disabled"
+    type="submit"
+    value="Send" />
+  <p
+    className="smallText">
+    You have joined the meal as Bob.
+  </p>
+</form>
+`;
+
+exports[`Bankers Form display component rendering Renders as expected (compared to a snapshot) after winner has been chosen. 1`] = `
+<form
+  className="BankersForm"
+  onSubmit={[Function]}>
+  <h4>
+    Bankers Celebration Dinner
+  </h4>
+  <p>
+    ...but who should pay?
+  </p>
+  <label
+    htmlFor="joinName">
+    Join meal as
+  </label>
+  <input
+    disabled="disabled"
+    id="joinName"
+    onChange={[Function]}
+    type="text"
+    value="" />
+  <label
+    htmlFor="bonusValue">
+    Bonus
+  </label>
+  <input
+    disabled="disabled"
+    id="bonusValue"
+    onChange={[Function]}
+    type="text"
+    value="" />
+  <input
+    disabled="disabled"
+    type="submit"
+    value="Send" />
+  <p
+    className="smallText">
+    A winner has been chosen.
+  </p>
+</form>
+`;
+
+exports[`Bankers Form display component rendering Renders as expected (compared to a snapshot) start of game, no proxies. 1`] = `
+<form
+  className="BankersForm"
+  onSubmit={[Function]}>
+  <h4>
+    Bankers Celebration Dinner
+  </h4>
+  <p>
+    ...but who should pay?
+  </p>
+  <label
+    htmlFor="joinName">
+    Join meal as
+  </label>
+  <input
+    disabled="disabled"
+    id="joinName"
+    onChange={[Function]}
+    type="text"
+    value="" />
+  <label
+    htmlFor="bonusValue">
+    Bonus
+  </label>
+  <input
+    disabled="disabled"
+    id="bonusValue"
+    onChange={[Function]}
+    type="text"
+    value="" />
+  <input
+    disabled="disabled"
+    type="submit"
+    value="Send" />
+  <p
+    className="smallText">
+    No proxies found.
+  </p>
+</form>
+`;
+
+exports[`Bankers Form display component rendering Renders as expected (compared to a snapshot) start of game. 1`] = `
+<form
+  className="BankersForm"
+  onSubmit={[Function]}>
+  <h4>
+    Bankers Celebration Dinner
+  </h4>
+  <p>
+    ...but who should pay?
+  </p>
+  <label
+    htmlFor="joinName">
+    Join meal as
+  </label>
+  <input
+    disabled=""
+    id="joinName"
+    onChange={[Function]}
+    type="text"
+    value="" />
+  <label
+    htmlFor="bonusValue">
+    Bonus
+  </label>
+  <input
+    disabled=""
+    id="bonusValue"
+    onChange={[Function]}
+    type="text"
+    value="" />
+  <input
+    disabled=""
+    type="submit"
+    value="Send" />
+  <p
+    className="smallText">
+    
+  </p>
+</form>
+`;
