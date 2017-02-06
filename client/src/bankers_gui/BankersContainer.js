@@ -126,7 +126,7 @@ class BankersContainer extends Component {
       })
       .then( () => {
         return sendInputsWithShares([bonus], true, this.props.spdzProxyServerList, 
-              this.props.spdzApiRoot, this.props.clientPublicKey)
+              this.props.spdzApiRoot, this.props.clientPublicKey, 500)
       })
       .then( () => {
         this.pollForResult(this.props.spdzProxyServerList, this.props.spdzApiRoot, 

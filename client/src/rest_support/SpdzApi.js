@@ -135,8 +135,8 @@ const disconnectProxyFromEngine = (host, apiRoot, clientId) => {
     })
 }
 
-const consumeDataFromProxy = (host, apiRoot, clientId) => {
-  return fetch(`${host}${apiRoot}/${clientId}/consume-data`,
+const consumeDataFromProxy = (host, apiRoot, clientId, waitTimeoutMs=0) => {
+  return fetch(`${host}${apiRoot}/${clientId}/consume-data?waitMs=${waitTimeoutMs}`,
     {
       method: 'POST',
       headers: {

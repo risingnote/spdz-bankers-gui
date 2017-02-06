@@ -16,10 +16,12 @@ import extractClientId from '../math/clientIdFromBuffer'
  * @param {spdzProxyList} List containing url and encryptionKey for each proxy 
  * @param {spdzApiRoot} url path
  * @param {clientId} Identify client connection to proxy
+ * @param {waitTimeoutMs} Optional wait timeout ms to wait for shares to be available.
  * @returns Promise resolved with list of shares (length inputNum) or reject with Error
  */
-const retrieveShares = (inputNum, encrypted, spdzProxyList, spdzApiRoot, clientId) => {
-  return consumeDataFromProxies(spdzProxyList.map(spdzProxy => spdzProxy.get('url')), spdzApiRoot, clientId)
+const retrieveShares = (inputNum, encrypted, spdzProxyList, spdzApiRoot, clientId, waitTimeoutMs=0) => {
+  return consumeDataFromProxies(spdzProxyList.map(spdzProxy => spdzProxy.get('url')), 
+                                  spdzApiRoot, clientId, waitTimeoutMs)
     .then((cipherValues) => {
       return (encrypted ? cipherValues.map( (buffer, index) => {
           const encryptionKey = spdzProxyList.get(index).get('encryptionKey')
@@ -61,8 +63,8 @@ const retrieveWinnerClientId = (spdzProxyList, spdzApiRoot, clientId) => {
  * Sending a list of inputs to all Spdz proxies after retrieving shares and applying to inputs.
  * @returns Promise with empty return if all OK or rejects with error
  */
-const sendInputsWithShares = ( (inputList, encrypted, spdzProxyList, spdzApiRoot, clientId) => {
-  return retrieveShares(inputList.length, encrypted, spdzProxyList, spdzApiRoot, clientId )
+const sendInputsWithShares = ( (inputList, encrypted, spdzProxyList, spdzApiRoot, clientId, waitTimeoutMs=0) => {
+  return retrieveShares(inputList.length, encrypted, spdzProxyList, spdzApiRoot, clientId, waitTimeoutMs )
       .then( (shareList) => {
         return inputList.map( (input, i) => {
           return shareList[i].add(Gfp.fromString(input).toMontgomery())  

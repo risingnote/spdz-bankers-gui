@@ -83,10 +83,10 @@ const disconnectFromProxies = (spdzProxyUrlList, spdzApiRoot, clientId) => {
  *          Returns a list of Uint8Array buffers in same order as spdzProxyUrlList.
  *          Errors not handled here. 
  */
-const consumeDataFromProxies = (spdzProxyUrlList, spdzApiRoot, clientId) => {
+const consumeDataFromProxies = (spdzProxyUrlList, spdzApiRoot, clientId, waitTimeoutMs=0) => {
   
   const consumeList = spdzProxyUrlList.map( (url, index) => {
-    return consumeDataFromProxy(url, spdzApiRoot, clientId) 
+    return consumeDataFromProxy(url, spdzApiRoot, clientId, waitTimeoutMs) 
   })
 
   return Promise.all(consumeList)
