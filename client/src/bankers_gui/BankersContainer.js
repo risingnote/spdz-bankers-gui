@@ -129,9 +129,9 @@ class BankersContainer extends Component {
               this.props.spdzApiRoot, this.props.clientPublicKey, 500)
       })
       .then( () => {
+        Alert.info('You have joined the meal.', {html: false})
         this.pollForResult(this.props.spdzProxyServerList, this.props.spdzApiRoot, 
               this.props.clientPublicKey)
-        Alert.info('You have joined the meal.', {html: false})
       })
       .catch((ex) => {
         console.log(ex)

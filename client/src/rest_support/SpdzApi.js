@@ -114,7 +114,7 @@ const checkEngineConnection = (host, apiRoot, clientId) => {
  * Success here is a new connection created or already connected.
  */
 const disconnectProxyFromEngine = (host, apiRoot, clientId) => {
-  return fetch(`${host}${apiRoot}/${clientId}/connect-to-engine`,
+  return fetch(`${host}${apiRoot}/${clientId}/engine-connection`,
     {
       method: 'DELETE',
       headers: {
