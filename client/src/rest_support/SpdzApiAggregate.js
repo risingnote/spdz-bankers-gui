@@ -108,4 +108,20 @@ const sendInputsToProxies = ( (spdzProxyUrlList, spdzApiRoot, clientId, inputLis
   return Promise.all(sendInputsList)  
 })
 
-export { connectToProxies, checkProxies, disconnectFromProxies, consumeDataFromProxies, sendInputsToProxies }
+/**
+ * Do all spdz proxies have connected status ?
+ * @param spdzConnectionStatusList List of {id: index, status: ProxyStatusCodes}.
+ * @returns true if yes, false if no spdz proxies. 
+ */
+const allProxiesConnected = (spdzConnectionStatusList) => {
+  if (spdzConnectionStatusList.size === 0) {
+    return false;
+  }
+  
+  return spdzConnectionStatusList.filter( spdzProxyConnection => {
+    return spdzProxyConnection.status === ProxyStatusCodes.Connected  
+  }).length === spdzConnectionStatusList.length
+}
+
+export { connectToProxies, checkProxies, disconnectFromProxies, 
+         consumeDataFromProxies, sendInputsToProxies, allProxiesConnected }

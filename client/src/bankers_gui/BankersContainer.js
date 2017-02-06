@@ -12,7 +12,7 @@ import Alert from 'react-s-alert'
 import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/flip.css'
 
-import { connectToProxies, disconnectFromProxies } from '../rest_support/SpdzApiAggregate'
+import { connectToProxies, disconnectFromProxies, allProxiesConnected } from '../rest_support/SpdzApiAggregate'
 import { sendInputsWithShares, retrieveWinnerClientId } from '../rest_support/SpdzApiHelper'
 import NoContentError from '../rest_support/NoContentError'
 
@@ -117,7 +117,12 @@ class BankersContainer extends Component {
                                 this.props.spdzApiRoot, this.props.clientPublicKey)
       .then( (values) => {
         this.props.startGame(values)
-        return this.joinMeal(this.socket, name, this.props.clientPublicKey)
+        if (allProxiesConnected(values)) {
+          return this.joinMeal(this.socket, name, this.props.clientPublicKey)
+        }
+        else {
+          return Promise.reject(new Error('Unable to connect to all Spdz Proxy Servers'))
+        }
       })
       .then( () => {
         return sendInputsWithShares([bonus], true, this.props.spdzProxyServerList, 

@@ -1,5 +1,8 @@
+import { Map, List } from 'immutable'
 import Gfp from '../math/Gfp'
-import { connectToProxies, consumeDataFromProxies, sendInputsToProxies } from './SpdzApiAggregate'
+import { connectToProxies, consumeDataFromProxies, 
+         sendInputsToProxies, allProxiesConnected } from './SpdzApiAggregate'
+import ProxyStatusCodes from './ProxyStatusCodes'
 
 jest.mock('./SpdzApi')
 import { connectProxyToEngine, consumeDataFromProxy, sendDataToProxy } from './SpdzApi'
@@ -132,5 +135,17 @@ describe('Client sends inputs to multiple Spdz proxies', () => {
         .catch((err) => {
           done.fail(err)
         })  
+  })
+
+  test('I can detect if all spdz proxies are connected', () => {
+
+    expect(allProxiesConnected([{status: ProxyStatusCodes.Connected},
+                                {status: ProxyStatusCodes.Failure},
+                                {status: ProxyStatusCodes.Connected}])).toBeFalsy()
+
+    expect(allProxiesConnected([{status: ProxyStatusCodes.Connected},
+                                {status: ProxyStatusCodes.Connected},
+                                {status: ProxyStatusCodes.Connected}])).toBeTruthy()
+
   })
 })

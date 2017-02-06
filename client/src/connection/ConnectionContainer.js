@@ -10,7 +10,8 @@ import { List } from 'immutable'
 import { initSpdzServerList, updateSpdzServerStatus } from './ConnectionContainerHelper' 
 import Connection from './Connection'
 import { getProxyConfig } from '../rest_support/SpdzApi'
-import { checkProxies } from '../rest_support/SpdzApiAggregate'
+import { checkProxies, allProxiesConnected } from '../rest_support/SpdzApiAggregate'
+
 import { createClientPublicKey } from '../crypto/cryptoLib'
 import './ConnectionContainer.css'
 
@@ -46,7 +47,8 @@ function ConnectionWrapper(MPCGui) {
     }
 
     /**
-     * Notify that at start of 'game', update connection status. Start monitor status timer.
+     * Notify that at start of 'game' to update connection status.
+     * If all connected start monitor status timer.
      * @param proxyStatusAtStart values list of {id: index of spdzProxyList, status: ProxyStatusCodes}
      */
     gameStart(proxyStatusAtStart) {
@@ -58,7 +60,9 @@ function ConnectionWrapper(MPCGui) {
       const proxyListAfterUpdate = updateSpdzServerStatus(this.state.spdzProxyList, proxyStatusAtStart)
       this.setState({spdzProxyList: proxyListAfterUpdate}) 
 
-      this.startMonitorConnectionStatus()
+      if (allProxiesConnected(proxyStatusAtStart)) {
+        this.startMonitorConnectionStatus()
+      }
     }
 
     /**
@@ -89,7 +93,9 @@ function ConnectionWrapper(MPCGui) {
       if (this.state.spdzProxyList.size === 0) {
           return
       }
-      clearInterval(this.connectionTimerId)
+      if (this.connectionTimerId !== undefined) {
+        clearInterval(this.connectionTimerId)
+      }
 
       const proxyListAfterUpdate = updateSpdzServerStatus(this.state.spdzProxyList, proxyStatusAfterStop)
       this.setState({spdzProxyList: proxyListAfterUpdate}) 
