@@ -51,6 +51,10 @@ Run the compiled [bankers_bonus.mpc](https://github.com/bristolcrypto/SPDZ/blob/
 
 by default this runs 2 instances on the localhost listening on ports 14000 and 14001.
 
+To deploy a continuously restarting mpc program run with:
+
+`Scripts/harness.sh 'Scripts/run-online.sh bankers_bonus' >> deploy.log 2>&1 &`
+
 **SPDZ Proxy**
 
 Assumes [SPDZ Proxy](https://github.com/bristolcrypto/spdz-proxy)  has been installed on the target environment. 
@@ -65,25 +69,26 @@ Ensure node v7.1.0 is installed, suggest using [nvm](https://github.com/creation
 
 `git clone git@github.com:bristolcrypto/spdz-bankers-gui.git`
 
-`npm install ; npm test`
+`cd server ; npm install`
 
-`npm run build`to create the production served version of the GUI.
+`cd client ; npm install ; npm test`
+
+`cd client ; npm run build`to create the production served version of the GUI.
 
 Update `server/config/spdzProxy.json` with the public keys of each SPDZ engine. Read from the file system with `xxd -c 32 spdz/Player-Data/2-128-40/Player-SPDZ-Keys-Pn` where n is 0 or 1. The server public key is the first line in the file. The wrong value will lead to authentication errors in the GUI when sending input to SPDZ.
 
 Check that the http port is set as required in `server/config/spdzGui.json`.
 
-`cd server; NODE_ENV=production node src/index.js` to run the GUI web server.
+Update `server/scripts/start-gui.sh` with environment variables as necessary for production and run `cd server; ./scripts/start-gui.sh`  to start the GUI server.
+
+Use `cd server; ./scripts/stop-guis.sh` to end the process.
 
 ## Restrictions
 
 To use the GUI the following restrictions apply:
 
-1. The number of expected clients needed to join the computation is hardcoded into the bankers_bonus.mpc 
-program and is typically set to 3. 
+1. The number of expected clients needed to join the computation is hardcoded into the bankers_bonus.mpc program and is typically set to 3. 
+2. Interacting with SPDZ is atomic for a client - it connects, sends a client public key, receives shares and sends its input. The order of clients interacting is not significant. Once the calcuation has finished all clients are notified of the result. To run another calculation all clients must referesh the browser window.
+3. The SPDZ program executed via Scripts/run-online.sh is designed to restart after exiting, to enable a new 'game' to be played. If an error occured for one of the SPDZ engines or SPDZ proxies then the system is likely to be left in an unplayable condition and will require manual resetting.
 
-2. Because making a connection to SPDZ and getting client input is blocking in SPDZ then the order of operations is 
-important. All clients must first connect (this should happen automatically) and then each client may send
-input. If a client sends input before this then an error will show indicating that no shares are yet available.
 
-Time allowing these will be addressed.

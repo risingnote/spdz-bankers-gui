@@ -6,6 +6,17 @@ node_modules
 # testing
 coverage
 
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
 # production
 build
 
