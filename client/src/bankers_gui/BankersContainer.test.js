@@ -7,8 +7,8 @@ import BankersForm from './BankersForm'
 import { noProxiesSpdzConfig, twoProxiesWith1Connected, twoProxiesWith2Connected } from '../test_support/ProxyServerList'
 
 // Mock out REST call
-jest.mock('../rest_support/SpdzApiHelper')
-import { sendInputsWithShares } from '../rest_support/SpdzApiHelper'
+jest.mock('spdz-gui-lib')
+import { sendInputsWithShares } from 'spdz-gui-lib'
 
 const mockFn = jest.fn()
 

@@ -3,7 +3,7 @@
  */
 import React, { PropTypes } from 'react';
 import ClassNames from 'classnames'
-import ProxyStatusCodes from '../rest_support/ProxyStatusCodes'
+import { ProxyStatusCodes } from 'spdz-gui-lib'
 import './ProxyStatus.css'
 
 const ProxyStatus = (props) => {

@@ -5,8 +5,7 @@
 import React, { Component } from 'react'
 import { List, Map } from 'immutable'
 
-import { getProxyConfig } from '../rest_support/SpdzApi'
-import { createClientPublicKey, createEncryptionKey } from '../crypto/cryptoLib'
+import { getProxyConfig, createClientPublicKey, createEncryptionKey } from 'spdz-gui-lib'
 
 function setupWrapper(MPCGui) {
   return class SetupContainer extends Component {

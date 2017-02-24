@@ -6,8 +6,8 @@ import React, { PropTypes, Component } from 'react'
 import { List } from 'immutable'
 
 import BankersContainer from './BankersContainer'
-import Connection from '../connection/Connection'
-import { generateProxyStatusList } from '../connection/ProxyStatusHelper'
+import Connection from '../components/Connection'
+import { generateProxyStatusList } from '../components/ProxyStatusHelper'
 
 import './BankersGUI.css'
 

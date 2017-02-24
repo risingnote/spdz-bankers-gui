@@ -12,9 +12,8 @@ import Alert from 'react-s-alert'
 import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/flip.css'
 
-import { connectToProxies, disconnectFromProxies, allProxiesConnected } from '../rest_support/SpdzApiAggregate'
-import { sendInputsWithShares, retrieveWinnerClientId } from '../rest_support/SpdzApiHelper'
-import NoContentError from '../rest_support/NoContentError'
+import { connectToProxies, disconnectFromProxies, allProxiesConnected, 
+         sendInputsWithShares, retrieveWinnerClientId, NoContentError } from 'spdz-gui-lib'
 
 import BankersForm from './BankersForm'
 import BankersTable from './BankersTable'

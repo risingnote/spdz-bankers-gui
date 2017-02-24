@@ -1,6 +1,6 @@
 import { List, Map } from 'immutable'
 import { generateProxyStatusList } from './ProxyStatusHelper'
-import ProxyStatusCodes from '../rest_support/ProxyStatusCodes'
+import { ProxyStatusCodes } from 'spdz-gui-lib'
 
 const proxyList =  List([
    Map({ "url": "http://spdzproxyhere:3001", "publicKey": "0102030405060708010203040506070801020304050607080102030405060708", "encryptionKey": undefined }),

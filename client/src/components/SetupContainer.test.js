@@ -16,10 +16,8 @@ const ComponentUnderTest = SetupContainer(
   })
 
 // Mock out function calls
-jest.mock('../rest_support/SpdzApi')
-import { getProxyConfig } from'../rest_support/SpdzApi'
-jest.mock('../crypto/cryptoLib')
-import { createClientPublicKey, createEncryptionKey } from '../crypto/cryptoLib'
+jest.mock('spdz-gui-lib')
+import { getProxyConfig, createClientPublicKey, createEncryptionKey } from 'spdz-gui-lib'
 
 describe('Setup container behaviour', () => {
 
