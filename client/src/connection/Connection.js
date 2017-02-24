@@ -7,8 +7,8 @@ import ProxyStatus from './ProxyStatus'
 import './Connection.css'
 
 const Connection = (props) => {
-  const proxyServers = (proxyServerList) => {
-    return proxyServerList.map( (proxyServer) => {
+  const proxyServers = (proxyStatusList) => {
+    return proxyStatusList.map( (proxyServer) => {
       return <ProxyStatus key={proxyServer.get('url')} status={proxyServer.get('status')} url={proxyServer.get('url')} />
     })
   }
@@ -16,13 +16,13 @@ const Connection = (props) => {
   return (
     <div className='Connection-panel'>
       <p className='Connection-subHead'>Spdz Proxy Servers</p>
-      {proxyServers(props.spdzProxyServerList)}
+      {proxyServers(props.proxyStatusForDisplay)}
     </div>
   )
 } 
 
 Connection.propTypes = {
-  spdzProxyServerList: React.PropTypes.instanceOf(List).isRequired
+  proxyStatusForDisplay: React.PropTypes.instanceOf(List).isRequired
 }
 
 export default Connection

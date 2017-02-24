@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer'
 import { SocketIO, Server } from 'mock-socket'
 import BankersContainer from './BankersContainer'
 import BankersForm from './BankersForm'
-import { noProxies, twoProxiesWith1Connected, twoProxiesWith2Connected } from '../test_support/ProxyServerList'
+import { noProxiesSpdzConfig, twoProxiesWith1Connected, twoProxiesWith2Connected } from '../test_support/ProxyServerList'
 
 // Mock out REST call
 jest.mock('../rest_support/SpdzApiHelper')
@@ -12,10 +12,10 @@ import { sendInputsWithShares } from '../rest_support/SpdzApiHelper'
 
 const mockFn = jest.fn()
 
-describe('Bankers GUI (not wrapped in SetupContainer) rendering and behaviour', () => {
+describe('Bankers Container rendering and behaviour', () => {
   it('Renders as expected (compared to a snapshot) at start of game', () => {
     const tree = renderer.create(
-      <BankersContainer startGame={mockFn} stopGame={mockFn}
+      <BankersContainer updateConnectionStatus={mockFn}
                         spdzProxyServerList={twoProxiesWith1Connected}
                         spdzApiRoot={'/spdzapi'} clientPublicKey={'a1b2c3d4'} />
     ).toJSON()
@@ -25,8 +25,8 @@ describe('Bankers GUI (not wrapped in SetupContainer) rendering and behaviour', 
 
   it('Renders as expected (compared to a snapshot) at start of game, no proxies found', () => {
     const tree = renderer.create(
-      <BankersContainer startGame={mockFn} stopGame={mockFn}
-                        spdzProxyServerList={noProxies}
+      <BankersContainer updateConnectionStatus={mockFn}
+                        spdzProxyServerList={noProxiesSpdzConfig}
                         spdzApiRoot={'/spdzapi'} clientPublicKey={'a1b2c3d4'} />
     ).toJSON()
 

@@ -1,8 +1,8 @@
 /**
  * Responsible for managing data and behaviour for the bankers GUI.
- * Note normally wrapped in SetupContainer to allow interaction with SPDZ proxies.
  * Interacts with GUI via websocket to read and write list of diners who have joined meal.
  * Interacts with SPDZ to send shares of data and poll for result.
+ * Notifies parent to manage change of SPDZ proxy connection status.
  */
 import React, { Component, PropTypes } from 'react'
 import { List } from 'immutable'
@@ -60,7 +60,7 @@ class BankersContainer extends Component {
   /**
    * Start an interval timer to poll the SPDZ proxies for the winner of the computation.
    * If successfully get result:
-   *   Disconnect from SPDZ engines and notify ConnectionContainer.
+   *   Disconnect from SPDZ engines and notify change of connection status.
    */
   pollForResult(spdzProxyServerList, spdzApiRoot, clientPublicKey) {
     this.resultTimerId = setInterval(() => {
@@ -75,7 +75,7 @@ class BankersContainer extends Component {
                           this.props.spdzApiRoot, this.props.clientPublicKey)
       })
       .then( (values) => {
-        this.props.stopGame(values)
+        this.props.updateConnectionStatus(values)
       })
       .catch( err => {
         if (err instanceof NoContentError) {
@@ -107,7 +107,7 @@ class BankersContainer extends Component {
 
   /**
    * Join game by:
-   *   Running connection to SPDZ engines and notifying ConnectionContainer.
+   *   Running connection to SPDZ engines and notifying change of connection status.
    *   If all OK join meal with a name
    *   If all OK send bonus as shares to all SPDZ proxies.
    *   Start timer polling for result.
@@ -116,7 +116,7 @@ class BankersContainer extends Component {
     connectToProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.get('url')), 
                                 this.props.spdzApiRoot, this.props.clientPublicKey)
       .then( (values) => {
-        this.props.startGame(values)
+        this.props.updateConnectionStatus(values)
         if (allProxiesConnected(values)) {
           return this.joinMeal(this.socket, name, this.props.clientPublicKey)
         }
@@ -157,8 +157,7 @@ class BankersContainer extends Component {
 }
 
 BankersContainer.propTypes = {
-  startGame: PropTypes.func.isRequired,
-  stopGame: PropTypes.func.isRequired,  
+  updateConnectionStatus: PropTypes.func.isRequired,
   spdzProxyServerList: PropTypes.instanceOf(List).isRequired,
   spdzApiRoot: PropTypes.string.isRequired,
   clientPublicKey: PropTypes.string.isRequired

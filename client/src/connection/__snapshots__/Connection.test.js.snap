@@ -1,4 +1,4 @@
-exports[`Setup display component rendering Renders as expected (compared to a snapshot) when passed properties 1`] = `
+exports[`Setup display component rendering Renders as expected (compared to a snapshot) when passed 2 proxy connections 1`] = `
 <div
   className="Connection-panel">
   <p
@@ -8,7 +8,7 @@ exports[`Setup display component rendering Renders as expected (compared to a sn
   <div
     className="ProxyStatus-row">
     <div
-      className="ProxyStatus-col1 ProxyStatus-marker-disconnected" />
+      className="ProxyStatus-col1 ProxyStatus-marker-failure" />
     <div
       className="ProxyStatus-col2 smallText">
       http://spdzProxy.one:4000
@@ -23,5 +23,15 @@ exports[`Setup display component rendering Renders as expected (compared to a sn
       http://spdzProxy.two:4000
     </div>
   </div>
+</div>
+`;
+
+exports[`Setup display component rendering Renders as expected (compared to a snapshot) when passed no proxy connections 1`] = `
+<div
+  className="Connection-panel">
+  <p
+    className="Connection-subHead">
+    Spdz Proxy Servers
+  </p>
 </div>
 `;

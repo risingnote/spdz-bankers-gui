@@ -1,14 +1,14 @@
-.ConnectionContainer-main {
+.BankersGUI-main {
   display: -webkit-flex;
   display: flex;
   flex-flow: row wrap;
   padding: 20px;
 }
 
-.ConnectionContainer-mpcgui {
+.BankersGUI-container {
   flex: 1;
 }
 
-.ConnectionContainer-setup {
+.BankersGUI-connection {
   flex: 0 1 auto;
 }
