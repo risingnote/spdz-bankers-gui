@@ -1,9 +1,9 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { List, Map } from 'immutable'
+import { ProxyStatusCodes } from 'spdz-gui-lib' 
 
 import Connection from './Connection'
-import ProxyStatusCodes from '../rest_support/ProxyStatusCodes'
 
 const twoProxiesWith1Connected = List.of(
       Map({

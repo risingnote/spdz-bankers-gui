@@ -3,7 +3,7 @@
  * and spdzConnectionStatus usually derived after connecting or disconnecting.
  */
 import { List, Map } from 'immutable'
-import ProxyStatusCodes from '../rest_support/ProxyStatusCodes'
+import { ProxyStatusCodes } from 'spdz-gui-lib' 
 
 const noProxiesSpdzConfig = List()
 

@@ -4,7 +4,6 @@ import { mount } from 'enzyme'
 import { List, Map } from 'immutable'
 
 import BankersGUI from './BankersGUI'
-import ProxyStatusCodes from '../rest_support/ProxyStatusCodes'
 
 const spdzProxyConfig = List.of(
       Map({

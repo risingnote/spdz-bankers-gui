@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer'
 import { SocketIO, Server } from 'mock-socket'
 import BankersContainer from './BankersContainer'
 import BankersForm from './BankersForm'
-import { noProxiesSpdzConfig, twoProxiesWith1Connected, twoProxiesWith2Connected } from '../test_support/ProxyServerList'
+import { noProxiesSpdzConfig, twoProxiesWith1Connected, twoProxiesWith2Connected } from './test_support/ProxyServerList'
 
 // Mock out REST call
 jest.mock('spdz-gui-lib')

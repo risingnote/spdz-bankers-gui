@@ -2,8 +2,7 @@
  * Utility functions to support the display of spdz proxy config state in Connection component.
  */
 import { List, Map } from 'immutable'
-import ProxyStatusCodes from '../rest_support/ProxyStatusCodes' 
-
+import { ProxyStatusCodes } from 'spdz-gui-lib' 
 
 const findOrDefault = (statusValues, index) => {
     const match = statusValues.find(element => element.id  === index)
