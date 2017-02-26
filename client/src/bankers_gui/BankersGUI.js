@@ -40,7 +40,7 @@ class BankersGUI extends Component {
                               clientPublicKey={this.props.clientPublicKey}/>
         </div>
         <div className="BankersGUI-connection">
-            <Connection proxyStatusForDisplay={proxyStatusForDisplay}/>
+            <Connection proxyStatusForDisplay={proxyStatusForDisplay} />
         </div>
       </div>
     )

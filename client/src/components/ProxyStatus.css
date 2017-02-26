@@ -1,22 +1,18 @@
-.ProxyStatus-row {
+.ProxyStatus {
   display: flex;
   flex-flow: row wrap;
   margin: 0 0px;
   margin-bottom: 10px;
 }
 
-.ProxyStatus-row:last-child {
+.ProxyStatus:last-child {
    margin-bottom: 0px;
 }
 
-.ProxyStatus-col1 {
+.ProxyStatus-marker {
   width: 16px;
   border-radius: 50%;
   border: 1px solid black;
-}
-
-.ProxyStatus-col2 {
-  padding-left: 10px;
 }
 
 .ProxyStatus-marker-disconnected {

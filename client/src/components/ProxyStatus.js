@@ -8,15 +8,22 @@ import './ProxyStatus.css'
 
 const ProxyStatus = (props) => {
   const markerClass = ClassNames({
-    'ProxyStatus-col1': true,
+    'ProxyStatus-marker': true,
     'ProxyStatus-marker-disconnected': props.status === ProxyStatusCodes.Disconnected,
     'ProxyStatus-marker-connected': props.status === ProxyStatusCodes.Connected,
     'ProxyStatus-marker-failure': props.status === ProxyStatusCodes.Failure    
   })
+
+  const urlCombinedStyle = Object.assign(
+    {
+      paddingLeft: '10px',
+      fontSize: '12px'
+    }, props.urlStyle)
+
   return (
-    <div className='ProxyStatus-row'>
+    <div className='ProxyStatus'>
       <div className={markerClass} />
-      <div className={ClassNames('ProxyStatus-col2', 'smallText')}>
+      <div style={urlCombinedStyle}>
         {props.url}
       </div>
     </div>
@@ -25,7 +32,8 @@ const ProxyStatus = (props) => {
 
 ProxyStatus.propTypes = {
   status: PropTypes.number.isRequired, 
-  url: PropTypes.string.isRequired
+  url: PropTypes.string.isRequired,
+  urlStyle: React.PropTypes.object
 }
 
 export default ProxyStatus
