@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import ClassNames from 'classnames'
 
+import { setupWrapper } from 'spdz-gui-components'
 import cryptologo from './crypto-logo.png'
 import uoblogo from './uob-logo-white-largest.png'
 import spdzlogo from './spdz_logo.svg'
 import './App.css'
 import BankersGUI from './bankers_gui/BankersGUI'
-import setupWrapper from './components/SetupContainer'
 
 const GuiWithSetup = setupWrapper(BankersGUI)
 

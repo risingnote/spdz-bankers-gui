@@ -4,10 +4,9 @@
  */
 import React, { PropTypes, Component } from 'react'
 import { List } from 'immutable'
+import { Connection } from 'spdz-gui-components'
 
 import BankersContainer from './BankersContainer'
-import Connection from '../components/Connection'
-import { generateProxyStatusList } from '../components/ProxyStatusHelper'
 
 import './BankersGUI.css'
 
@@ -29,8 +28,6 @@ class BankersGUI extends Component {
   }
 
   render() {
-    // Calculate proxyStatus at render time becuase 2 parts arrive at different times.
-    const proxyStatusForDisplay = generateProxyStatusList(this.props.spdzProxyServerList, this.state.spdzProxyStatus)
     return (
       <div className="BankersGUI-main">
         <div className="BankersGUI-container">
@@ -40,7 +37,8 @@ class BankersGUI extends Component {
                               clientPublicKey={this.props.clientPublicKey}/>
         </div>
         <div className="BankersGUI-connection">
-            <Connection proxyStatusForDisplay={proxyStatusForDisplay} />
+            <Connection spdzProxyServerList={this.props.spdzProxyServerList} 
+                        spdzProxyStatus={this.state.spdzProxyStatus} />
         </div>
       </div>
     )

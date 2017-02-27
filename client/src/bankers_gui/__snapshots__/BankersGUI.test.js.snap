@@ -205,26 +205,74 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
   <div
     className="BankersGUI-connection">
     <div
-      className="Connection-panel">
+      style={
+        Object {
+          "border": "1px solid darkgrey",
+          "margin": "0 auto",
+          "padding": "0px 10px 5px 10px",
+          "textAlign": "left",
+        }
+      }>
       <p
-        className="Connection-subHead">
+        style={
+          Object {
+            "color": "rgb(28, 118, 152)",
+            "marginRight": "10px",
+          }
+        }>
         Spdz Proxy Servers
       </p>
       <div
-        className="ProxyStatus-row">
+        style={
+          Object {
+            "display": "flex",
+            "flexFlow": "row wrap",
+            "margin": "0px 0px 10px 0px",
+          }
+        }>
         <div
-          className="ProxyStatus-col1 ProxyStatus-marker-disconnected" />
+          style={
+            Object {
+              "backgroundColor": "lightgrey",
+              "border": "1px solid black",
+              "borderRadius": "50%",
+              "width": "16px",
+            }
+          } />
         <div
-          className="ProxyStatus-col2 smallText">
+          style={
+            Object {
+              "fontSize": "12px",
+              "paddingLeft": "10px",
+            }
+          }>
           http://spdzProxy.one:4000
         </div>
       </div>
       <div
-        className="ProxyStatus-row">
+        style={
+          Object {
+            "display": "flex",
+            "flexFlow": "row wrap",
+            "margin": "0px 0px 10px 0px",
+          }
+        }>
         <div
-          className="ProxyStatus-col1 ProxyStatus-marker-disconnected" />
+          style={
+            Object {
+              "backgroundColor": "lightgrey",
+              "border": "1px solid black",
+              "borderRadius": "50%",
+              "width": "16px",
+            }
+          } />
         <div
-          className="ProxyStatus-col2 smallText">
+          style={
+            Object {
+              "fontSize": "12px",
+              "paddingLeft": "10px",
+            }
+          }>
           http://spdzProxy.two:4000
         </div>
       </div>
