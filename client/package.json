@@ -42,7 +42,7 @@
     "react-s-alert": "^1.2.2",
     "socket.io-client": "^1.7.2",
     "spdz-gui-components": "git+ssh://git@github.com/bristolcrypto/spdz-gui-components.git#v0.1.0",
-    "spdz-gui-lib": "git+ssh://git@github.com/bristolcrypto/spdz-gui-lib.git#v0.1.1",
+    "spdz-gui-lib": "file:///Users/je0018/Development/spdz-gui-lib",
     "whatwg-fetch": "^2.0.1"
   },
   "scripts": {

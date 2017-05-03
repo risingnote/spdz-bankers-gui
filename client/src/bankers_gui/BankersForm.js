@@ -10,10 +10,12 @@ class BankersForm extends Component {
     super(props)
     this.state = {
       bonus: '',
-      participantName: ''
+      participantName: '',
+      finished: false
     }
     this.handleBonusChange = this.handleBonusChange.bind(this)
     this.handleNameChange = this.handleNameChange.bind(this)
+    this.handleFinishedChange = this.handleFinishedChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
@@ -25,9 +27,13 @@ class BankersForm extends Component {
     this.setState({participantName: event.target.value})
   }
 
+  handleFinishedChange(event) {
+    this.setState({finished: event.target.checked})
+  }
+
   handleSubmit(event) {
-    this.props.submitBonus(this.state.participantName, this.state.bonus)
-    this.setState({bonus: '', participantName: ''})
+    this.props.submitBonus(this.state.participantName, this.state.bonus, this.state.finished)
+    this.setState({bonus: '', participantName: '', finished: false})
     event.preventDefault()
   }
 
@@ -46,8 +52,13 @@ class BankersForm extends Component {
           <p>...but who should pay?</p>        
           <label htmlFor="joinName">Join meal as</label>
           <input type="text" id="joinName" value={this.state.participantName} onChange={this.handleNameChange} disabled={disableSubmit}/>
+
           <label htmlFor="bonusValue">Bonus</label>
           <input type="text" id="bonusValue" value={this.state.bonus} onChange={this.handleBonusChange} disabled={disableSubmit}/>
+
+          <label className="BankersForm-inline" htmlFor="finished">All Joined</label>
+          <input className="BankersForm-inline" type="checkbox" id="finished" checked={this.state.finished} onChange={this.handleFinishedChange} disabled={disableSubmit}/>
+
           <input type="submit" value="Send" disabled={disableSubmit}/>
           <p className='smallText'>{statusMessage()}</p>
         </form>

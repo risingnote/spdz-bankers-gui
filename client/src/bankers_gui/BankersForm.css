@@ -20,6 +20,15 @@
   background-color: lightgrey;
 }
 
+.BankersForm label.BankersForm-inline {
+  display: inline;
+  margin-right: 5px;
+} 
+
+.BankersForm input.BankersForm-inline {
+  display: inline;
+} 
+
 .BankersForm h4 {
   margin-top: 0.5rem;  
   margin-bottom: 0rem;

@@ -32,7 +32,7 @@ class BankersGUI extends Component {
       <div className="BankersGUI-main">
         <div className="BankersGUI-container">
             <BankersContainer updateConnectionStatus={this.updateProxyConnectionStatus}
-                              spdzProxyServerList={this.props.spdzProxyServerList}
+                              spdzProxyServerList={this.props.spdzProxyServerList.toArray().map( immutableMap => immutableMap.toObject())}
                               spdzApiRoot={this.props.spdzApiRoot}
                               clientPublicKey={this.props.clientPublicKey}/>
         </div>

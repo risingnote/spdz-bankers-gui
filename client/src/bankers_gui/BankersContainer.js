@@ -5,7 +5,6 @@
  * Notifies parent to manage change of SPDZ proxy connection status.
  */
 import React, { Component, PropTypes } from 'react'
-import { List } from 'immutable'
 import Io from 'socket.io-client'
 
 import Alert from 'react-s-alert'
@@ -70,7 +69,7 @@ class BankersContainer extends Component {
         clearInterval(this.resultTimerId)
       })
       .then( () => {
-        return disconnectFromProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.get('url')), 
+        return disconnectFromProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.url ), 
                           this.props.spdzApiRoot, this.props.clientPublicKey)
       })
       .then( (values) => {
@@ -111,21 +110,24 @@ class BankersContainer extends Component {
    *   If all OK send bonus as shares to all SPDZ proxies.
    *   Start timer polling for result.
    */
-  handleSubmitEntry(name, bonus) {
-    connectToProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.get('url')), 
+  handleSubmitEntry(name, bonus, finished) {
+    connectToProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.url ), 
                                 this.props.spdzApiRoot, this.props.clientPublicKey)
       .then( (values) => {
         this.props.updateConnectionStatus(values)
         if (allProxiesConnected(values)) {
-          return this.joinMeal(this.socket, name, this.props.clientPublicKey)
+          return 
         }
         else {
           return Promise.reject(new Error('Unable to connect to all Spdz Proxy Servers'))
         }
       })
       .then( () => {
-        return sendInputsWithShares([bonus], true, this.props.spdzProxyServerList, 
+        return sendInputsWithShares([bonus, (finished ? 1 : 0)], true, this.props.spdzProxyServerList, 
               this.props.spdzApiRoot, this.props.clientPublicKey, 500)
+      })
+      .then( () => {
+        return this.joinMeal(this.socket, name, this.props.clientPublicKey)
       })
       .then( () => {
         Alert.info('You have joined the meal.', {html: false})
@@ -142,7 +144,7 @@ class BankersContainer extends Component {
     const myEntry = this.state.dinersList.find(diner => diner.publicKey === this.props.clientPublicKey)
     const joinedName = (myEntry !== undefined ? myEntry.name : undefined)
     const winnerChosen = this.state.winningClientId !== undefined
-    const connectionProblem = this.props.spdzProxyServerList.size === 0 ? "No SPDZ servers found." : undefined
+    const connectionProblem = this.props.spdzProxyServerList.length === 0 ? "No SPDZ servers found." : undefined
 
     return (
       <div className='Bankers'>
@@ -157,7 +159,7 @@ class BankersContainer extends Component {
 
 BankersContainer.propTypes = {
   updateConnectionStatus: PropTypes.func.isRequired,
-  spdzProxyServerList: PropTypes.instanceOf(List).isRequired,
+  spdzProxyServerList: PropTypes.array.isRequired,
   spdzApiRoot: PropTypes.string.isRequired,
   clientPublicKey: PropTypes.string.isRequired
 }

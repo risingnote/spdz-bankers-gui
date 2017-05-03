@@ -6,6 +6,8 @@ import BankersContainer from './BankersContainer'
 import BankersForm from './BankersForm'
 import { noProxiesSpdzConfig, twoProxiesWith1Connected, twoProxiesWith2Connected } from './test_support/ProxyServerList'
 
+const convertToArray = immutList => immutList.toArray().map( immutableMap => immutableMap.toObject())
+
 // Mock out REST call
 jest.mock('spdz-gui-lib')
 import { sendInputsWithShares } from 'spdz-gui-lib'
@@ -16,7 +18,7 @@ describe('Bankers Container rendering and behaviour', () => {
   it('Renders as expected (compared to a snapshot) at start of game', () => {
     const tree = renderer.create(
       <BankersContainer updateConnectionStatus={mockFn}
-                        spdzProxyServerList={twoProxiesWith1Connected}
+                        spdzProxyServerList={convertToArray(twoProxiesWith1Connected)}
                         spdzApiRoot={'/spdzapi'} clientPublicKey={'a1b2c3d4'} />
     ).toJSON()
 
@@ -26,7 +28,7 @@ describe('Bankers Container rendering and behaviour', () => {
   it('Renders as expected (compared to a snapshot) at start of game, no proxies found', () => {
     const tree = renderer.create(
       <BankersContainer updateConnectionStatus={mockFn}
-                        spdzProxyServerList={noProxiesSpdzConfig}
+                        spdzProxyServerList={convertToArray(noProxiesSpdzConfig)}
                         spdzApiRoot={'/spdzapi'} clientPublicKey={'a1b2c3d4'} />
     ).toJSON()
 

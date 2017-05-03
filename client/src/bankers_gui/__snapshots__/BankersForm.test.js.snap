@@ -28,6 +28,18 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     onChange={[Function]}
     type="text"
     value="" />
+  <label
+    className="BankersForm-inline"
+    htmlFor="finished">
+    All Joined
+  </label>
+  <input
+    checked={false}
+    className="BankersForm-inline"
+    disabled="disabled"
+    id="finished"
+    onChange={[Function]}
+    type="checkbox" />
   <input
     disabled="disabled"
     type="submit"
@@ -69,6 +81,18 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     onChange={[Function]}
     type="text"
     value="" />
+  <label
+    className="BankersForm-inline"
+    htmlFor="finished">
+    All Joined
+  </label>
+  <input
+    checked={false}
+    className="BankersForm-inline"
+    disabled="disabled"
+    id="finished"
+    onChange={[Function]}
+    type="checkbox" />
   <input
     disabled="disabled"
     type="submit"
@@ -110,6 +134,18 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     onChange={[Function]}
     type="text"
     value="" />
+  <label
+    className="BankersForm-inline"
+    htmlFor="finished">
+    All Joined
+  </label>
+  <input
+    checked={false}
+    className="BankersForm-inline"
+    disabled="disabled"
+    id="finished"
+    onChange={[Function]}
+    type="checkbox" />
   <input
     disabled="disabled"
     type="submit"
@@ -151,6 +187,18 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     onChange={[Function]}
     type="text"
     value="" />
+  <label
+    className="BankersForm-inline"
+    htmlFor="finished">
+    All Joined
+  </label>
+  <input
+    checked={false}
+    className="BankersForm-inline"
+    disabled=""
+    id="finished"
+    onChange={[Function]}
+    type="checkbox" />
   <input
     disabled=""
     type="submit"
