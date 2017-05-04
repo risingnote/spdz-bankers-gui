@@ -51,11 +51,16 @@ class BankersForm extends Component {
     const validBonus = this.state.bonus !== undefined && this.state.bonus.length > 0
     const disableSubmit = this.props.joinedName === undefined && validName && validBonus ? '' : 'disabled'
     const disableReset = this.props.winnerChosen ? '' : 'disabled'
-    const statusMessage = () => {
-      if (this.props.connectionProblem !== undefined) return this.props.connectionProblem
-      else if (this.props.winnerChosen) return `A winner has been chosen.`
-      else if (this.props.joinedName !== undefined) return `You have joined the meal as ${this.props.joinedName}.`
-      else return ''
+
+    let statusMessage = ''
+    let statusDisplay = 'infoMessage'
+    if (this.props.connectionProblem !== undefined) {
+      statusMessage = this.props.connectionProblem
+      statusDisplay = 'warnMessage'
+    } else if (this.props.winnerChosen) {
+      statusMessage = `A winner has been chosen.`
+    } else if (this.props.joinedName !== undefined) {
+      statusMessage = `You have joined the meal as ${this.props.joinedName}.`
     }
 
     return (
@@ -74,7 +79,7 @@ class BankersForm extends Component {
           <button style={{marginRight:'2rem'}} type="submit" disabled={disableSubmit}>Send</button>
           <button type="button" onClick={this.handleReset} disabled={disableReset}>Reset</button>
 
-          <p className='smallText'>{statusMessage()}</p>
+          <p className={statusDisplay}>{statusMessage}</p>
         </form>
     )
   }

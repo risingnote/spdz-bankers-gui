@@ -2,13 +2,12 @@
   display: -webkit-flex;
   display: flex;
   flex-flow: row wrap;
-  padding: 20px;
+  padding: 10px 5px;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.BankersGUI-container {
-  flex: 1;
-}
-
-.BankersGUI-connection {
+.BankersGUI-component {
   flex: 0 1 auto;
+  margin-bottom: 1rem;  
 }

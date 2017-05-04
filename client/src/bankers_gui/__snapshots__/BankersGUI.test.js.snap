@@ -2,230 +2,228 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
 <div
   className="BankersGUI-main">
   <div
-    className="BankersGUI-container">
-    <div
-      className="Bankers">
-      <form
-        className="BankersForm"
-        onSubmit={[Function]}>
-        <h4>
-          Bankers Celebration Dinner
-        </h4>
-        <p>
-          ...but who should pay?
-        </p>
-        <label
-          htmlFor="joinName">
-          Join meal as
-        </label>
-        <input
-          id="joinName"
-          onChange={[Function]}
-          type="text"
-          value="" />
-        <label
-          htmlFor="bonusValue">
-          Bonus
-        </label>
-        <input
-          id="bonusValue"
-          onChange={[Function]}
-          type="text"
-          value="" />
-        <label
-          className="BankersForm-inline"
-          htmlFor="finished">
-          Have all joined?
-        </label>
-        <input
-          checked={false}
-          className="BankersForm-inline"
-          id="finished"
-          onChange={[Function]}
-          type="checkbox" />
-        <p />
-        <button
-          disabled="disabled"
-          style={
-            Object {
-              "marginRight": "2rem",
-            }
+    className="BankersGUI-component">
+    <form
+      className="BankersForm"
+      onSubmit={[Function]}>
+      <h4>
+        Bankers Celebration Dinner
+      </h4>
+      <p>
+        ...but who should pay?
+      </p>
+      <label
+        htmlFor="joinName">
+        Join meal as
+      </label>
+      <input
+        id="joinName"
+        onChange={[Function]}
+        type="text"
+        value="" />
+      <label
+        htmlFor="bonusValue">
+        Bonus
+      </label>
+      <input
+        id="bonusValue"
+        onChange={[Function]}
+        type="text"
+        value="" />
+      <label
+        className="BankersForm-inline"
+        htmlFor="finished">
+        Have all joined?
+      </label>
+      <input
+        checked={false}
+        className="BankersForm-inline"
+        id="finished"
+        onChange={[Function]}
+        type="checkbox" />
+      <p />
+      <button
+        disabled="disabled"
+        style={
+          Object {
+            "marginRight": "2rem",
           }
-          type="submit">
-          Send
-        </button>
-        <button
-          disabled="disabled"
-          onClick={[Function]}
-          type="button">
-          Reset
-        </button>
-        <p
-          className="smallText">
-          
-        </p>
-      </form>
+        }
+        type="submit">
+        Send
+      </button>
+      <button
+        disabled="disabled"
+        onClick={[Function]}
+        type="button">
+        Reset
+      </button>
+      <p
+        className="infoMessage">
+        
+      </p>
+    </form>
+  </div>
+  <div
+    className="BankersGUI-component">
+    <div
+      className="BankersTable">
       <div
-        className="BankersTable">
+        className="place"
+        style={
+          Object {
+            "transform": "translate(0rem, -8.2rem) rotate(180deg)",
+          }
+        }>
         <div
-          className="place"
-          style={
-            Object {
-              "transform": "translate(0rem, -8.2rem) rotate(180deg)",
-            }
-          }>
+          className="place-setting">
           <div
-            className="place-setting">
-            <div
-              style={
-                Object {
-                  "transform": "rotate(-180deg)",
-                }
-              }>
-              
-            </div>
-          </div>
-        </div>
-        <div
-          className="place"
-          style={
-            Object {
-              "transform": "translate(5.8rem, -5.8rem) rotate(225deg)",
-            }
-          }>
-          <div
-            className="place-setting">
-            <div
-              style={
-                Object {
-                  "transform": "rotate(-225deg)",
-                }
-              }>
-              
-            </div>
-          </div>
-        </div>
-        <div
-          className="place"
-          style={
-            Object {
-              "transform": "translate(8.2rem, 0rem) rotate(270deg)",
-            }
-          }>
-          <div
-            className="place-setting">
-            <div
-              style={
-                Object {
-                  "transform": "rotate(-270deg)",
-                }
-              }>
-              
-            </div>
-          </div>
-        </div>
-        <div
-          className="place"
-          style={
-            Object {
-              "transform": "translate(5.8rem, 5.8rem) rotate(315deg)",
-            }
-          }>
-          <div
-            className="place-setting">
-            <div
-              style={
-                Object {
-                  "transform": "rotate(-315deg)",
-                }
-              }>
-              
-            </div>
-          </div>
-        </div>
-        <div
-          className="place"
-          style={
-            Object {
-              "transform": "translate(0rem, 8.2rem) rotate(0deg)",
-            }
-          }>
-          <div
-            className="place-setting">
-            <div
-              style={
-                Object {
-                  "transform": "rotate(-0deg)",
-                }
-              }>
-              
-            </div>
-          </div>
-        </div>
-        <div
-          className="place"
-          style={
-            Object {
-              "transform": "translate(-5.8rem, 5.8rem) rotate(45deg)",
-            }
-          }>
-          <div
-            className="place-setting">
-            <div
-              style={
-                Object {
-                  "transform": "rotate(-45deg)",
-                }
-              }>
-              
-            </div>
-          </div>
-        </div>
-        <div
-          className="place"
-          style={
-            Object {
-              "transform": "translate(-8.2rem, 0rem) rotate(90deg)",
-            }
-          }>
-          <div
-            className="place-setting">
-            <div
-              style={
-                Object {
-                  "transform": "rotate(-90deg)",
-                }
-              }>
-              
-            </div>
-          </div>
-        </div>
-        <div
-          className="place"
-          style={
-            Object {
-              "transform": "translate(-5.8rem, -5.8rem) rotate(135deg)",
-            }
-          }>
-          <div
-            className="place-setting">
-            <div
-              style={
-                Object {
-                  "transform": "rotate(-135deg)",
-                }
-              }>
-              
-            </div>
+            style={
+              Object {
+                "transform": "rotate(-180deg)",
+              }
+            }>
+            
           </div>
         </div>
       </div>
       <div
-        className="s-alert-wrapper" />
+        className="place"
+        style={
+          Object {
+            "transform": "translate(5.8rem, -5.8rem) rotate(225deg)",
+          }
+        }>
+        <div
+          className="place-setting">
+          <div
+            style={
+              Object {
+                "transform": "rotate(-225deg)",
+              }
+            }>
+            
+          </div>
+        </div>
+      </div>
+      <div
+        className="place"
+        style={
+          Object {
+            "transform": "translate(8.2rem, 0rem) rotate(270deg)",
+          }
+        }>
+        <div
+          className="place-setting">
+          <div
+            style={
+              Object {
+                "transform": "rotate(-270deg)",
+              }
+            }>
+            
+          </div>
+        </div>
+      </div>
+      <div
+        className="place"
+        style={
+          Object {
+            "transform": "translate(5.8rem, 5.8rem) rotate(315deg)",
+          }
+        }>
+        <div
+          className="place-setting">
+          <div
+            style={
+              Object {
+                "transform": "rotate(-315deg)",
+              }
+            }>
+            
+          </div>
+        </div>
+      </div>
+      <div
+        className="place"
+        style={
+          Object {
+            "transform": "translate(0rem, 8.2rem) rotate(0deg)",
+          }
+        }>
+        <div
+          className="place-setting">
+          <div
+            style={
+              Object {
+                "transform": "rotate(-0deg)",
+              }
+            }>
+            
+          </div>
+        </div>
+      </div>
+      <div
+        className="place"
+        style={
+          Object {
+            "transform": "translate(-5.8rem, 5.8rem) rotate(45deg)",
+          }
+        }>
+        <div
+          className="place-setting">
+          <div
+            style={
+              Object {
+                "transform": "rotate(-45deg)",
+              }
+            }>
+            
+          </div>
+        </div>
+      </div>
+      <div
+        className="place"
+        style={
+          Object {
+            "transform": "translate(-8.2rem, 0rem) rotate(90deg)",
+          }
+        }>
+        <div
+          className="place-setting">
+          <div
+            style={
+              Object {
+                "transform": "rotate(-90deg)",
+              }
+            }>
+            
+          </div>
+        </div>
+      </div>
+      <div
+        className="place"
+        style={
+          Object {
+            "transform": "translate(-5.8rem, -5.8rem) rotate(135deg)",
+          }
+        }>
+        <div
+          className="place-setting">
+          <div
+            style={
+              Object {
+                "transform": "rotate(-135deg)",
+              }
+            }>
+            
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div
-    className="BankersGUI-connection">
+    className="BankersGUI-component">
     <div
       style={
         Object {
@@ -239,6 +237,8 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
         style={
           Object {
             "color": "rgb(28, 118, 152)",
+            "fontSize": "16px",
+            "fontWeight": "bold",
             "marginRight": "10px",
           }
         }>
@@ -258,13 +258,13 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
               "backgroundColor": "lightgrey",
               "border": "1px solid black",
               "borderRadius": "50%",
-              "width": "16px",
+              "width": "20px",
             }
           } />
         <div
           style={
             Object {
-              "fontSize": "12px",
+              "fontSize": "14px",
               "paddingLeft": "10px",
             }
           }>
@@ -285,13 +285,13 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
               "backgroundColor": "lightgrey",
               "border": "1px solid black",
               "borderRadius": "50%",
-              "width": "16px",
+              "width": "20px",
             }
           } />
         <div
           style={
             Object {
-              "fontSize": "12px",
+              "fontSize": "14px",
               "paddingLeft": "10px",
             }
           }>

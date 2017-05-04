@@ -55,7 +55,7 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     Reset
   </button>
   <p
-    className="smallText">
+    className="infoMessage">
     You have joined the meal as Bob.
   </p>
 </form>
@@ -118,7 +118,7 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     Reset
   </button>
   <p
-    className="smallText">
+    className="infoMessage">
     A winner has been chosen.
   </p>
 </form>
@@ -181,7 +181,7 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     Reset
   </button>
   <p
-    className="smallText">
+    className="warnMessage">
     No proxies found.
   </p>
 </form>
@@ -244,7 +244,7 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     Reset
   </button>
   <p
-    className="smallText">
+    className="infoMessage">
     
   </p>
 </form>

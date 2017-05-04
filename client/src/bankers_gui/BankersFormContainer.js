@@ -1,32 +1,25 @@
 /**
- * Responsible for managing data and behaviour for the bankers GUI.
- * Interacts with GUI via websocket to read and write list of diners who have joined meal.
+ * Responsible for managing behaviour around form submission for the bankers GUI.
+ * Manages websocket connections to maintain list of diners.
+ * Polls for a result once meal is joined.
  * Interacts with SPDZ to send shares of data and poll for result.
- * Notifies parent to manage change of SPDZ proxy connection status.
  */
 import React, { Component, PropTypes } from 'react'
 import Io from 'socket.io-client'
-
-import Alert from 'react-s-alert'
-import 'react-s-alert/dist/s-alert-default.css'
-import 'react-s-alert/dist/s-alert-css-effects/flip.css'
 
 import { connectToProxies, disconnectFromProxies, allProxiesConnected, 
          sendInputsWithShares, retrieveWinnerClientId, NoContentError } from 'spdz-gui-lib'
 
 import BankersForm from './BankersForm'
-import BankersTable from './BankersTable'
 
-import './BankersContainer.css'
-
-class BankersContainer extends Component {
+class BankersFormContainer extends Component {
   constructor (props) {
     super(props)
     this.state = {
       dinersList: [],
+      socket: undefined,
       winningClientId: undefined
     }
-    this.socket = undefined
     this.resultTimerId = undefined
     this.handleSubmitEntry = this.handleSubmitEntry.bind(this)
     this.resetGame = this.resetGame.bind(this)
@@ -38,20 +31,24 @@ class BankersContainer extends Component {
    * At startup get list of diners who have already joined the meal.
    */
   componentDidMount() {
-    this.socket = Io('/diners')
+    const socket = Io('/diners')
+    this.setState({socket: socket})
 
     // Expect list of {name: <somename>, publicKey: <key>}
-    this.socket.on('diners', (msg) => {
+    socket.on('diners', (msg) => {
       this.setState({dinersList: msg})
       if (msg.length === 0) { //indicates game reset as all diners removed
         this.setState({winningClientId: undefined})
-        console.log('All game players reset.')
+        this.props.changeToDiners(msg, undefined)        
+        console.log('All game players reset.')       
+      } else {
+        this.props.changeToDiners(msg, this.state.winningClientId)        
       }
     });
   }
 
   componentWillUnmount() {
-    this.socket.on('disconnect', () => {})
+    this.state.socket.on('disconnect', () => {})
     if (this.resultTimerId !== undefined) {
       clearInterval(this.resultTimerId)
       this.resultTimerId = undefined
@@ -70,6 +67,7 @@ class BankersContainer extends Component {
       retrieveWinnerClientId(spdzProxyServerList, spdzApiRoot, clientPublicKey)
       .then( winningClientId => {
         this.setState({winningClientId: winningClientId})
+        this.props.changeToDiners(this.state.dinersList, winningClientId)
         console.log('Got winning client of ', winningClientId)        
         clearInterval(this.resultTimerId)
       })
@@ -96,9 +94,10 @@ class BankersContainer extends Component {
   /**
    * Join meal by sending websocket message, wrapped as promise.
    */
-  joinMeal(socket, name, clientPublicKey) {
+  joinMeal(name, clientPublicKey) {
+    const that = this
     return new Promise(function(resolve, reject) {
-      socket.emit('joinMeal', {name: name, publicKey: clientPublicKey}, function(error) {
+      that.state.socket.emit('joinMeal', {name: name, publicKey: clientPublicKey}, function(error) {
           if (error) {
             reject(error)
           } else {
@@ -112,7 +111,7 @@ class BankersContainer extends Component {
    * Reset game by sending websocket message. No attempt to reset SPDZ parties.
    */
   resetGame() {
-    this.socket.emit('resetGame', function(error) {
+    this.state.socket.emit('resetGame', function(error) {
         if (error) {
           console.log('Unable to reset game.', error)
         }
@@ -143,16 +142,15 @@ class BankersContainer extends Component {
               this.props.spdzApiRoot, this.props.clientPublicKey, 500)
       })
       .then( () => {
-        return this.joinMeal(this.socket, name, this.props.clientPublicKey)
+        return this.joinMeal(name, this.props.clientPublicKey)
       })
       .then( () => {
-        Alert.info('You have joined the meal.', {html: false})
         this.pollForResult(this.props.spdzProxyServerList, this.props.spdzApiRoot, 
               this.props.clientPublicKey)
       })
       .catch((ex) => {
-        console.log(ex)
-        Alert.error(`<h4>Unable to successfully send bonus to SPDZ proxies.</h4><p>${ex}</p>`, {timeout: 'none'})
+        console.log("Unable to join meal.", ex)
+        this.setState({connectionProblem: 'Unable to successfully send bonus to SPDZ parties.'})
       })
   }
 
@@ -160,24 +158,20 @@ class BankersContainer extends Component {
     const myEntry = this.state.dinersList.find(diner => diner.publicKey === this.props.clientPublicKey)
     const joinedName = (myEntry !== undefined ? myEntry.name : undefined)
     const winnerChosen = this.state.winningClientId !== undefined
-    const connectionProblem = this.props.spdzProxyServerList.length === 0 ? "No SPDZ servers found." : undefined
 
     return (
-      <div className='Bankers'>
         <BankersForm submitBonus={this.handleSubmitEntry} joinedName={joinedName} 
-                     winnerChosen={winnerChosen} resetGame={this.resetGame} connectionProblem={connectionProblem}/>
-        <BankersTable diners={this.state.dinersList} winningClientId={this.state.winningClientId}/>
-        <Alert stack={{limit: 3}} timeout={5000} position={'top-left'} effect={'flip'} offset={100} html={true} />
-      </div>
+                     winnerChosen={winnerChosen} resetGame={this.resetGame} connectionProblem={this.state.connectionProblem}/>
     )
   }
 }
 
-BankersContainer.propTypes = {
+BankersFormContainer.propTypes = {
   updateConnectionStatus: PropTypes.func.isRequired,
+  changeToDiners: PropTypes.func.isRequired,
   spdzProxyServerList: PropTypes.array.isRequired,
   spdzApiRoot: PropTypes.string.isRequired,
   clientPublicKey: PropTypes.string.isRequired
 }
 
-export default BankersContainer
+export default BankersFormContainer

@@ -1,0 +1,125 @@
+exports[`Bankers Container rendering and behaviour Renders as expected (compared to a snapshot) at start of game 1`] = `
+<form
+  className="BankersForm"
+  onSubmit={[Function]}>
+  <h4>
+    Bankers Celebration Dinner
+  </h4>
+  <p>
+    ...but who should pay?
+  </p>
+  <label
+    htmlFor="joinName">
+    Join meal as
+  </label>
+  <input
+    id="joinName"
+    onChange={[Function]}
+    type="text"
+    value="" />
+  <label
+    htmlFor="bonusValue">
+    Bonus
+  </label>
+  <input
+    id="bonusValue"
+    onChange={[Function]}
+    type="text"
+    value="" />
+  <label
+    className="BankersForm-inline"
+    htmlFor="finished">
+    Have all joined?
+  </label>
+  <input
+    checked={false}
+    className="BankersForm-inline"
+    id="finished"
+    onChange={[Function]}
+    type="checkbox" />
+  <p />
+  <button
+    disabled="disabled"
+    style={
+      Object {
+        "marginRight": "2rem",
+      }
+    }
+    type="submit">
+    Send
+  </button>
+  <button
+    disabled="disabled"
+    onClick={[Function]}
+    type="button">
+    Reset
+  </button>
+  <p
+    className="infoMessage">
+    
+  </p>
+</form>
+`;
+
+exports[`Bankers Container rendering and behaviour Renders as expected (compared to a snapshot) at start of game, no proxies found 1`] = `
+<form
+  className="BankersForm"
+  onSubmit={[Function]}>
+  <h4>
+    Bankers Celebration Dinner
+  </h4>
+  <p>
+    ...but who should pay?
+  </p>
+  <label
+    htmlFor="joinName">
+    Join meal as
+  </label>
+  <input
+    id="joinName"
+    onChange={[Function]}
+    type="text"
+    value="" />
+  <label
+    htmlFor="bonusValue">
+    Bonus
+  </label>
+  <input
+    id="bonusValue"
+    onChange={[Function]}
+    type="text"
+    value="" />
+  <label
+    className="BankersForm-inline"
+    htmlFor="finished">
+    Have all joined?
+  </label>
+  <input
+    checked={false}
+    className="BankersForm-inline"
+    id="finished"
+    onChange={[Function]}
+    type="checkbox" />
+  <p />
+  <button
+    disabled="disabled"
+    style={
+      Object {
+        "marginRight": "2rem",
+      }
+    }
+    type="submit">
+    Send
+  </button>
+  <button
+    disabled="disabled"
+    onClick={[Function]}
+    type="button">
+    Reset
+  </button>
+  <p
+    className="infoMessage">
+    
+  </p>
+</form>
+`;
