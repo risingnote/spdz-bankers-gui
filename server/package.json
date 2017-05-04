@@ -1,6 +1,6 @@
 {
   "name": "spdz-bankers-server",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "\"Serve static GUI and config rest endpoints for spdz-bankers-gui\"",
   "main": "src/index.js",
   "scripts": {

@@ -29,6 +29,7 @@ class BankersContainer extends Component {
     this.socket = undefined
     this.resultTimerId = undefined
     this.handleSubmitEntry = this.handleSubmitEntry.bind(this)
+    this.resetGame = this.resetGame.bind(this)
     this.joinMeal = this.joinMeal.bind(this)
     this.pollForResult = this.pollForResult.bind(this)
   }
@@ -42,6 +43,10 @@ class BankersContainer extends Component {
     // Expect list of {name: <somename>, publicKey: <key>}
     this.socket.on('diners', (msg) => {
       this.setState({dinersList: msg})
+      if (msg.length === 0) { //indicates game reset as all diners removed
+        this.setState({winningClientId: undefined})
+        console.log('All game players reset.')
+      }
     });
   }
 
@@ -104,6 +109,17 @@ class BankersContainer extends Component {
   } 
 
   /**
+   * Reset game by sending websocket message. No attempt to reset SPDZ parties.
+   */
+  resetGame() {
+    this.socket.emit('resetGame', function(error) {
+        if (error) {
+          console.log('Unable to reset game.', error)
+        }
+    })
+  } 
+
+  /**
    * Join game by:
    *   Running connection to SPDZ engines and notifying change of connection status.
    *   If all OK join meal with a name
@@ -149,7 +165,7 @@ class BankersContainer extends Component {
     return (
       <div className='Bankers'>
         <BankersForm submitBonus={this.handleSubmitEntry} joinedName={joinedName} 
-                     winnerChosen={winnerChosen} connectionProblem={connectionProblem}/>
+                     winnerChosen={winnerChosen} resetGame={this.resetGame} connectionProblem={connectionProblem}/>
         <BankersTable diners={this.state.dinersList} winningClientId={this.state.winningClientId}/>
         <Alert stack={{limit: 3}} timeout={5000} position={'top-left'} effect={'flip'} offset={100} html={true} />
       </div>

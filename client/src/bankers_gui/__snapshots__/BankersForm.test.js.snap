@@ -13,7 +13,6 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     Join meal as
   </label>
   <input
-    disabled="disabled"
     id="joinName"
     onChange={[Function]}
     type="text"
@@ -23,7 +22,6 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     Bonus
   </label>
   <input
-    disabled="disabled"
     id="bonusValue"
     onChange={[Function]}
     type="text"
@@ -31,19 +29,31 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
   <label
     className="BankersForm-inline"
     htmlFor="finished">
-    All Joined
+    Have all joined?
   </label>
   <input
     checked={false}
     className="BankersForm-inline"
-    disabled="disabled"
     id="finished"
     onChange={[Function]}
     type="checkbox" />
-  <input
+  <p />
+  <button
     disabled="disabled"
-    type="submit"
-    value="Send" />
+    style={
+      Object {
+        "marginRight": "2rem",
+      }
+    }
+    type="submit">
+    Send
+  </button>
+  <button
+    disabled="disabled"
+    onClick={[Function]}
+    type="button">
+    Reset
+  </button>
   <p
     className="smallText">
     You have joined the meal as Bob.
@@ -66,7 +76,6 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     Join meal as
   </label>
   <input
-    disabled="disabled"
     id="joinName"
     onChange={[Function]}
     type="text"
@@ -76,7 +85,6 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     Bonus
   </label>
   <input
-    disabled="disabled"
     id="bonusValue"
     onChange={[Function]}
     type="text"
@@ -84,19 +92,31 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
   <label
     className="BankersForm-inline"
     htmlFor="finished">
-    All Joined
+    Have all joined?
   </label>
   <input
     checked={false}
     className="BankersForm-inline"
-    disabled="disabled"
     id="finished"
     onChange={[Function]}
     type="checkbox" />
-  <input
+  <p />
+  <button
     disabled="disabled"
-    type="submit"
-    value="Send" />
+    style={
+      Object {
+        "marginRight": "2rem",
+      }
+    }
+    type="submit">
+    Send
+  </button>
+  <button
+    disabled=""
+    onClick={[Function]}
+    type="button">
+    Reset
+  </button>
   <p
     className="smallText">
     A winner has been chosen.
@@ -119,7 +139,6 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     Join meal as
   </label>
   <input
-    disabled="disabled"
     id="joinName"
     onChange={[Function]}
     type="text"
@@ -129,7 +148,6 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     Bonus
   </label>
   <input
-    disabled="disabled"
     id="bonusValue"
     onChange={[Function]}
     type="text"
@@ -137,19 +155,31 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
   <label
     className="BankersForm-inline"
     htmlFor="finished">
-    All Joined
+    Have all joined?
   </label>
   <input
     checked={false}
     className="BankersForm-inline"
-    disabled="disabled"
     id="finished"
     onChange={[Function]}
     type="checkbox" />
-  <input
+  <p />
+  <button
     disabled="disabled"
-    type="submit"
-    value="Send" />
+    style={
+      Object {
+        "marginRight": "2rem",
+      }
+    }
+    type="submit">
+    Send
+  </button>
+  <button
+    disabled="disabled"
+    onClick={[Function]}
+    type="button">
+    Reset
+  </button>
   <p
     className="smallText">
     No proxies found.
@@ -172,7 +202,6 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     Join meal as
   </label>
   <input
-    disabled=""
     id="joinName"
     onChange={[Function]}
     type="text"
@@ -182,7 +211,6 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
     Bonus
   </label>
   <input
-    disabled=""
     id="bonusValue"
     onChange={[Function]}
     type="text"
@@ -190,19 +218,31 @@ exports[`Bankers Form display component rendering Renders as expected (compared 
   <label
     className="BankersForm-inline"
     htmlFor="finished">
-    All Joined
+    Have all joined?
   </label>
   <input
     checked={false}
     className="BankersForm-inline"
-    disabled=""
     id="finished"
     onChange={[Function]}
     type="checkbox" />
-  <input
-    disabled=""
-    type="submit"
-    value="Send" />
+  <p />
+  <button
+    disabled="disabled"
+    style={
+      Object {
+        "marginRight": "2rem",
+      }
+    }
+    type="submit">
+    Send
+  </button>
+  <button
+    disabled="disabled"
+    onClick={[Function]}
+    type="button">
+    Reset
+  </button>
   <p
     className="smallText">
     

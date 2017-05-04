@@ -17,10 +17,13 @@ class BankersForm extends Component {
     this.handleNameChange = this.handleNameChange.bind(this)
     this.handleFinishedChange = this.handleFinishedChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleReset = this.handleReset.bind(this)
   }
 
   handleBonusChange(event) {
-    this.setState({bonus: event.target.value})
+    if (event.target.value === "" || /^\d+$/.test(event.target.value)) {
+      this.setState({bonus: event.target.value})
+    }
   }
 
   handleNameChange(event) {
@@ -37,8 +40,17 @@ class BankersForm extends Component {
     event.preventDefault()
   }
 
+  handleReset(event) {
+    event.preventDefault()
+    this.props.resetGame()
+  }
+
   render() {
-    const disableSubmit = this.props.joinedName === undefined && this.props.connectionProblem === undefined ? '' : 'disabled'
+    //Allow submit if not already joined and name and bonus have been set. 
+    const validName = this.state.participantName !== undefined && this.state.participantName.length > 0
+    const validBonus = this.state.bonus !== undefined && this.state.bonus.length > 0
+    const disableSubmit = this.props.joinedName === undefined && validName && validBonus ? '' : 'disabled'
+    const disableReset = this.props.winnerChosen ? '' : 'disabled'
     const statusMessage = () => {
       if (this.props.connectionProblem !== undefined) return this.props.connectionProblem
       else if (this.props.winnerChosen) return `A winner has been chosen.`
@@ -51,15 +63,17 @@ class BankersForm extends Component {
           <h4>Bankers Celebration Dinner</h4>
           <p>...but who should pay?</p>        
           <label htmlFor="joinName">Join meal as</label>
-          <input type="text" id="joinName" value={this.state.participantName} onChange={this.handleNameChange} disabled={disableSubmit}/>
+          <input type="text" id="joinName" value={this.state.participantName} onChange={this.handleNameChange}/>
 
           <label htmlFor="bonusValue">Bonus</label>
-          <input type="text" id="bonusValue" value={this.state.bonus} onChange={this.handleBonusChange} disabled={disableSubmit}/>
+          <input type="text" id="bonusValue" value={this.state.bonus} onChange={this.handleBonusChange}/>
 
-          <label className="BankersForm-inline" htmlFor="finished">All Joined</label>
-          <input className="BankersForm-inline" type="checkbox" id="finished" checked={this.state.finished} onChange={this.handleFinishedChange} disabled={disableSubmit}/>
+          <label className="BankersForm-inline" htmlFor="finished">Have all joined?</label>
+          <input className="BankersForm-inline" type="checkbox" id="finished" checked={this.state.finished} onChange={this.handleFinishedChange}/>
+          <p />
+          <button style={{marginRight:'2rem'}} type="submit" disabled={disableSubmit}>Send</button>
+          <button type="button" onClick={this.handleReset} disabled={disableReset}>Reset</button>
 
-          <input type="submit" value="Send" disabled={disableSubmit}/>
           <p className='smallText'>{statusMessage()}</p>
         </form>
     )
@@ -70,6 +84,7 @@ BankersForm.propTypes = {
   submitBonus: PropTypes.func.isRequired,
   joinedName: PropTypes.string,
   winnerChosen: PropTypes.bool,
+  resetGame: PropTypes.func.isRequired,
   connectionProblem: PropTypes.string
 }
 

@@ -19,7 +19,6 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
           Join meal as
         </label>
         <input
-          disabled=""
           id="joinName"
           onChange={[Function]}
           type="text"
@@ -29,7 +28,6 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
           Bonus
         </label>
         <input
-          disabled=""
           id="bonusValue"
           onChange={[Function]}
           type="text"
@@ -37,19 +35,31 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
         <label
           className="BankersForm-inline"
           htmlFor="finished">
-          All Joined
+          Have all joined?
         </label>
         <input
           checked={false}
           className="BankersForm-inline"
-          disabled=""
           id="finished"
           onChange={[Function]}
           type="checkbox" />
-        <input
-          disabled=""
-          type="submit"
-          value="Send" />
+        <p />
+        <button
+          disabled="disabled"
+          style={
+            Object {
+              "marginRight": "2rem",
+            }
+          }
+          type="submit">
+          Send
+        </button>
+        <button
+          disabled="disabled"
+          onClick={[Function]}
+          type="button">
+          Reset
+        </button>
         <p
           className="smallText">
           

@@ -33,6 +33,13 @@ const joinMeal = ((ns, socket, msg, resultCallback) => {
     }
 })
 
+const resetGame = ((ns, socket, resultCallback) => {
+    dinerList = []
+    resultCallback()
+    ns.emit('diners', dinerDisplay())
+    console.log('Resetting game, all diners removed.')
+})
+
 const disconnect = ((ns, socket) => {
     const index = dinerList.findIndex(diner => diner.id === socket.id)  
     if (index > -1) {
@@ -59,6 +66,10 @@ module.exports = {
 
       socket.on('joinMeal', (msg, resultCallback) => {
         joinMeal(ns, socket, msg, resultCallback)
+      })
+
+      socket.on('resetGame', (resultCallback) => {
+        resetGame(ns, socket, resultCallback)
       })
 
       socket.once('disconnect', () => {
