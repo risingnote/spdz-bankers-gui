@@ -19,17 +19,12 @@
   color: white;
 }
 
-
-
-
-
-
 .App-footer {
   display: -webkit-flex;
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  padding: 10px 20px;
+  padding: 10px;
   color: rgb(221,221,221);
   background-color:#161b20;  
   text-align: left;
@@ -45,32 +40,6 @@
 }
 
 .App-footer-col-right img {
-  margin: 0 0 2rem auto;
+  margin: 0 0 0rem auto;
   display: block;
-}
-
-.App-footer h4 {
-  font-weight: normal;
-  color: #e5a310;
-  margin: 0;
-  padding: 0;  
-}
-
-.App-footer p {
-  margin: 0;
-  padding: 0;
-}
-
-.App-footer a:link {
-  text-decoration: none;
-  color: rgb(221,221,221);
-}
-
-.App-footer a:visited {
-  color: rgb(221,221,221);
-}
-
-.App-footer a:hover, a:focus {
-  color: rgb(221,221,221);
-  text-decoration: underline;
 }

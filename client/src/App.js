@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ClassNames from 'classnames'
 
 import { setupWrapper } from 'spdz-gui-components'
 import cryptologo from './crypto-logo.png'

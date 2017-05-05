@@ -3,6 +3,7 @@
   padding: 1rem;
   border: thin solid grey;
   width: 14rem;
+  font-size: 14px;
 }
 
 .BankersForm label {
@@ -12,6 +13,19 @@
 .BankersForm input {
   display: block;
   margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* Force mobile input text to 16px to stop auto zoom (ios at least). */
+@media (max-width: 768px) {
+  .BankersForm input[type="text"] {
+    font-size: 16px;
+  }
+}
+
+.BankersForm button {
+  padding: 5px;
+  font-size: 14px;
 }
 
 .BankersForm button:disabled {
@@ -40,13 +54,11 @@
 }
 
 .BankersForm p.infoMessage {
-  font-size: 12px;
   margin: 1rem 0 0 0;
   color: green;
 }
 
 .BankersForm p.warnMessage {
-  font-size: 12px;
   margin: 1rem 0 0 0;
   color: lightcoral;
 }
