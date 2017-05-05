@@ -18,7 +18,8 @@ pids
 *.pid.lock
 
 # production
-build
+client/build
+server/gui_build
 
 # misc
 .DS_Store

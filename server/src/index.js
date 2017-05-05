@@ -5,44 +5,45 @@
 
 const express = require('express')
 const http = require('http')
+const https = require('https')
+const fs = require('fs')
 const compression = require('compression')
-const guiConfig = require('../config/spdzGui.json')
 const proxyConfig = require('../config/spdzProxy.json')
 const diners = require('./diners')
+const certs = require('../certs/config.json')
+const configForEnv = require('./configForEnv')
+const logger = require('./logging')
+const webRouting = require('./webRouting')
 
-const guiPortNum = guiConfig.portNum || '8080'
 const environ = process.env.NODE_ENV || 'development'
+
+logger.debug(`Starting GUI server in ${environ}.`)
 
 const app = express()
 
-// Serve GUI from bundled production build files if not in development.
-if (environ !== 'development') {
-  app.use(compression())  
-  app.use(express.static(__dirname + '/../../client/build'))
-  app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, '/../../client/build', 'index.html'))
-  }); 
+// Configure web server paths
+webRouting(app)
+
+let webServer
+let guiPortNum
+
+// Configure web server
+if ( certs.https && certs.https === true ) {
+  const httpsOptions = {
+    key: fs.readFileSync(certs.keyFile),
+    cert: fs.readFileSync(certs.certFile)
+  }
+  webServer = https.createServer(httpsOptions, app)
+  guiPortNum = '8443'
+} else {
+  webServer = http.createServer(app)
+  guiPortNum = (environ === 'development') ? '3001' : '8080'
 }
-
-app.get('/spdzProxyConfig', (req, res) => {
-  res.json(proxyConfig)
-})
-
-// Here to allow manual testing of web sockets interface, only in dev.
-if (environ === 'development') {
-  app.get('/websocket', (req, res) => {
-    res.sendFile(__dirname + '/websocket-test.html');
-  })
-}
-
-app.disable('x-powered-by')
-
-// TODO Allow optional switch to https
-const httpServer = http.createServer(app)
 
 // Setup server web socket
-diners.init(httpServer)
+diners.init(webServer)
 
-httpServer.listen(guiPortNum, () => {
-  console.log('Serving gui on port ' + guiPortNum + '.')
+webServer.listen(guiPortNum, () => {
+  logger.info(`Serving GUI on port ${guiPortNum}.`)
 })
+
