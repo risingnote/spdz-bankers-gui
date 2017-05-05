@@ -72,7 +72,7 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
         className="place"
         style={
           Object {
-            "transform": "translate(0rem, -8.2rem) rotate(180deg)",
+            "transform": "translate(0rem, -120px) rotate(180deg)",
           }
         }>
         <div
@@ -91,7 +91,7 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
         className="place"
         style={
           Object {
-            "transform": "translate(5.8rem, -5.8rem) rotate(225deg)",
+            "transform": "translate(85px, -85px) rotate(225deg)",
           }
         }>
         <div
@@ -110,7 +110,7 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
         className="place"
         style={
           Object {
-            "transform": "translate(8.2rem, 0rem) rotate(270deg)",
+            "transform": "translate(120px, 0px) rotate(270deg)",
           }
         }>
         <div
@@ -129,7 +129,7 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
         className="place"
         style={
           Object {
-            "transform": "translate(5.8rem, 5.8rem) rotate(315deg)",
+            "transform": "translate(85px, 85px) rotate(315deg)",
           }
         }>
         <div
@@ -148,7 +148,7 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
         className="place"
         style={
           Object {
-            "transform": "translate(0rem, 8.2rem) rotate(0deg)",
+            "transform": "translate(0px, 120px) rotate(0deg)",
           }
         }>
         <div
@@ -167,7 +167,7 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
         className="place"
         style={
           Object {
-            "transform": "translate(-5.8rem, 5.8rem) rotate(45deg)",
+            "transform": "translate(-85px, 85px) rotate(45deg)",
           }
         }>
         <div
@@ -186,7 +186,7 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
         className="place"
         style={
           Object {
-            "transform": "translate(-8.2rem, 0rem) rotate(90deg)",
+            "transform": "translate(-120px, 0px) rotate(90deg)",
           }
         }>
         <div
@@ -205,7 +205,7 @@ exports[`Bankers GUI display component rendering Renders as expected (compared t
         className="place"
         style={
           Object {
-            "transform": "translate(-5.8rem, -5.8rem) rotate(135deg)",
+            "transform": "translate(-85px, -85px) rotate(135deg)",
           }
         }>
         <div
