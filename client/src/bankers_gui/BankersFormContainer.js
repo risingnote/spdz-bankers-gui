@@ -48,7 +48,7 @@ class BankersFormContainer extends Component {
   }
 
   componentWillUnmount() {
-    this.state.socket.on('disconnect', () => {})
+    // this.state.socket.on('disconnect', () => {})
     if (this.resultTimerId !== undefined) {
       clearInterval(this.resultTimerId)
       this.resultTimerId = undefined

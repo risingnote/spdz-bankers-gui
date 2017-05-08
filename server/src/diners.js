@@ -42,18 +42,18 @@ const resetGame = ((ns, socket, resultCallback) => {
     logger.info('Resetting game, all diners removed.')
 })
 
-const disconnect = ((ns, socket) => {
-    const index = dinerList.findIndex(diner => diner.id === socket.id)  
-    if (index > -1) {
-      dinerList.splice(index, 1)
-      socket.disconnect()
-      logger.debug('Diner disconnected with id ' + socket.id)
-      ns.emit('diners', dinerDisplay())         
-    } else {
-      socket.disconnect()
-      logger.debug('Diner disconnected (without joining meal) with id ' + socket.id)
-    }
-})
+// const disconnect = ((ns, socket) => {
+//     const index = dinerList.findIndex(diner => diner.id === socket.id)  
+//     if (index > -1) {
+//       dinerList.splice(index, 1)
+//       socket.disconnect()
+//       logger.debug('Diner disconnected with id ' + socket.id)
+//       ns.emit('diners', dinerDisplay())         
+//     } else {
+//       socket.disconnect()
+//       logger.debug('Diner disconnected (without joining meal) with id ' + socket.id)
+//     }
+// })
 
 module.exports = {
   init: (httpServer) => {
@@ -73,9 +73,9 @@ module.exports = {
         resetGame(ns, socket, resultCallback)
       })
 
-      socket.once('disconnect', () => {
-        disconnect(ns, socket)
-      })
+      // socket.once('disconnect', () => {
+      //   disconnect(ns, socket)
+      // })
     });
   }
 }
