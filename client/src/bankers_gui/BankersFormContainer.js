@@ -31,7 +31,7 @@ class BankersFormContainer extends Component {
    * At startup get list of diners who have already joined the meal.
    */
   componentDidMount() {
-    const socket = Io('/diners')
+    const socket = Io('/diners', {path: '/bankers/socket.io'})
     this.setState({socket: socket})
 
     // Expect list of {name: <somename>, publicKey: <key>}

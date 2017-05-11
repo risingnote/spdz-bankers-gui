@@ -7,7 +7,7 @@ import spdzlogo from './spdz_logo.svg'
 import './App.css'
 import BankersGUI from './bankers_gui/BankersGUI'
 
-const GuiWithSetup = setupWrapper(BankersGUI)
+const GuiWithSetup = setupWrapper(BankersGUI, '/bankers/spdzProxyConfig')
 
 class App extends Component {
   render() {

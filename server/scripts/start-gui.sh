@@ -1,4 +1,5 @@
 #!/bin/bash
+# Run/test the production build 
 
 HERE=$(cd `dirname $0`; pwd)
 CLONEROOT=$HERE/..

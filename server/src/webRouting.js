@@ -10,7 +10,7 @@ const environ = process.env.NODE_ENV || 'development'
 
 module.exports = (app) => {
   // REST endpoints come first
-  app.get('/spdzProxyConfig', (req, res) => {
+  app.get('/bankers/spdzProxyConfig', (req, res) => {
     res.json(clientProxyConfig)
   })
 
@@ -22,11 +22,14 @@ module.exports = (app) => {
   }
 
   // Serve GUI from bundled production build files if not in development.
-  // Note catch all to support html 5 history API
   if (environ !== 'development') {
-    app.use(compression())  
-    app.use(express.static(__dirname + '/../gui_build'))
-    app.get('/*', function (req, res) {
+    app.use(compression())
+    // This is middleware, if it can resolve the request from the file system it 
+    // will return the file, otherwise call next to move on to routes.   
+    app.use('/bankers', express.static(__dirname + '/../gui_build'))
+    // This is router middleware, and will match all other requests to index.html, which is
+    // what we want to support client side routing. 
+    app.get('/bankers/*', function (req, res) {
       res.sendFile(path.join(__dirname, '/../gui_build', 'index.html'))
     }); 
   }

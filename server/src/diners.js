@@ -57,7 +57,7 @@ const resetGame = ((ns, socket, resultCallback) => {
 
 module.exports = {
   init: (httpServer) => {
-    const io = new Io(httpServer)
+    const io = new Io(httpServer, {path: '/bankers/socket.io'})
     const ns = io.of('/diners')
     logger.info('Listening for web socket connections.')
 
