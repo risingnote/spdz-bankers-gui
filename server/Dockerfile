@@ -4,9 +4,9 @@ FROM node:7
 # Build container with:
 #   docker build -t spdz/bankers-bonus-gui:v0.3.0 .
 # Run container with:
-#   docker run -d --rm --name bankers_bonus_gui -p 443:8443 \ 
-#        -v /home/me/certs:/usr/app/certs -v /home/me/config:/usr/app/config \
-#        -v /home/me/logs:/usr/app/logs spdz/bankers-bonus-gui:v0.3.0
+#   docker run -d --rm --name bankers_bonus_gui -p 8080:8080 \ 
+#        -v /home/me/config:/usr/app/config \
+#        -v /home/me/logs:/usr/app/logs spdz/bankers-bonus-gui:v0.n.m
 
 LABEL name="SPDZ bankers bonus demonstrator GUI." \
       description="Provide the GUI and REST servcies for the bankers bonus demo." \
@@ -24,12 +24,8 @@ WORKDIR /usr/app
 # Not using npm install because complexity of accessing private github repo from docker.
 COPY . /usr/app
 
-# Which will be served depends on https true or false in /usr/app/certs/config.json
 EXPOSE 8080
-EXPOSE 8443
 
-# Mount https creds
-VOLUME /usr/app/certs
 # Mount bankers bonus specific config
 VOLUME /usr/app/config
 # Logs are kept
