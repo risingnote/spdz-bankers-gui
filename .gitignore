@@ -31,3 +31,9 @@ npm-debug.log
 typings
 typings.json
 jsconfig.json
+
+# SPDZ run time files
+spdz/Programs/Bytecode/*
+spdz/Programs/Schedules/*
+spdz/Programs/Public-Input/*
+spdz/Player-Data

@@ -11,10 +11,11 @@ Demonstrator using SPDZ to solve the bankers bonus (aka millionaires) problem.
 
 ## Dev environment
 
-The project contains two directories:
+The project contains directories:
 
 - `client` contains the GUI code which runs in the browser
 - `server` contains the node web server which serves a config rest endpoint, shared GUI state via Websockets and serves the GUI in production.
+- `spdz` contains SPDZ MPC program that runs in SPDZ engines (formerly in spdz repo). 
 
 To run a version of the GUI during dev so that changes can be viewed in the browser, follow these steps:
 
@@ -38,22 +39,24 @@ To run the GUI the following processes need to be running:
 
 **SPDZ**
 
-Assumes [SPDZ](https://github.com/bristolcrypto/SPDZ) has been installed and built for the target environment.
+Assumes [SPDZ](https://github.com/bristolcrypto/SPDZ) has been installed and built for the target environment or using the Docker Dev container.
+
+Mount the spdz directory e.g. using the docker dev container and running from this project directory:
+
+`docker run -it --rm -p 14000-14010:14000-14010 -v ${HOME}/Development/spdz:/spdz -v $(pwd)/spdz:/spdz/bankers spdz/spdzdev`
 
 Generate pre-computed values:
 
-- `Scripts/setup-online.sh` to generate the triples for 2 SPDZ parties/engines, used as validated shares.
-- `client-setup 2` to generate the public/private key pairs for each SPDZ party/engine
+- `in docker container cd /spdz/bankers`
+- `../compile.py bankers_bonus`
+- `../Scripts/setup-online.sh` to generate the triples for 2 SPDZ parties/engines, used as validated shares.
+- `../client-setup 2` (generates unnecessary client key material) or `../server-key-setup` (need to copy to Player-SPDZ-Keys-Pn for each party) to generate the public/private key pairs for each SPDZ party/engine
 
-Run the compiled [bankers_bonus.mpc](https://github.com/bristolcrypto/SPDZ/blob/privateclient/Programs/Source/bankers_bonus.mpc) program on 2 SPDZ engines from within the SPDZ directory with:
+Run the compiled `bankers_bonus.mpc` program on 2 SPDZ engines from within the SPDZ directory with:
 
-`Scripts/run-online.sh bankers_bonus`
+`../Scripts/run-online.sh bankers_bonus`
 
 by default this runs 2 instances on the localhost listening on ports 14000 and 14001.
-
-To deploy a continuously restarting mpc program run with:
-
-`Scripts/harness.sh 'Scripts/run-online.sh bankers_bonus' >> deploy.log 2>&1 &`
 
 **SPDZ Proxy**
 
@@ -82,13 +85,4 @@ Check that the http port is set as required in `server/config/spdzGui.json`.
 Update `server/scripts/start-gui.sh` with environment variables as necessary for production and run `cd server; ./scripts/start-gui.sh`  to start the GUI server.
 
 Use `cd server; ./scripts/stop-guis.sh` to end the process.
-
-## Restrictions
-
-To use the GUI the following restrictions apply:
-
-1. The number of expected clients needed to join the computation is hardcoded into the bankers_bonus.mpc program and is typically set to 3. 
-2. Interacting with SPDZ is atomic for a client - it connects, sends a client public key, receives shares and sends its input. The order of clients interacting is not significant. Once the calcuation has finished all clients are notified of the result. To run another calculation all clients must referesh the browser window.
-3. The SPDZ program executed via Scripts/run-online.sh is designed to restart after exiting, to enable a new 'game' to be played. If an error occured for one of the SPDZ engines or SPDZ proxies then the system is likely to be left in an unplayable condition and will require manual resetting.
-
 

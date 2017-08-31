@@ -1,0 +1,110 @@
+"""Solve Bankers bonus, aka Millionaires problem.
+   to deduce the maximum value from a range of integer input.
+   
+   Wait for MAX_NUM_CLIENTS to join the game or client finish flag to be sent
+   before calculating the maximum.
+
+   Note each client connects in a single thread and so is potentially blocked.
+   
+   Game will reset and run indefinitiely.
+   """
+
+from Compiler.types import sint, regint, Array, Matrix, MemValue
+from Compiler.instructions import listen, acceptclientconnection
+from Compiler.library import print_ln, do_while, if_e, else_, for_range
+from Compiler.util import if_else
+
+PORTNUM = 14000
+MAX_NUM_CLIENTS = 8
+# Number of 32 bit ints to store 256 bit client public key.
+PUBLIC_KEY_INTS = 8
+
+def accept_client_input():
+    """Wait for socket connection, read for client public key, send share, receive input."""
+    client_socket_id = regint()
+    acceptclientconnection(client_socket_id, PORTNUM)
+    
+    public_key = regint.read_client_public_key(client_socket_id)
+    client_inputs = sint.receive_from_client(2, client_socket_id)
+
+    return client_socket_id, public_key, client_inputs[0], client_inputs[1]
+
+
+def determine_winner(number_clients, client_values):
+    """Work out index position of highest value"""
+    # Work out index of maximum value
+    max_value = Array(1, sint)
+    max_value[0] = client_values[0]
+    max_index = Array(1, sint)
+    max_index[0] = sint(0)
+
+    @for_range(number_clients-1)
+    def loop_body(i):
+        # Is this client input a new maximum, will be sint(1) if true, else sint(0)
+        is_new_max = max_value[0] < client_values[i+1]
+        max_value[0] = if_else(is_new_max, client_values[i+1], max_value[0])
+        # max_value = is_new_max * client_inputs[i] + (1 - is_new_max) * max_value
+        max_index[0] = if_else(is_new_max, i+1, max_index[0])
+        # max_index = is_new_max * i + (1 - is_new_max) * max_index
+
+    return regint(max_index[0].reveal())
+
+
+# All SPDZ engines will run this, so client will get result n times.
+def write_winner_to_clients(sockets, number_clients, winning_client_id):
+    """Send winning public key to all clients who joined game."""
+    @for_range(number_clients)
+    def loop_body(i):
+        regint.write_to_socket(sockets[i], winning_client_id)    
+
+def main():
+    """Listen in while loop for players to join a game.
+    Once maxiumum reached or have notified that game finished, run comparison and return result."""
+    # Start listening for client socket connections
+    listen(PORTNUM)
+    print_ln('Listening for client connections on base port %s', PORTNUM)
+
+    @do_while
+    def game_loop():
+        print_ln('Starting a new game.')
+
+        # Clients socket id (integer).
+        client_sockets = Array(MAX_NUM_CLIENTS, regint)
+        # Number of clients
+        number_clients = MemValue(regint(0))
+        # Clients secret input.
+        client_values = Array(MAX_NUM_CLIENTS, sint)
+        # Client public keys (act as client identity) as array of 8 32 bit integers"""
+        client_public_keys = Matrix(MAX_NUM_CLIENTS, PUBLIC_KEY_INTS, regint)
+        client_public_keys.assign_all(regint(0))
+
+        # Loop round waiting for each client to connect
+        @do_while
+        def client_connections():
+            
+            client_sockets[number_clients], public_key, client_values[number_clients], finish = accept_client_input()
+
+            for j in range(PUBLIC_KEY_INTS):
+                client_public_keys[number_clients][j] = public_key[j]
+            
+            number_clients.write(number_clients+1)
+
+            # continue while both expressions are false
+            return (number_clients >= MAX_NUM_CLIENTS) + finish.reveal() == 0 
+
+
+        # Need to access client public key i.e. resolve register with load_mem or can't write back ??
+        for j in range(MAX_NUM_CLIENTS):
+            for i in range(PUBLIC_KEY_INTS):
+                client_public_keys[j][i]
+
+        winning_index = determine_winner(number_clients, client_values)
+        winning_client_id = client_public_keys[winning_index]
+
+        print_ln('Found winner, index: %s.', winning_index)
+
+        write_winner_to_clients(client_sockets, number_clients, winning_client_id)
+
+        return True
+
+main()
