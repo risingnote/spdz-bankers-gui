@@ -1,6 +1,6 @@
 {
   "name": "spdz-bankers-gui",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "An http gui to demonstrate using spdz to solve the banker's bonus (aka millionaires) problem.",
   "private": true,
   "author": {
@@ -42,7 +42,7 @@
     "react-s-alert": "^1.2.2",
     "socket.io-client": "^1.7.2",
     "spdz-gui-components": "git+ssh://git@github.com/bristolcrypto/spdz-gui-components.git#v0.1.3",
-    "spdz-gui-lib": "git+ssh://git@github.com/bristolcrypto/spdz-gui-lib.git#v0.1.4",
+    "spdz-gui-lib": "file:../../spdz-gui-lib",
     "whatwg-fetch": "^2.0.1"
   },
   "scripts": {

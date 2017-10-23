@@ -4,13 +4,13 @@ import renderer from 'react-test-renderer'
 import { SocketIO, Server } from 'mock-socket'
 import BankersFormContainer from './BankersFormContainer'
 import BankersForm from './BankersForm'
-import { noProxiesSpdzConfig, twoProxiesWith1Connected, twoProxiesWith2Connected } from './test_support/ProxyServerList'
+import { noProxiesSpdzConfig, twoProxiesWith1Connected, twoProxiesWith2Connected } from '../test_support/ProxyServerList'
 
 const convertToArray = immutList => immutList.toArray().map( immutableMap => immutableMap.toObject())
 
 // Mock out REST call
-jest.mock('spdz-gui-lib')
-import { sendInputsWithShares } from 'spdz-gui-lib'
+jest.mock('spdz-gui-lib/dist/rest_api')
+import { sendInputsWithShares } from 'spdz-gui-lib/dist/rest_api'
 
 const mockFn = jest.fn()
 

@@ -1,0 +1,18 @@
+exports[`Setup container behaviour Passes properties through to wrapped component 1`] = `
+<div>
+  <div
+    id="passthrough">
+    hijomio
+  </div>
+  <div
+    id="spdzProxyServerList" />
+  <div
+    id="spdzApiRoot">
+    /
+  </div>
+  <div
+    id="clientPublicKey">
+    
+  </div>
+</div>
+`;
