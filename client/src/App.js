@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-import { setupWrapper } from 'spdz-gui-components'
+import SetupWrapper from './lib/SetupWrapper'
 import cryptologo from './crypto-logo.png'
 import uoblogo from './uob-logo-white-largest.png'
 import spdzlogo from './spdz_logo.svg'
 import './App.css'
-import BankersGUI from './bankers_gui/BankersGUI'
+import BankersGUI from './pages/BankersGUI'
 
-const GuiWithSetup = setupWrapper(BankersGUI, '/bankers/spdzProxyConfig')
+const GuiWithSetup = SetupWrapper(BankersGUI, '/bankers/spdzProxyConfig')
 
 class App extends Component {
   render() {

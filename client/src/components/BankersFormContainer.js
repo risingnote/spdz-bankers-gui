@@ -7,8 +7,9 @@
 import React, { Component, PropTypes } from 'react'
 import Io from 'socket.io-client'
 
-import { connectToProxies, disconnectFromProxies, allProxiesConnected, 
-         sendInputsWithShares, retrieveWinnerClientId, NoContentError } from 'spdz-gui-lib'
+/* Import REST functions from detailed entry point to avoid pulling in unused functions. */
+import { connectToSPDZ, disconnectFromSPDZ, allProxiesConnected, 
+         sendInputsWithShares, retrieveRegIntsAsHexString, NoContentError } from 'spdz-gui-lib/dist/rest_api'
 
 import BankersForm from './BankersForm'
 
@@ -53,8 +54,7 @@ class BankersFormContainer extends Component {
       clearInterval(this.resultTimerId)
       this.resultTimerId = undefined
     } 
-    disconnectFromProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.get('url')), 
-                          this.props.spdzApiRoot, this.props.clientPublicKey)
+    disconnectFromSPDZ(this.props.spdzProxyServerList, this.props.spdzApiRoot)
   }
 
   /**
@@ -62,9 +62,9 @@ class BankersFormContainer extends Component {
    * If successfully get result:
    *   Disconnect from SPDZ engines and notify change of connection status.
    */
-  pollForResult(spdzProxyServerList, spdzApiRoot, clientPublicKey) {
+  pollForResult(spdzProxyServerList, spdzApiRoot) {
     this.resultTimerId = setInterval(() => {
-      retrieveWinnerClientId(spdzProxyServerList, spdzApiRoot, clientPublicKey)
+      retrieveRegIntsAsHexString(spdzProxyServerList, spdzApiRoot, 8, true)
       .then( winningClientId => {
         this.setState({winningClientId: winningClientId})
         this.props.changeToDiners(this.state.dinersList, winningClientId)
@@ -72,8 +72,8 @@ class BankersFormContainer extends Component {
         clearInterval(this.resultTimerId)
       })
       .then( () => {
-        return disconnectFromProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.url ), 
-                          this.props.spdzApiRoot, this.props.clientPublicKey)
+        return disconnectFromSPDZ(this.props.spdzProxyServerList, 
+                          this.props.spdzApiRoot)
       })
       .then( (values) => {
         this.props.updateConnectionStatus(values)
@@ -126,8 +126,10 @@ class BankersFormContainer extends Component {
    *   Start timer polling for result.
    */
   handleSubmitEntry(name, bonus, finished) {
-    connectToProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.url ), 
-                                this.props.spdzApiRoot, this.props.clientPublicKey)
+    // Here using clientPublicKey as client id.
+    connectToSPDZ(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.url ), 
+                                this.props.spdzApiRoot, this.props.clientPublicKey,
+                                this.props.clientPublicKey)
       .then( (values) => {
         this.props.updateConnectionStatus(values)
         if (allProxiesConnected(values)) {
@@ -139,14 +141,13 @@ class BankersFormContainer extends Component {
       })
       .then( () => {
         return sendInputsWithShares([bonus, (finished ? 1 : 0)], true, this.props.spdzProxyServerList, 
-              this.props.spdzApiRoot, this.props.clientPublicKey, 500)
+              this.props.spdzApiRoot, 500)
       })
       .then( () => {
         return this.joinMeal(name, this.props.clientPublicKey)
       })
       .then( () => {
-        this.pollForResult(this.props.spdzProxyServerList, this.props.spdzApiRoot, 
-              this.props.clientPublicKey)
+        this.pollForResult(this.props.spdzProxyServerList, this.props.spdzApiRoot)
       })
       .catch((ex) => {
         console.log("Unable to join meal.", ex)

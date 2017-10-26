@@ -1,0 +1,99 @@
+exports[`Setup display component rendering Renders as expected (compared to a snapshot) when passed 2 proxy connections 1`] = `
+<div
+  style={
+    Object {
+      "border": "1px solid darkgrey",
+      "margin": "0 auto",
+      "padding": "0px 10px 5px 10px",
+      "textAlign": "left",
+    }
+  }>
+  <p
+    style={
+      Object {
+        "color": "rgb(28, 118, 152)",
+        "fontSize": "16px",
+        "marginRight": "10px",
+      }
+    }>
+    Spdz Proxy Servers
+  </p>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexFlow": "row wrap",
+        "margin": "0px 0px 10px 0px",
+      }
+    }>
+    <div
+      style={
+        Object {
+          "backgroundColor": "lightcoral",
+          "border": "1px solid black",
+          "borderRadius": "50%",
+          "width": "20px",
+        }
+      } />
+    <div
+      style={
+        Object {
+          "fontSize": "14px",
+          "paddingLeft": "10px",
+        }
+      }>
+      http://spdzProxy.one:4000
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexFlow": "row wrap",
+        "margin": "0px 0px 10px 0px",
+      }
+    }>
+    <div
+      style={
+        Object {
+          "backgroundColor": "lightgreen",
+          "border": "1px solid black",
+          "borderRadius": "50%",
+          "width": "20px",
+        }
+      } />
+    <div
+      style={
+        Object {
+          "fontSize": "14px",
+          "paddingLeft": "10px",
+        }
+      }>
+      http://spdzProxy.two:4000
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Setup display component rendering Renders as expected (compared to a snapshot) when passed no proxy connections 1`] = `
+<div
+  style={
+    Object {
+      "border": "1px solid darkgrey",
+      "margin": "0 auto",
+      "padding": "0px 10px 5px 10px",
+      "textAlign": "left",
+    }
+  }>
+  <p
+    style={
+      Object {
+        "color": "rgb(28, 118, 152)",
+        "fontSize": "16px",
+        "marginRight": "10px",
+      }
+    }>
+    Spdz Proxy Servers
+  </p>
+</div>
+`;
