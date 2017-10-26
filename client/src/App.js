@@ -5,7 +5,7 @@ import cryptologo from './crypto-logo.png'
 import uoblogo from './uob-logo-white-largest.png'
 import spdzlogo from './spdz_logo.svg'
 import './App.css'
-import BankersGUI from './bankers_gui/BankersGUI'
+import BankersGUI from './pages/BankersGUI'
 
 const GuiWithSetup = SetupWrapper(BankersGUI, '/bankers/spdzProxyConfig')
 

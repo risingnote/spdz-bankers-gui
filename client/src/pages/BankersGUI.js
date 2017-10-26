@@ -4,10 +4,10 @@
  */
 import React, { PropTypes, Component } from 'react'
 import { List } from 'immutable'
-import { Connection } from 'spdz-gui-components'
+import Connection from '../components/Connection'
 
-import BankersFormContainer from './BankersFormContainer'
-import BankersTable from './BankersTable'
+import BankersFormContainer from '../components/BankersFormContainer'
+import BankersTable from '../components/BankersTable'
 
 import './BankersGUI.css'
 
